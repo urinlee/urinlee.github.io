@@ -29,7 +29,7 @@ function PageHeader({ siteTitle }) {
           <div className="page-header">
             <div className="front-section">
               <Link className="link" to="/">
-                {siteTitle} tttest
+                {siteTitle}
               </Link>
             </div>
             <div className="trailing-section">

@@ -14,7 +14,7 @@ module.exports = {
   ga: '0',
 
   author: {
-    name: `이름`,
+    name: `이우린`,
     bio: {
       role: `개발자`,
       description: ['공부하는', '기록하는', '성장하는'],
@@ -30,8 +30,8 @@ module.exports = {
   about: {
     timestamps: [
       {
-        date: '',
-        activity: '',
+        date: '2026.05.04',
+        activity: 't4st',
         links: {
           github: '',
           post: '',

@@ -18,7 +18,7 @@ module.exports = {
     bio: {
       role: `개발자`,
       description: ['공부하는', '기록하는', '성장하는'],
-      thumbnail: 'sample.png',
+      thumbnail: 'https://github.com/urinlee.png?size=200',
     },
     social: {
       github: `https://github.com/urinlee`,

@@ -6,10 +6,7 @@ import { getValueFromLocalStorage, setValueToLocalStorage } from '../../utils/lo
 import './style.scss';
 
 function ThemeSwitch() {
-  const [isDarkMode, setIsDarkMode] = useState(() => {
-    const savedValue = getValueFromLocalStorage('isDarkMode');
-    return typeof savedValue === 'boolean' ? savedValue : true;
-  });
+  const [isDarkMode, setIsDarkMode] = useState(getValueFromLocalStorage('isDarkMode'));
 
   useEffect(() => {
     setValueToLocalStorage('isDarkMode', isDarkMode);

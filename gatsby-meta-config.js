@@ -16,21 +16,21 @@ module.exports = {
   author: {
     name: `이우린`,
     bio: {
-      role: `개발자`,
+      role: `학생`,
       description: ['공부하는', '기록하는', '성장하는'],
       thumbnail: 'https://github.com/urinlee.png',
     },
     social: {
       github: `https://github.com/urinlee`,
       linkedIn: ``,
-      email: ``,
+      email: `urinlee0731@gmail.com`,
     },
   },
 
   about: {
     timestamps: [
       {
-        date: '2026.05.04',
+        date: '2026.05.12',
         activity: 't4st',
         links: {
           github: '',

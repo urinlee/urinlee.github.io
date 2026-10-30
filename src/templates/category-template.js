@@ -6,6 +6,7 @@ import Seo from '../components/seo';
 import Post from '../models/post';
 import CategoryPageHeader from '../components/category-page-header';
 import PostTabs from '../components/post-tabs';
+import { getCategoryPath } from '../utils/categories';
 
 function CategoryTemplate({ pageContext }) {
   const { edges, currentCategory } = pageContext;
@@ -18,8 +19,7 @@ function CategoryTemplate({ pageContext }) {
 
   const onTabIndexChange = useCallback(
     (e, value) => {
-      if (value === 0) return navigate(`/posts`);
-      navigate(`/posts/${categories[value]}`);
+      navigate(getCategoryPath(categories[value]));
     },
     [categories],
   );

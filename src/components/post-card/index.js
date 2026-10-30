@@ -1,5 +1,6 @@
 import { Link } from 'gatsby';
 import React from 'react';
+import { getCategoryPath } from '../../utils/categories';
 import './style.scss';
 
 function PostCard({ post }) {
@@ -13,7 +14,7 @@ function PostCard({ post }) {
           <div className="date">{date}</div>
           <div className="categories">
             {categories.map((category) => (
-              <Link className="category" key={category} to={`/posts/${category}`}>
+              <Link className="category" key={category} to={getCategoryPath(category)}>
                 {category}
               </Link>
             ))}

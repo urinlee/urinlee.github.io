@@ -1,4 +1,5 @@
 const { createFilePath } = require(`gatsby-source-filesystem`);
+const { CATEGORY_NAMES, getPostCategories, getCategoryPath } = require('./src/utils/categories');
 
 exports.onCreateNode = ({ node, getNode, actions }) => {
   const { createNodeField } = actions;
@@ -26,15 +27,8 @@ const createBlogPages = ({ createPage, results }) => {
 
 const createPostsPages = ({ createPage, results }) => {
   const categoryTemplate = require.resolve(`./src/templates/category-template.js`);
-  const categorySet = new Set(['All']);
   const { edges } = results.data.allMarkdownRemark;
-
-  edges.forEach(({ node }) => {
-    const postCategories = node.frontmatter.categories.split(' ');
-    postCategories.forEach((category) => categorySet.add(category));
-  });
-
-  const categories = [...categorySet];
+  const categories = CATEGORY_NAMES;
 
   createPage({
     path: `/posts`,
@@ -42,17 +36,21 @@ const createPostsPages = ({ createPage, results }) => {
     context: { currentCategory: 'All', edges, categories },
   });
 
-  categories.forEach((currentCategory) => {
-    createPage({
-      path: `/posts/${currentCategory}`,
-      component: categoryTemplate,
-      context: {
-        currentCategory,
-        categories,
-        edges: edges.filter(({ node }) => node.frontmatter.categories.includes(currentCategory)),
-      },
+  categories
+    .filter((category) => category !== 'All')
+    .forEach((currentCategory) => {
+      createPage({
+        path: getCategoryPath(currentCategory),
+        component: categoryTemplate,
+        context: {
+          currentCategory,
+          categories,
+          edges: edges.filter(({ node }) =>
+            getPostCategories(node.frontmatter.categories).includes(currentCategory),
+          ),
+        },
+      });
     });
-  });
 };
 
 exports.createPages = async ({ actions, graphql, reporter }) => {

@@ -1,3 +1,5 @@
+import { getPostCategories } from '../utils/categories';
+
 export default class Post {
   constructor(node) {
     const { id, html, excerpt, frontmatter, fields } = node;
@@ -12,6 +14,6 @@ export default class Post {
     this.title = title;
     this.author = author;
     this.date = date;
-    this.categories = categories.split(' ');
+    this.categories = getPostCategories(categories);
   }
 }

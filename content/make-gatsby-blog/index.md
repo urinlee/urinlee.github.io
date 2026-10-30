@@ -4,7 +4,7 @@ title: 개츠비(Gatsby) 접하기
 date: '2026-05-06 12:29:00'
 author: 지티오
 tags: blog gatsby theme 개츠비 테마
-categories: 개발
+categories: 블로그/기술문서
 ---
 
 # 계기

@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react';
 import { Tabs, Tab } from '@mui/material';
 import PostCardColumn from '../post-card-column';
+import { getCategoryPath } from '../../utils/categories';
 import './style.scss';
 
 function PostTabs({ tabIndex, onChange, tabs, posts, showMoreButton }) {
@@ -27,7 +28,7 @@ function PostTabs({ tabIndex, onChange, tabs, posts, showMoreButton }) {
       <PostCardColumn
         posts={showMoreButton ? tabPosts.slice(0, 4) : tabPosts}
         showMoreButton={showMoreButton && tabPosts.length > 4}
-        moreUrl={`posts/${tabIndex === 0 ? '' : tabs[tabIndex]}`}
+        moreUrl={getCategoryPath(tabs[tabIndex])}
       />
     </div>
   );

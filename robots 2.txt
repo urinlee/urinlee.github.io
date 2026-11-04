@@ -1,3 +1,0 @@
-User-agent: *
-Sitemap: https://urinlee.github.io/sitemap/sitemap-index.xml
-Host: https://urinlee.github.io

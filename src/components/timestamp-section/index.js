@@ -4,22 +4,20 @@ import IconButtonBar from '../icon-button-bar';
 import './style.scss';
 
 function TimeStampSection({ timestamps }) {
-  if (!timestamps || timestamps.length < 2) return null;
+  if (!timestamps || timestamps.length === 0) return null;
   return (
     <div className="timestamp-section">
       <SectionHeader title="Timestamps" />
       <div className="body">
-        {timestamps.map((timestamp, index) =>
-          index === 0 ? null : (
-            <div className="timestamp" key={index}>
-              <div className="date">{timestamp.date}</div>
-              <div className="activity">
-                {timestamp.activity}&nbsp;
-                {timestamp.links && <IconButtonBar links={timestamp.links} />}
-              </div>
+        {timestamps.map((timestamp, index) => (
+          <div className="timestamp" key={index}>
+            <div className="date">{timestamp.date}</div>
+            <div className="activity">
+              {timestamp.activity}&nbsp;
+              {timestamp.links && <IconButtonBar links={timestamp.links} />}
             </div>
-          ),
-        )}
+          </div>
+        ))}
       </div>
     </div>
   );

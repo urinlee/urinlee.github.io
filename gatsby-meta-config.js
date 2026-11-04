@@ -30,8 +30,30 @@ module.exports = {
   about: {
     timestamps: [
       {
-        date: '2026.05.12',
-        activity: 't4st',
+        date: '2026.10.31',
+        activity: 'HSPACE Knights Frontier 3기 참여',
+        links: {
+          github: '',
+          post: '',
+          googlePlay: '',
+          appStore: '',
+          demo: '',
+        },
+      },
+      {
+        date: '2026.08.04 ~ 05',
+        activity: 'GEEKs Hackathon 2026 백엔드 개발 담당 · 팀 1위',
+        links: {
+          github: '',
+          post: '',
+          googlePlay: '',
+          appStore: '',
+          demo: '',
+        },
+      },
+      {
+        date: '2026.03',
+        activity: '가천대학교 스마트보안학과 입학 (26학번)',
         links: {
           github: '',
           post: '',

@@ -9,12 +9,27 @@
   margin-bottom: 20px;
 }
 
-// Opt in through the post's highlight markup; other articles keep their typography.
-.post-content .markdown:has(.reflection-marker) {
-  --reflection-yellow: #ffec9e;
-  --reflection-green: #d8edcc;
-  --reflection-blue: #d5e8fa;
+.post-content .markdown .text-highlight {
+  --highlight-shade: var(--highlight-light, #ffec9e);
 
+  padding: 0.05em 0.14em;
+  color: inherit;
+  background: linear-gradient(
+    transparent 36%,
+    var(--highlight-shade) 36%,
+    var(--highlight-shade) 94%,
+    transparent 94%
+  );
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+html[data-theme='dark'] .post-content .markdown .text-highlight {
+  --highlight-shade: var(--highlight-dark, #67531d);
+}
+
+// Spacious reading is an explicit per-post choice, independent of highlights.
+.post-content--reflection .markdown {
   line-height: 1.95;
   overflow-wrap: anywhere;
 
@@ -34,33 +49,6 @@
     margin-top: 2.5em;
     margin-bottom: 1em;
     line-height: 1.6;
-  }
-
-  .reflection-marker,
-  h3 > strong {
-    --reflection-highlight: var(--reflection-yellow);
-
-    padding: 0.05em 0.14em;
-    color: inherit;
-    background: linear-gradient(
-      transparent 36%,
-      var(--reflection-highlight) 36%,
-      var(--reflection-highlight) 94%,
-      transparent 94%
-    );
-    -webkit-box-decoration-break: clone;
-    box-decoration-break: clone;
-
-  }
-
-  .reflection-marker--trust,
-  h3:nth-of-type(2) > strong {
-    --reflection-highlight: var(--reflection-green);
-  }
-
-  .reflection-marker--openness,
-  h3:nth-of-type(3) > strong {
-    --reflection-highlight: var(--reflection-blue);
   }
 
   blockquote {
@@ -104,10 +92,4 @@
       padding-left: 0.85em;
     }
   }
-}
-
-html[data-theme='dark'] .post-content .markdown:has(.reflection-marker) {
-  --reflection-yellow: #67531d;
-  --reflection-green: #31543b;
-  --reflection-blue: #2e4b65;
 }

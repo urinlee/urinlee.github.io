@@ -19,7 +19,7 @@ function BlogTemplate({ data }) {
     <Layout>
       <Seo title={curPost?.title} description={curPost?.excerpt} />
       <PostHeader post={curPost} />
-      <PostContent html={curPost.html} />
+      <PostContent html={curPost.html} readingStyle={curPost.readingStyle} />
       <PostNavigator prevPost={prevPost} nextPost={nextPost} />
       {utterancesRepo && <Utterances repo={utterancesRepo} path={curPost.slug} />}
     </Layout>
@@ -40,6 +40,7 @@ export const pageQuery = graphql`
         categories
         author
         emoji
+        readingStyle
       }
       fields {
         slug

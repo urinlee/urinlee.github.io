@@ -66,6 +66,9 @@ module.exports = {
       options: {
         plugins: [
           {
+            resolve: require.resolve('./plugins/gatsby-remark-highlights'),
+          },
+          {
             resolve: `gatsby-remark-images`,
             options: {
               maxWidth: 720,

@@ -5,6 +5,7 @@
   "version": "3.0.0",
   "author": "urinlee <urinlee@gmail.com>",
   "dependencies": {
+    "color-name": "^1.1.4",
     "@mui/icons-material": "^5.1.0",
     "@mui/material": "^5.1.0",
     "gatsby": "^4.12.1",
@@ -37,6 +38,7 @@
   },
   "devDependencies": {
     "gh-pages": "^6.3.0",
+    "remark": "^13.0.0",
     "prettier": "2.2.1"
   },
   "keywords": [
@@ -53,6 +55,7 @@
     "start": "npm run develop",
     "serve": "gatsby serve",
     "clean": "gatsby clean",
+    "test:highlights": "node --test plugins/gatsby-remark-highlights/index.test.js",
     "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\" && exit 1"
   },
   "repository": {

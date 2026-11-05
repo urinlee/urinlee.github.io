@@ -118,7 +118,12 @@ module.exports = {
             },
           },
           `gatsby-remark-autolink-headers`,
-          `gatsby-remark-copy-linked-files`,
+          {
+            resolve: `gatsby-remark-copy-linked-files`,
+            options: {
+              ignoreFileExtensions: [`jpg`, `jpeg`, `bmp`, `tiff`],
+            },
+          },
           `gatsby-remark-smartypants`,
         ],
       },

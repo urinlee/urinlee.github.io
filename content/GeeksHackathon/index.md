@@ -1,6 +1,6 @@
 ---
 emoji: 🔧
-title: Geeks 해커톤 2026 대상 회고
+title: Geeks 해커톤 2026 회고
 date: '2026-11-05 20:39:00'
 author: 지티오
 tags: Geeks Hackathon MOEUM backend TypeScript Express Prisma Redis OpenAI

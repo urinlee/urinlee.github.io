@@ -66,6 +66,9 @@ module.exports = {
       options: {
         plugins: [
           {
+            resolve: require.resolve('./plugins/gatsby-remark-paper-cards'),
+          },
+          {
             resolve: require.resolve('./plugins/gatsby-remark-highlights'),
           },
           {

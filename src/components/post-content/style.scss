@@ -1,5 +1,6 @@
 @use '../../styles/markdown-style'as *;
 @use 'prismjs/themes/prism-tomorrow'as *;
+@use './paper-card';
 
 .post-content {
   display: flex;

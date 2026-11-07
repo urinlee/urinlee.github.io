@@ -68,39 +68,124 @@ function decorate(node) {
   };
 }
 
-// A parser extension keeps Markdown inside highlights working, while escapes,
+const underlineStyles = new Set(['solid', 'wavy', 'dashed', 'dotted', 'double']);
+const underlineWeights = { thin: '1px', regular: '1.5px', thick: '3px' };
+
+function luminance(rgb) {
+  return rgb.reduce((total, channel, index) => {
+    const c = channel / 255;
+    const linear = c <= 0.04045 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4;
+    return total + linear * [0.2126, 0.7152, 0.0722][index];
+  }, 0);
+}
+
+// Keep bright lines visible on white and dark lines visible in the dark theme.
+function strokeColor(rgb, background, base) {
+  const bg = luminance(background);
+  for (let step = 0; step <= 20; step++) {
+    const hex = mix(rgb, base, 1 - step / 20);
+    const channels = [1, 3, 5].map((index) => parseInt(hex.slice(index, index + 2), 16));
+    const fg = luminance(channels);
+    if ((Math.max(fg, bg) + 0.05) / (Math.min(fg, bg) + 0.05) >= 3) return hex;
+  }
+}
+
+function decorateUnderline(node) {
+  let style = 'solid';
+  let weight = 'regular';
+  let color = null;
+  const first = node.children[0];
+  const separator = first?.type === 'text' ? first.value.indexOf(':') : -1;
+  if (separator > 0) {
+    const options = first.value
+      .slice(0, separator)
+      .toLowerCase()
+      .split(',')
+      .map((s) => s.trim());
+    const parsed = {};
+    const valid = options.every((option) => {
+      let key, value;
+      if (underlineStyles.has(option)) [key, value] = ['style', option];
+      else if (Object.prototype.hasOwnProperty.call(underlineWeights, option))
+        [key, value] = ['weight', option];
+      else {
+        key = 'color';
+        value = getColor(option);
+        if (!value) return false;
+      }
+      if (parsed[key]) return false;
+      parsed[key] = value;
+      return true;
+    });
+    if (valid) {
+      if (node.children.length === 1 && !first.value.slice(separator + 1).trim()) {
+        node.type = 'text';
+        node.value = `++${first.value}++`;
+        delete node.children;
+        return;
+      }
+      style = parsed.style || style;
+      weight = parsed.weight || weight;
+      color = parsed.color || color;
+      first.value = first.value.slice(separator + 1);
+      if (!first.value) node.children.shift();
+    }
+  }
+  const colors = color
+    ? ` --underline-light: ${strokeColor(
+        color.rgb,
+        [255, 255, 255],
+        [0, 0, 0],
+      )}; --underline-dark: ${strokeColor(color.rgb, [35, 35, 38], [255, 255, 255])};`
+    : '';
+  node.data = {
+    hName: 'span',
+    hProperties: {
+      className: ['text-underline'],
+      'data-underline-style': style,
+      'data-underline-color': color?.name || 'currentColor',
+      style: `--underline-style: ${style}; --underline-thickness: ${underlineWeights[weight]};${colors}`,
+    },
+  };
+}
+
+// A parser extension keeps Markdown inside highlights and underlines working, while escapes,
 // inline code, fenced code, HTML attributes and link destinations stay literal.
 function tokenize(effects, ok, nok) {
   let previous = this.previous;
+  let marker;
+  let name;
   let codeFence = 0;
   let ticks = 0;
   const closing = { partial: true, tokenize: checkClosing };
   return start;
 
   function start(code) {
-    if (code !== 61 || previous === 61) return nok(code);
-    effects.enter('highlight');
-    effects.enter('highlightSequence');
+    if ((code !== 61 && code !== 43) || previous === code) return nok(code);
+    marker = code;
+    name = code === 61 ? 'highlight' : 'underline';
+    effects.enter(name);
+    effects.enter(`${name}Sequence`);
     effects.consume(code);
     return second;
   }
 
   function second(code) {
-    if (code !== 61) return nok(code);
+    if (code !== marker) return nok(code);
     effects.consume(code);
-    effects.exit('highlightSequence');
-    effects.enter('highlightText', { contentType: 'text' });
+    effects.exit(`${name}Sequence`);
+    effects.enter(`${name}Text`, { contentType: 'text' });
     return first;
   }
 
   function first(code) {
-    if (code === null || code === 61 || code === 32 || code < 0) return nok(code);
+    if (code === null || code === marker || code === 32 || code < 0) return nok(code);
     return body(code);
   }
 
   function body(code) {
     if (code === null || code < -2) return nok(code);
-    if (code === 61 && !codeFence && previous !== 61 && previous !== 32 && previous >= 0) {
+    if (code === marker && !codeFence && previous !== marker && previous !== 32 && previous >= 0) {
       return effects.check(closing, close, consume)(code);
     }
     if (code === 96) {
@@ -145,26 +230,26 @@ function tokenize(effects, ok, nok) {
       return two;
     }
     function two(code) {
-      if (code !== 61) return no(code);
+      if (code !== marker) return no(code);
       check.consume(code);
       return end;
     }
     function end(code) {
-      return code === 61 ? no(code) : yes(code);
+      return code === marker ? no(code) : yes(code);
     }
   }
 
   function close(code) {
-    effects.exit('highlightText');
-    effects.enter('highlightSequence');
+    effects.exit(`${name}Text`);
+    effects.enter(`${name}Sequence`);
     effects.consume(code);
     return closeSecond;
   }
 
   function closeSecond(code) {
     effects.consume(code);
-    effects.exit('highlightSequence');
-    effects.exit('highlight');
+    effects.exit(`${name}Sequence`);
+    effects.exit(name);
     return ok;
   }
 }
@@ -172,12 +257,15 @@ function tokenize(effects, ok, nok) {
 function remarkHighlights() {
   const data = this.data();
   (data.micromarkExtensions || (data.micromarkExtensions = [])).push({
-    text: { 61: { tokenize } },
+    text: { 61: { tokenize }, 43: { tokenize } },
   });
   (data.fromMarkdownExtensions || (data.fromMarkdownExtensions = [])).push({
     enter: {
       highlight(token) {
         this.enter({ type: 'highlight', children: [] }, token);
+      },
+      underline(token) {
+        this.enter({ type: 'underline', children: [] }, token);
       },
     },
     exit: {
@@ -185,6 +273,11 @@ function remarkHighlights() {
         const node = this.stack[this.stack.length - 1];
         this.exit(token);
         decorate(node);
+      },
+      underline(token) {
+        const node = this.stack[this.stack.length - 1];
+        this.exit(token);
+        decorateUnderline(node);
       },
     },
   });

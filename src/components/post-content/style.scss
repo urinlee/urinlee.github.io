@@ -28,6 +28,21 @@ html[data-theme='dark'] .post-content .markdown .text-highlight {
   --highlight-shade: var(--highlight-dark, #67531d);
 }
 
+.post-content .markdown .text-underline {
+  --underline-color: var(--underline-light, currentColor);
+
+  text-decoration-line: underline;
+  text-decoration-style: var(--underline-style, solid);
+  text-decoration-color: var(--underline-color);
+  text-decoration-thickness: var(--underline-thickness, 1.5px);
+  text-underline-offset: 0.22em;
+  text-decoration-skip-ink: auto;
+}
+
+html[data-theme='dark'] .post-content .markdown .text-underline {
+  --underline-color: var(--underline-dark, currentColor);
+}
+
 // Spacious reading is an explicit per-post choice, independent of highlights.
 .post-content--reflection .markdown {
   line-height: 1.95;

@@ -1,5 +1,33 @@
 # 블로그 글 작성
 
+## 논문 카드
+
+글 본문에서 코드 블록의 언어를 `paper`로 지정하면 논문 카드로 표시됩니다.
+왼쪽에는 기관 로고와 이름, 오른쪽에는 제목·설명·저자·발행 정보를 보여주며 카드 전체를 누르면 원문이 새 탭에서 열립니다.
+오른쪽 배경에는 흐릿한 영문 논문 지면을 사용합니다. 배경은 장식용이며, 논문 정보는 `paper` 블록에서 가져옵니다.
+모바일에서는 기관 정보를 위쪽에 배치해 긴 논문 제목을 넓게 표시합니다.
+
+````markdown
+```paper
+title: The Illusion of Thinking
+institution: Apple
+logo: /paper-logos/apple.ico
+authors: Parshin Shojaee et al.
+year: 2025
+venue: NeurIPS
+url: https://arxiv.org/abs/2506.06941
+summary: 문제 복잡도에 따라 달라지는 추론 모델의 강점과 한계를 살펴본 연구.
+```
+````
+
+- `title`, `institution`, `url`은 필수입니다. 나머지 항목은 필요한 것만 넣으세요.
+- 다른 기관 로고는 `static/paper-logos/`에 저장하고 `logo: /paper-logos/파일명.svg`처럼 적으세요. 외부 `https` 이미지 주소도 사용할 수 있습니다. 로고를 생략하면 문서 아이콘을 표시합니다.
+- 설명이 길면 YAML의 `summary: >-` 다음 줄부터 두 칸 들여써서 여러 줄로 작성할 수 있습니다. `: `가 들어간 제목은 따옴표로 감싸세요.
+- 여러 논문은 `paper` 블록을 각각 추가하면 됩니다. 모바일과 다크 모드에 자동으로 맞춰집니다.
+- 잘못된 필수 정보나 주소는 빌드 중 파일명과 줄 번호로 알려줍니다.
+
+실제 논문을 사용한 [작성 예시](examples/paper-card.md)도 참고하세요.
+
 ## 형광펜
 
 `content/글주소/index.md`에서 강조할 문장을 `==`로 감싸세요. 색을 생략하면 노랑입니다.

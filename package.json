@@ -6,6 +6,7 @@
   "author": "urinlee <urinlee@gmail.com>",
   "dependencies": {
     "color-name": "^1.1.4",
+    "js-yaml": "^3.14.2",
     "@mui/icons-material": "^5.1.0",
     "@mui/material": "^5.1.0",
     "gatsby": "^4.12.1",
@@ -56,6 +57,7 @@
     "serve": "gatsby serve",
     "clean": "gatsby clean",
     "test:highlights": "node --test plugins/gatsby-remark-highlights/index.test.js",
+    "test:paper-cards": "node --test plugins/gatsby-remark-paper-cards/index.test.js",
     "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\" && exit 1"
   },
   "repository": {

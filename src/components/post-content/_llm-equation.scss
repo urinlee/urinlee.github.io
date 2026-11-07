@@ -1,0 +1,15 @@
+.post-content .markdown .llm-equation {
+  box-sizing: border-box;
+  max-width: 100%;
+  margin: 24px 0;
+  padding: 12px 4px;
+  overflow-x: auto;
+  color: var(--content-text-color);
+
+  math {
+    width: max-content;
+    min-width: 100%;
+    margin: 0;
+    font-size: 1.125em;
+  }
+}

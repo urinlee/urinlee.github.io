@@ -2,6 +2,8 @@
 @use 'prismjs/themes/prism-tomorrow'as *;
 @use './paper-card';
 @use './paper-review';
+@use './llm-example';
+@use './llm-equation';
 
 .post-content {
   display: flex;

@@ -1,0 +1,41 @@
+.post-content .markdown .llm-example {
+  box-sizing: border-box;
+  min-width: 0;
+  max-width: 100%;
+  margin: 24px 0;
+  padding: 20px 24px;
+  color: var(--content-text-color);
+  background-color: var(--markdown-table-even-cell-background-color);
+  border: 1px solid var(--post-card-border-color);
+  border-radius: 8px;
+  overflow-wrap: anywhere;
+
+  > p {
+    margin: 0;
+  }
+
+  > p + p {
+    margin-top: 12px;
+  }
+
+  > p:first-child {
+    margin-bottom: 12px;
+    font-size: 14px;
+  }
+
+  > :last-child {
+    margin-bottom: 0;
+  }
+
+  table,
+  pre {
+    display: block;
+    max-width: 100%;
+    margin-top: 16px;
+    overflow-x: auto;
+  }
+
+  @media (max-width: 480px) {
+    padding: 16px;
+  }
+}

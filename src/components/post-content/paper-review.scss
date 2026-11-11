@@ -145,6 +145,40 @@
   .case-flow {
     line-height: 1.8;
 
+    &.llm-example {
+      --flow-rule: color-mix(in srgb, var(--post-card-border-color) 65%, transparent);
+
+      padding: 24px 28px 28px;
+      background-color: var(--background-color);
+      background-color: color-mix(
+        in srgb,
+        var(--background-color) 62%,
+        var(--markdown-table-even-cell-background-color)
+      );
+      border-color: var(--flow-rule);
+      border-radius: 16px;
+
+      > p:first-child {
+        margin-bottom: 24px;
+        padding-bottom: 16px;
+        border-bottom: 1px solid var(--flow-rule);
+        font-weight: 600;
+        letter-spacing: -0.01em;
+
+        strong {
+          font-weight: inherit;
+        }
+      }
+
+      > ol > li:not(:last-child)::after {
+        opacity: 0.45;
+      }
+
+      @media (max-width: 480px) {
+        padding: 20px;
+      }
+    }
+
     > ol > li > p:first-child {
       font-weight: 600;
     }

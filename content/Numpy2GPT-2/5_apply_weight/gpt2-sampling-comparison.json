@@ -1,0 +1,2237 @@
+{
+  "executed_at_utc": "2026-11-10T23:32:09.565723+00:00",
+  "elapsed_seconds": 86.4526644159996,
+  "implementation": "notebook_model.forward",
+  "prompt": "Hello, my name is",
+  "prompt_token_ids": [
+    15496,
+    11,
+    616,
+    1438,
+    318
+  ],
+  "max_new_tokens": 40,
+  "rng": "numpy.random.default_rng(42), restarted for each method",
+  "model_source": {
+    "repo_id": "openai-community/gpt2",
+    "revision": "607a30d783dfa663caf39e06633721c8d4cfcd7e",
+    "checkpoint": "model.safetensors",
+    "checkpoint_sha256": "248dfc3911869ec493c76e65bf2fcf7f615828b0254c12b473182f0f81d3a707",
+    "local_arrays": 196,
+    "source_parameter_tensors": 148,
+    "parameter_count": 124439808,
+    "source_url": "https://huggingface.co/openai-community/gpt2/blob/607a30d783dfa663caf39e06633721c8d4cfcd7e/model.safetensors"
+  },
+  "numpy_version": "2.5.4",
+  "logits_dtype": "float64",
+  "generation": {
+    "cache": false,
+    "stop_at_eos": true,
+    "repetition_penalty": false,
+    "method": "Recompute the entire current sequence, select from its last logit row, append one token."
+  },
+  "source_sha256": {
+    "notebook_model.py": "3cdbfec59bc7d607b0c9224b29aefa56f402addee5a2793a10af8fed12af7692",
+    "sampling.py": "c989a864744064bfbc9001b4103cbafed28c7740fd4a90d84aed30da82a1bd9c",
+    "compare_sampling.py": "64c536510dc1d36f827b3787be9a46ca6c4e7261d70e0b0b05c79b16314ee77a"
+  },
+  "results": [
+    {
+      "name": "greedy",
+      "label": "Greedy",
+      "greedy": true,
+      "temperature": 1.0,
+      "seed": null,
+      "generated_token_count": 40,
+      "stop_reason": "max_new_tokens",
+      "generated_token_ids": [
+        1757,
+        13,
+        314,
+        1101,
+        257,
+        6260,
+        11,
+        290,
+        314,
+        1101,
+        257,
+        6260,
+        13,
+        314,
+        1101,
+        257,
+        6260,
+        13,
+        314,
+        1101,
+        257,
+        6260,
+        13,
+        314,
+        1101,
+        257,
+        6260,
+        13,
+        314,
+        1101,
+        257,
+        6260,
+        13,
+        314,
+        1101,
+        257,
+        6260,
+        13,
+        314,
+        1101
+      ],
+      "steps": [
+        {
+          "token_id": 1757,
+          "token": " John"
+        },
+        {
+          "token_id": 13,
+          "token": "."
+        },
+        {
+          "token_id": 314,
+          "token": " I"
+        },
+        {
+          "token_id": 1101,
+          "token": "'m"
+        },
+        {
+          "token_id": 257,
+          "token": " a"
+        },
+        {
+          "token_id": 6260,
+          "token": " writer"
+        },
+        {
+          "token_id": 11,
+          "token": ","
+        },
+        {
+          "token_id": 290,
+          "token": " and"
+        },
+        {
+          "token_id": 314,
+          "token": " I"
+        },
+        {
+          "token_id": 1101,
+          "token": "'m"
+        },
+        {
+          "token_id": 257,
+          "token": " a"
+        },
+        {
+          "token_id": 6260,
+          "token": " writer"
+        },
+        {
+          "token_id": 13,
+          "token": "."
+        },
+        {
+          "token_id": 314,
+          "token": " I"
+        },
+        {
+          "token_id": 1101,
+          "token": "'m"
+        },
+        {
+          "token_id": 257,
+          "token": " a"
+        },
+        {
+          "token_id": 6260,
+          "token": " writer"
+        },
+        {
+          "token_id": 13,
+          "token": "."
+        },
+        {
+          "token_id": 314,
+          "token": " I"
+        },
+        {
+          "token_id": 1101,
+          "token": "'m"
+        },
+        {
+          "token_id": 257,
+          "token": " a"
+        },
+        {
+          "token_id": 6260,
+          "token": " writer"
+        },
+        {
+          "token_id": 13,
+          "token": "."
+        },
+        {
+          "token_id": 314,
+          "token": " I"
+        },
+        {
+          "token_id": 1101,
+          "token": "'m"
+        },
+        {
+          "token_id": 257,
+          "token": " a"
+        },
+        {
+          "token_id": 6260,
+          "token": " writer"
+        },
+        {
+          "token_id": 13,
+          "token": "."
+        },
+        {
+          "token_id": 314,
+          "token": " I"
+        },
+        {
+          "token_id": 1101,
+          "token": "'m"
+        },
+        {
+          "token_id": 257,
+          "token": " a"
+        },
+        {
+          "token_id": 6260,
+          "token": " writer"
+        },
+        {
+          "token_id": 13,
+          "token": "."
+        },
+        {
+          "token_id": 314,
+          "token": " I"
+        },
+        {
+          "token_id": 1101,
+          "token": "'m"
+        },
+        {
+          "token_id": 257,
+          "token": " a"
+        },
+        {
+          "token_id": 6260,
+          "token": " writer"
+        },
+        {
+          "token_id": 13,
+          "token": "."
+        },
+        {
+          "token_id": 314,
+          "token": " I"
+        },
+        {
+          "token_id": 1101,
+          "token": "'m"
+        }
+      ],
+      "first_step": {
+        "candidate_count": 1,
+        "highest_probability": 1.0,
+        "highest_probability_token": " John"
+      },
+      "continuation": " John. I'm a writer, and I'm a writer. I'm a writer. I'm a writer. I'm a writer. I'm a writer. I'm a writer. I'm",
+      "output": "Hello, my name is John. I'm a writer, and I'm a writer. I'm a writer. I'm a writer. I'm a writer. I'm a writer. I'm a writer. I'm"
+    },
+    {
+      "name": "temperature_0.1",
+      "label": "Temperature 0.1",
+      "temperature": 0.1,
+      "seed": 42,
+      "generated_token_count": 40,
+      "stop_reason": "max_new_tokens",
+      "generated_token_ids": [
+        1757,
+        13,
+        314,
+        1101,
+        257,
+        27449,
+        6260,
+        290,
+        314,
+        1101,
+        257,
+        27449,
+        6260,
+        13,
+        314,
+        1101,
+        257,
+        27449,
+        6260,
+        13,
+        314,
+        1101,
+        257,
+        27449,
+        6260,
+        13,
+        314,
+        1101,
+        257,
+        27449,
+        6260,
+        13,
+        314,
+        1101,
+        257,
+        27449,
+        6260,
+        13,
+        314,
+        1101
+      ],
+      "steps": [
+        {
+          "token_id": 1757,
+          "token": " John"
+        },
+        {
+          "token_id": 13,
+          "token": "."
+        },
+        {
+          "token_id": 314,
+          "token": " I"
+        },
+        {
+          "token_id": 1101,
+          "token": "'m"
+        },
+        {
+          "token_id": 257,
+          "token": " a"
+        },
+        {
+          "token_id": 27449,
+          "token": " freelance"
+        },
+        {
+          "token_id": 6260,
+          "token": " writer"
+        },
+        {
+          "token_id": 290,
+          "token": " and"
+        },
+        {
+          "token_id": 314,
+          "token": " I"
+        },
+        {
+          "token_id": 1101,
+          "token": "'m"
+        },
+        {
+          "token_id": 257,
+          "token": " a"
+        },
+        {
+          "token_id": 27449,
+          "token": " freelance"
+        },
+        {
+          "token_id": 6260,
+          "token": " writer"
+        },
+        {
+          "token_id": 13,
+          "token": "."
+        },
+        {
+          "token_id": 314,
+          "token": " I"
+        },
+        {
+          "token_id": 1101,
+          "token": "'m"
+        },
+        {
+          "token_id": 257,
+          "token": " a"
+        },
+        {
+          "token_id": 27449,
+          "token": " freelance"
+        },
+        {
+          "token_id": 6260,
+          "token": " writer"
+        },
+        {
+          "token_id": 13,
+          "token": "."
+        },
+        {
+          "token_id": 314,
+          "token": " I"
+        },
+        {
+          "token_id": 1101,
+          "token": "'m"
+        },
+        {
+          "token_id": 257,
+          "token": " a"
+        },
+        {
+          "token_id": 27449,
+          "token": " freelance"
+        },
+        {
+          "token_id": 6260,
+          "token": " writer"
+        },
+        {
+          "token_id": 13,
+          "token": "."
+        },
+        {
+          "token_id": 314,
+          "token": " I"
+        },
+        {
+          "token_id": 1101,
+          "token": "'m"
+        },
+        {
+          "token_id": 257,
+          "token": " a"
+        },
+        {
+          "token_id": 27449,
+          "token": " freelance"
+        },
+        {
+          "token_id": 6260,
+          "token": " writer"
+        },
+        {
+          "token_id": 13,
+          "token": "."
+        },
+        {
+          "token_id": 314,
+          "token": " I"
+        },
+        {
+          "token_id": 1101,
+          "token": "'m"
+        },
+        {
+          "token_id": 257,
+          "token": " a"
+        },
+        {
+          "token_id": 27449,
+          "token": " freelance"
+        },
+        {
+          "token_id": 6260,
+          "token": " writer"
+        },
+        {
+          "token_id": 13,
+          "token": "."
+        },
+        {
+          "token_id": 314,
+          "token": " I"
+        },
+        {
+          "token_id": 1101,
+          "token": "'m"
+        }
+      ],
+      "first_step": {
+        "candidate_count": 50257,
+        "highest_probability": 0.7734549136037252,
+        "highest_probability_token": " John"
+      },
+      "continuation": " John. I'm a freelance writer and I'm a freelance writer. I'm a freelance writer. I'm a freelance writer. I'm a freelance writer. I'm a freelance writer. I'm",
+      "output": "Hello, my name is John. I'm a freelance writer and I'm a freelance writer. I'm a freelance writer. I'm a freelance writer. I'm a freelance writer. I'm a freelance writer. I'm"
+    },
+    {
+      "name": "temperature_1.0",
+      "label": "Temperature 1.0",
+      "temperature": 1.0,
+      "seed": 42,
+      "generated_token_count": 40,
+      "stop_reason": "max_new_tokens",
+      "generated_token_ids": [
+        22283,
+        1004,
+        22238,
+        198,
+        198,
+        43199,
+        470,
+        356,
+        477,
+        1165,
+        5385,
+        351,
+        1380,
+        25727,
+        271,
+        399,
+        2645,
+        82,
+        10711,
+        338,
+        15416,
+        12223,
+        35704,
+        3914,
+        1010,
+        284,
+        262,
+        569,
+        391,
+        978,
+        1670,
+        21747,
+        379,
+        543,
+        673,
+        1139,
+        11,
+        366,
+        270,
+        373
+      ],
+      "steps": [
+        {
+          "token_id": 22283,
+          "token": " Timothy"
+        },
+        {
+          "token_id": 1004,
+          "token": " Le"
+        },
+        {
+          "token_id": 22238,
+          "token": "ifi"
+        },
+        {
+          "token_id": 198,
+          "token": "\n"
+        },
+        {
+          "token_id": 198,
+          "token": "\n"
+        },
+        {
+          "token_id": 43199,
+          "token": "Aren"
+        },
+        {
+          "token_id": 470,
+          "token": "'t"
+        },
+        {
+          "token_id": 356,
+          "token": " we"
+        },
+        {
+          "token_id": 477,
+          "token": " all"
+        },
+        {
+          "token_id": 1165,
+          "token": " too"
+        },
+        {
+          "token_id": 5385,
+          "token": " familiar"
+        },
+        {
+          "token_id": 351,
+          "token": " with"
+        },
+        {
+          "token_id": 1380,
+          "token": " Ph"
+        },
+        {
+          "token_id": 25727,
+          "token": "yll"
+        },
+        {
+          "token_id": 271,
+          "token": "is"
+        },
+        {
+          "token_id": 399,
+          "token": " N"
+        },
+        {
+          "token_id": 2645,
+          "token": "yl"
+        },
+        {
+          "token_id": 82,
+          "token": "s"
+        },
+        {
+          "token_id": 10711,
+          "token": "bury"
+        },
+        {
+          "token_id": 338,
+          "token": "'s"
+        },
+        {
+          "token_id": 15416,
+          "token": " Oliver"
+        },
+        {
+          "token_id": 12223,
+          "token": " Crown"
+        },
+        {
+          "token_id": 35704,
+          "token": " satire"
+        },
+        {
+          "token_id": 3914,
+          "token": " Let"
+        },
+        {
+          "token_id": 1010,
+          "token": "ters"
+        },
+        {
+          "token_id": 284,
+          "token": " to"
+        },
+        {
+          "token_id": 262,
+          "token": " the"
+        },
+        {
+          "token_id": 569,
+          "token": " V"
+        },
+        {
+          "token_id": 391,
+          "token": "ain"
+        },
+        {
+          "token_id": 978,
+          "token": " Al"
+        },
+        {
+          "token_id": 1670,
+          "token": "arm"
+        },
+        {
+          "token_id": 21747,
+          "token": "?,"
+        },
+        {
+          "token_id": 379,
+          "token": " at"
+        },
+        {
+          "token_id": 543,
+          "token": " which"
+        },
+        {
+          "token_id": 673,
+          "token": " she"
+        },
+        {
+          "token_id": 1139,
+          "token": " says"
+        },
+        {
+          "token_id": 11,
+          "token": ","
+        },
+        {
+          "token_id": 366,
+          "token": " \""
+        },
+        {
+          "token_id": 270,
+          "token": "it"
+        },
+        {
+          "token_id": 373,
+          "token": " was"
+        }
+      ],
+      "first_step": {
+        "candidate_count": 50257,
+        "highest_probability": 0.00993781102470809,
+        "highest_probability_token": " John"
+      },
+      "continuation": " Timothy Leifi\n\nAren't we all too familiar with Phyllis Nylsbury's Oliver Crown satire Letters to the Vain Alarm?, at which she says, \"it was",
+      "output": "Hello, my name is Timothy Leifi\n\nAren't we all too familiar with Phyllis Nylsbury's Oliver Crown satire Letters to the Vain Alarm?, at which she says, \"it was"
+    },
+    {
+      "name": "temperature_2.0",
+      "label": "Temperature 2.0",
+      "temperature": 2.0,
+      "seed": 42,
+      "generated_token_count": 40,
+      "stop_reason": "max_new_tokens",
+      "generated_token_ids": [
+        33325,
+        8266,
+        35592,
+        24286,
+        330,
+        47650,
+        28880,
+        30252,
+        1940,
+        11972,
+        3191,
+        43526,
+        23463,
+        35536,
+        11848,
+        2082,
+        16139,
+        550,
+        34091,
+        21582,
+        31046,
+        8354,
+        47567,
+        41390,
+        34424,
+        4534,
+        14864,
+        513,
+        2779,
+        26620,
+        32467,
+        47485,
+        8942,
+        8764,
+        14964,
+        1585,
+        1495,
+        14429,
+        4748,
+        24324
+      ],
+      "steps": [
+        {
+          "token_id": 33325,
+          "token": " cis"
+        },
+        {
+          "token_id": 8266,
+          "token": " Bull"
+        },
+        {
+          "token_id": 35592,
+          "token": " 311"
+        },
+        {
+          "token_id": 24286,
+          "token": " Sylv"
+        },
+        {
+          "token_id": 330,
+          "token": "ac"
+        },
+        {
+          "token_id": 47650,
+          "token": "osaurus"
+        },
+        {
+          "token_id": 28880,
+          "token": " Anat"
+        },
+        {
+          "token_id": 30252,
+          "token": " Carrier"
+        },
+        {
+          "token_id": 1940,
+          "token": "ald"
+        },
+        {
+          "token_id": 11972,
+          "token": " Gh"
+        },
+        {
+          "token_id": 3191,
+          "token": "ining"
+        },
+        {
+          "token_id": 43526,
+          "token": "057"
+        },
+        {
+          "token_id": 23463,
+          "token": " commits"
+        },
+        {
+          "token_id": 35536,
+          "token": " Cases"
+        },
+        {
+          "token_id": 11848,
+          "token": "bb"
+        },
+        {
+          "token_id": 2082,
+          "token": " wa"
+        },
+        {
+          "token_id": 16139,
+          "token": " waist"
+        },
+        {
+          "token_id": 550,
+          "token": " had"
+        },
+        {
+          "token_id": 34091,
+          "token": " 460"
+        },
+        {
+          "token_id": 21582,
+          "token": " Creation"
+        },
+        {
+          "token_id": 31046,
+          "token": "555"
+        },
+        {
+          "token_id": 8354,
+          "token": " scope"
+        },
+        {
+          "token_id": 47567,
+          "token": " 353"
+        },
+        {
+          "token_id": 41390,
+          "token": " Coral"
+        },
+        {
+          "token_id": 34424,
+          "token": " Penguin"
+        },
+        {
+          "token_id": 4534,
+          "token": " earth"
+        },
+        {
+          "token_id": 14864,
+          "token": "guard"
+        },
+        {
+          "token_id": 513,
+          "token": " 3"
+        },
+        {
+          "token_id": 2779,
+          "token": " base"
+        },
+        {
+          "token_id": 26620,
+          "token": " Scarlet"
+        },
+        {
+          "token_id": 32467,
+          "token": " Gundam"
+        },
+        {
+          "token_id": 47485,
+          "token": " Dickinson"
+        },
+        {
+          "token_id": 8942,
+          "token": " Burn"
+        },
+        {
+          "token_id": 8764,
+          "token": " poison"
+        },
+        {
+          "token_id": 14964,
+          "token": " Beng"
+        },
+        {
+          "token_id": 1585,
+          "token": "rist"
+        },
+        {
+          "token_id": 1495,
+          "token": "25"
+        },
+        {
+          "token_id": 14429,
+          "token": " makers"
+        },
+        {
+          "token_id": 4748,
+          "token": " iT"
+        },
+        {
+          "token_id": 24324,
+          "token": " Tow"
+        }
+      ],
+      "first_step": {
+        "candidate_count": 50257,
+        "highest_probability": 0.0011921384975350222,
+        "highest_probability_token": " John"
+      },
+      "continuation": " cis Bull 311 Sylvacosaurus Anat Carrierald Ghining057 commits Casesbb wa waist had 460 Creation555 scope 353 Coral Penguin earthguard 3 base Scarlet Gundam Dickinson Burn poison Bengrist25 makers iT Tow",
+      "output": "Hello, my name is cis Bull 311 Sylvacosaurus Anat Carrierald Ghining057 commits Casesbb wa waist had 460 Creation555 scope 353 Coral Penguin earthguard 3 base Scarlet Gundam Dickinson Burn poison Bengrist25 makers iT Tow"
+    },
+    {
+      "name": "top_k_50_temperature_0.1",
+      "label": "Top-k (k=50, T=0.1)",
+      "temperature": 0.1,
+      "top_k": 50,
+      "seed": 42,
+      "generated_token_count": 40,
+      "stop_reason": "max_new_tokens",
+      "generated_token_ids": [
+        1757,
+        13,
+        314,
+        1101,
+        257,
+        27449,
+        6260,
+        290,
+        314,
+        1101,
+        257,
+        27449,
+        6260,
+        13,
+        314,
+        1101,
+        257,
+        27449,
+        6260,
+        13,
+        314,
+        1101,
+        257,
+        27449,
+        6260,
+        13,
+        314,
+        1101,
+        257,
+        27449,
+        6260,
+        13,
+        314,
+        1101,
+        257,
+        27449,
+        6260,
+        13,
+        314,
+        1101
+      ],
+      "steps": [
+        {
+          "token_id": 1757,
+          "token": " John"
+        },
+        {
+          "token_id": 13,
+          "token": "."
+        },
+        {
+          "token_id": 314,
+          "token": " I"
+        },
+        {
+          "token_id": 1101,
+          "token": "'m"
+        },
+        {
+          "token_id": 257,
+          "token": " a"
+        },
+        {
+          "token_id": 27449,
+          "token": " freelance"
+        },
+        {
+          "token_id": 6260,
+          "token": " writer"
+        },
+        {
+          "token_id": 290,
+          "token": " and"
+        },
+        {
+          "token_id": 314,
+          "token": " I"
+        },
+        {
+          "token_id": 1101,
+          "token": "'m"
+        },
+        {
+          "token_id": 257,
+          "token": " a"
+        },
+        {
+          "token_id": 27449,
+          "token": " freelance"
+        },
+        {
+          "token_id": 6260,
+          "token": " writer"
+        },
+        {
+          "token_id": 13,
+          "token": "."
+        },
+        {
+          "token_id": 314,
+          "token": " I"
+        },
+        {
+          "token_id": 1101,
+          "token": "'m"
+        },
+        {
+          "token_id": 257,
+          "token": " a"
+        },
+        {
+          "token_id": 27449,
+          "token": " freelance"
+        },
+        {
+          "token_id": 6260,
+          "token": " writer"
+        },
+        {
+          "token_id": 13,
+          "token": "."
+        },
+        {
+          "token_id": 314,
+          "token": " I"
+        },
+        {
+          "token_id": 1101,
+          "token": "'m"
+        },
+        {
+          "token_id": 257,
+          "token": " a"
+        },
+        {
+          "token_id": 27449,
+          "token": " freelance"
+        },
+        {
+          "token_id": 6260,
+          "token": " writer"
+        },
+        {
+          "token_id": 13,
+          "token": "."
+        },
+        {
+          "token_id": 314,
+          "token": " I"
+        },
+        {
+          "token_id": 1101,
+          "token": "'m"
+        },
+        {
+          "token_id": 257,
+          "token": " a"
+        },
+        {
+          "token_id": 27449,
+          "token": " freelance"
+        },
+        {
+          "token_id": 6260,
+          "token": " writer"
+        },
+        {
+          "token_id": 13,
+          "token": "."
+        },
+        {
+          "token_id": 314,
+          "token": " I"
+        },
+        {
+          "token_id": 1101,
+          "token": "'m"
+        },
+        {
+          "token_id": 257,
+          "token": " a"
+        },
+        {
+          "token_id": 27449,
+          "token": " freelance"
+        },
+        {
+          "token_id": 6260,
+          "token": " writer"
+        },
+        {
+          "token_id": 13,
+          "token": "."
+        },
+        {
+          "token_id": 314,
+          "token": " I"
+        },
+        {
+          "token_id": 1101,
+          "token": "'m"
+        }
+      ],
+      "first_step": {
+        "candidate_count": 50,
+        "highest_probability": 0.7734651777617189,
+        "highest_probability_token": " John"
+      },
+      "continuation": " John. I'm a freelance writer and I'm a freelance writer. I'm a freelance writer. I'm a freelance writer. I'm a freelance writer. I'm a freelance writer. I'm",
+      "output": "Hello, my name is John. I'm a freelance writer and I'm a freelance writer. I'm a freelance writer. I'm a freelance writer. I'm a freelance writer. I'm a freelance writer. I'm"
+    },
+    {
+      "name": "top_k_50_temperature_1.0",
+      "label": "Top-k (k=50, T=1.0)",
+      "temperature": 1.0,
+      "top_k": 50,
+      "seed": 42,
+      "generated_token_count": 40,
+      "stop_reason": "max_new_tokens",
+      "generated_token_ids": [
+        5613,
+        13,
+        1867,
+        466,
+        314,
+        4601,
+        329,
+        783,
+        30,
+        317,
+        1204,
+        1701,
+        198,
+        198,
+        1,
+        40,
+        1107,
+        466,
+        4601,
+        329,
+        530,
+        286,
+        883,
+        1611,
+        1243,
+        13,
+        843,
+        257,
+        1107,
+        3621,
+        1363,
+        2474,
+        198,
+        198,
+        1,
+        40,
+        481,
+        761,
+        284,
+        1282
+      ],
+      "steps": [
+        {
+          "token_id": 5613,
+          "token": " Peter"
+        },
+        {
+          "token_id": 13,
+          "token": "."
+        },
+        {
+          "token_id": 1867,
+          "token": " What"
+        },
+        {
+          "token_id": 466,
+          "token": " do"
+        },
+        {
+          "token_id": 314,
+          "token": " I"
+        },
+        {
+          "token_id": 4601,
+          "token": " wish"
+        },
+        {
+          "token_id": 329,
+          "token": " for"
+        },
+        {
+          "token_id": 783,
+          "token": " now"
+        },
+        {
+          "token_id": 30,
+          "token": "?"
+        },
+        {
+          "token_id": 317,
+          "token": " A"
+        },
+        {
+          "token_id": 1204,
+          "token": " life"
+        },
+        {
+          "token_id": 1701,
+          "token": "?\""
+        },
+        {
+          "token_id": 198,
+          "token": "\n"
+        },
+        {
+          "token_id": 198,
+          "token": "\n"
+        },
+        {
+          "token_id": 1,
+          "token": "\""
+        },
+        {
+          "token_id": 40,
+          "token": "I"
+        },
+        {
+          "token_id": 1107,
+          "token": " really"
+        },
+        {
+          "token_id": 466,
+          "token": " do"
+        },
+        {
+          "token_id": 4601,
+          "token": " wish"
+        },
+        {
+          "token_id": 329,
+          "token": " for"
+        },
+        {
+          "token_id": 530,
+          "token": " one"
+        },
+        {
+          "token_id": 286,
+          "token": " of"
+        },
+        {
+          "token_id": 883,
+          "token": " those"
+        },
+        {
+          "token_id": 1611,
+          "token": " kind"
+        },
+        {
+          "token_id": 1243,
+          "token": " things"
+        },
+        {
+          "token_id": 13,
+          "token": "."
+        },
+        {
+          "token_id": 843,
+          "token": " And"
+        },
+        {
+          "token_id": 257,
+          "token": " a"
+        },
+        {
+          "token_id": 1107,
+          "token": " really"
+        },
+        {
+          "token_id": 3621,
+          "token": " nice"
+        },
+        {
+          "token_id": 1363,
+          "token": " home"
+        },
+        {
+          "token_id": 2474,
+          "token": "!\""
+        },
+        {
+          "token_id": 198,
+          "token": "\n"
+        },
+        {
+          "token_id": 198,
+          "token": "\n"
+        },
+        {
+          "token_id": 1,
+          "token": "\""
+        },
+        {
+          "token_id": 40,
+          "token": "I"
+        },
+        {
+          "token_id": 481,
+          "token": " will"
+        },
+        {
+          "token_id": 761,
+          "token": " need"
+        },
+        {
+          "token_id": 284,
+          "token": " to"
+        },
+        {
+          "token_id": 1282,
+          "token": " come"
+        }
+      ],
+      "first_step": {
+        "candidate_count": 50,
+        "highest_probability": 0.049230422241493606,
+        "highest_probability_token": " John"
+      },
+      "continuation": " Peter. What do I wish for now? A life?\"\n\n\"I really do wish for one of those kind things. And a really nice home!\"\n\n\"I will need to come",
+      "output": "Hello, my name is Peter. What do I wish for now? A life?\"\n\n\"I really do wish for one of those kind things. And a really nice home!\"\n\n\"I will need to come"
+    },
+    {
+      "name": "top_k_50_temperature_2.0",
+      "label": "Top-k (k=50, T=2.0)",
+      "temperature": 2.0,
+      "top_k": 50,
+      "seed": 42,
+      "generated_token_count": 40,
+      "stop_reason": "max_new_tokens",
+      "generated_token_ids": [
+        5658,
+        366,
+        7738,
+        11221,
+        1,
+        14105,
+        764,
+        2297,
+        290,
+        2619,
+        366,
+        21352,
+        9703,
+        2474,
+        389,
+        477,
+        922,
+        13,
+        2329,
+        869,
+        616,
+        1438,
+        19919,
+        4176,
+        764,
+        366,
+        2297,
+        1,
+        318,
+        703,
+        881,
+        5876,
+        326,
+        561,
+        1011,
+        13,
+        314,
+        836,
+        470,
+        1337
+      ],
+      "steps": [
+        {
+          "token_id": 5658,
+          "token": " Thomas"
+        },
+        {
+          "token_id": 366,
+          "token": " \""
+        },
+        {
+          "token_id": 7738,
+          "token": "Red"
+        },
+        {
+          "token_id": 11221,
+          "token": "emption"
+        },
+        {
+          "token_id": 1,
+          "token": "\""
+        },
+        {
+          "token_id": 14105,
+          "token": " Perry"
+        },
+        {
+          "token_id": 764,
+          "token": " ."
+        },
+        {
+          "token_id": 2297,
+          "token": " Red"
+        },
+        {
+          "token_id": 290,
+          "token": " and"
+        },
+        {
+          "token_id": 2619,
+          "token": " Black"
+        },
+        {
+          "token_id": 366,
+          "token": " \""
+        },
+        {
+          "token_id": 21352,
+          "token": "Hot"
+        },
+        {
+          "token_id": 9703,
+          "token": "dog"
+        },
+        {
+          "token_id": 2474,
+          "token": "!\""
+        },
+        {
+          "token_id": 389,
+          "token": " are"
+        },
+        {
+          "token_id": 477,
+          "token": " all"
+        },
+        {
+          "token_id": 922,
+          "token": " good"
+        },
+        {
+          "token_id": 13,
+          "token": "."
+        },
+        {
+          "token_id": 2329,
+          "token": " Just"
+        },
+        {
+          "token_id": 869,
+          "token": " call"
+        },
+        {
+          "token_id": 616,
+          "token": " my"
+        },
+        {
+          "token_id": 1438,
+          "token": " name"
+        },
+        {
+          "token_id": 19919,
+          "token": " Tommy"
+        },
+        {
+          "token_id": 4176,
+          "token": " Smith"
+        },
+        {
+          "token_id": 764,
+          "token": " ."
+        },
+        {
+          "token_id": 366,
+          "token": " \""
+        },
+        {
+          "token_id": 2297,
+          "token": " Red"
+        },
+        {
+          "token_id": 1,
+          "token": "\""
+        },
+        {
+          "token_id": 318,
+          "token": " is"
+        },
+        {
+          "token_id": 703,
+          "token": " how"
+        },
+        {
+          "token_id": 881,
+          "token": " much"
+        },
+        {
+          "token_id": 5876,
+          "token": " trouble"
+        },
+        {
+          "token_id": 326,
+          "token": " that"
+        },
+        {
+          "token_id": 561,
+          "token": " would"
+        },
+        {
+          "token_id": 1011,
+          "token": " take"
+        },
+        {
+          "token_id": 13,
+          "token": "."
+        },
+        {
+          "token_id": 314,
+          "token": " I"
+        },
+        {
+          "token_id": 836,
+          "token": " don"
+        },
+        {
+          "token_id": 470,
+          "token": "'t"
+        },
+        {
+          "token_id": 1337,
+          "token": " care"
+        }
+      ],
+      "first_step": {
+        "candidate_count": 50,
+        "highest_probability": 0.0318781329089846,
+        "highest_probability_token": " John"
+      },
+      "continuation": " Thomas \"Redemption\" Perry . Red and Black \"Hotdog!\" are all good. Just call my name Tommy Smith . \" Red\" is how much trouble that would take. I don't care",
+      "output": "Hello, my name is Thomas \"Redemption\" Perry . Red and Black \"Hotdog!\" are all good. Just call my name Tommy Smith . \" Red\" is how much trouble that would take. I don't care"
+    },
+    {
+      "name": "top_p_0.9_temperature_0.1",
+      "label": "Top-p (p=0.9, T=0.1)",
+      "temperature": 0.1,
+      "top_p": 0.9,
+      "seed": 42,
+      "generated_token_count": 40,
+      "stop_reason": "max_new_tokens",
+      "generated_token_ids": [
+        1757,
+        13,
+        314,
+        1101,
+        257,
+        6260,
+        290,
+        257,
+        6260,
+        338,
+        8796,
+        379,
+        262,
+        2059,
+        286,
+        3442,
+        11,
+        14727,
+        13,
+        314,
+        1101,
+        257,
+        6260,
+        290,
+        257,
+        6260,
+        338,
+        8796,
+        379,
+        262,
+        2059,
+        286,
+        3442,
+        11,
+        14727,
+        13,
+        314,
+        1101,
+        257,
+        6260
+      ],
+      "steps": [
+        {
+          "token_id": 1757,
+          "token": " John"
+        },
+        {
+          "token_id": 13,
+          "token": "."
+        },
+        {
+          "token_id": 314,
+          "token": " I"
+        },
+        {
+          "token_id": 1101,
+          "token": "'m"
+        },
+        {
+          "token_id": 257,
+          "token": " a"
+        },
+        {
+          "token_id": 6260,
+          "token": " writer"
+        },
+        {
+          "token_id": 290,
+          "token": " and"
+        },
+        {
+          "token_id": 257,
+          "token": " a"
+        },
+        {
+          "token_id": 6260,
+          "token": " writer"
+        },
+        {
+          "token_id": 338,
+          "token": "'s"
+        },
+        {
+          "token_id": 8796,
+          "token": " assistant"
+        },
+        {
+          "token_id": 379,
+          "token": " at"
+        },
+        {
+          "token_id": 262,
+          "token": " the"
+        },
+        {
+          "token_id": 2059,
+          "token": " University"
+        },
+        {
+          "token_id": 286,
+          "token": " of"
+        },
+        {
+          "token_id": 3442,
+          "token": " California"
+        },
+        {
+          "token_id": 11,
+          "token": ","
+        },
+        {
+          "token_id": 14727,
+          "token": " Berkeley"
+        },
+        {
+          "token_id": 13,
+          "token": "."
+        },
+        {
+          "token_id": 314,
+          "token": " I"
+        },
+        {
+          "token_id": 1101,
+          "token": "'m"
+        },
+        {
+          "token_id": 257,
+          "token": " a"
+        },
+        {
+          "token_id": 6260,
+          "token": " writer"
+        },
+        {
+          "token_id": 290,
+          "token": " and"
+        },
+        {
+          "token_id": 257,
+          "token": " a"
+        },
+        {
+          "token_id": 6260,
+          "token": " writer"
+        },
+        {
+          "token_id": 338,
+          "token": "'s"
+        },
+        {
+          "token_id": 8796,
+          "token": " assistant"
+        },
+        {
+          "token_id": 379,
+          "token": " at"
+        },
+        {
+          "token_id": 262,
+          "token": " the"
+        },
+        {
+          "token_id": 2059,
+          "token": " University"
+        },
+        {
+          "token_id": 286,
+          "token": " of"
+        },
+        {
+          "token_id": 3442,
+          "token": " California"
+        },
+        {
+          "token_id": 11,
+          "token": ","
+        },
+        {
+          "token_id": 14727,
+          "token": " Berkeley"
+        },
+        {
+          "token_id": 13,
+          "token": "."
+        },
+        {
+          "token_id": 314,
+          "token": " I"
+        },
+        {
+          "token_id": 1101,
+          "token": "'m"
+        },
+        {
+          "token_id": 257,
+          "token": " a"
+        },
+        {
+          "token_id": 6260,
+          "token": " writer"
+        }
+      ],
+      "first_step": {
+        "candidate_count": 3,
+        "highest_probability": 0.8181815741673089,
+        "highest_probability_token": " John"
+      },
+      "continuation": " John. I'm a writer and a writer's assistant at the University of California, Berkeley. I'm a writer and a writer's assistant at the University of California, Berkeley. I'm a writer",
+      "output": "Hello, my name is John. I'm a writer and a writer's assistant at the University of California, Berkeley. I'm a writer and a writer's assistant at the University of California, Berkeley. I'm a writer"
+    },
+    {
+      "name": "top_p_0.9_temperature_1.0",
+      "label": "Top-p (p=0.9, T=1.0)",
+      "temperature": 1.0,
+      "top_p": 0.9,
+      "seed": 42,
+      "generated_token_count": 40,
+      "stop_reason": "max_new_tokens",
+      "generated_token_ids": [
+        20678,
+        64,
+        16114,
+        947,
+        11,
+        3956,
+        286,
+        21586,
+        13,
+        314,
+        716,
+        13353,
+        1168,
+        12236,
+        11161,
+        312,
+        13,
+        198,
+        198,
+        4339,
+        7340,
+        6535,
+        33604,
+        685,
+        10414,
+        1484,
+        60,
+        198,
+        198,
+        7120,
+        6066,
+        986,
+        198,
+        198,
+        2396,
+        11,
+        317,
+        2411,
+        72,
+        357
+      ],
+      "steps": [
+        {
+          "token_id": 20678,
+          "token": " Sach"
+        },
+        {
+          "token_id": 64,
+          "token": "a"
+        },
+        {
+          "token_id": 16114,
+          "token": " Rodrig"
+        },
+        {
+          "token_id": 947,
+          "token": "ues"
+        },
+        {
+          "token_id": 11,
+          "token": ","
+        },
+        {
+          "token_id": 3956,
+          "token": " brother"
+        },
+        {
+          "token_id": 286,
+          "token": " of"
+        },
+        {
+          "token_id": 21586,
+          "token": " Lieutenant"
+        },
+        {
+          "token_id": 13,
+          "token": "."
+        },
+        {
+          "token_id": 314,
+          "token": " I"
+        },
+        {
+          "token_id": 716,
+          "token": " am"
+        },
+        {
+          "token_id": 13353,
+          "token": " Commander"
+        },
+        {
+          "token_id": 1168,
+          "token": " Z"
+        },
+        {
+          "token_id": 12236,
+          "token": "aha"
+        },
+        {
+          "token_id": 11161,
+          "token": " Had"
+        },
+        {
+          "token_id": 312,
+          "token": "id"
+        },
+        {
+          "token_id": 13,
+          "token": "."
+        },
+        {
+          "token_id": 198,
+          "token": "\n"
+        },
+        {
+          "token_id": 198,
+          "token": "\n"
+        },
+        {
+          "token_id": 4339,
+          "token": "BA"
+        },
+        {
+          "token_id": 7340,
+          "token": "UG"
+        },
+        {
+          "token_id": 6535,
+          "token": "HT"
+        },
+        {
+          "token_id": 33604,
+          "token": "ARI"
+        },
+        {
+          "token_id": 685,
+          "token": " ["
+        },
+        {
+          "token_id": 10414,
+          "token": "conf"
+        },
+        {
+          "token_id": 1484,
+          "token": "used"
+        },
+        {
+          "token_id": 60,
+          "token": "]"
+        },
+        {
+          "token_id": 198,
+          "token": "\n"
+        },
+        {
+          "token_id": 198,
+          "token": "\n"
+        },
+        {
+          "token_id": 7120,
+          "token": "Your"
+        },
+        {
+          "token_id": 6066,
+          "token": " thoughts"
+        },
+        {
+          "token_id": 986,
+          "token": "..."
+        },
+        {
+          "token_id": 198,
+          "token": "\n"
+        },
+        {
+          "token_id": 198,
+          "token": "\n"
+        },
+        {
+          "token_id": 2396,
+          "token": "So"
+        },
+        {
+          "token_id": 11,
+          "token": ","
+        },
+        {
+          "token_id": 317,
+          "token": " A"
+        },
+        {
+          "token_id": 2411,
+          "token": "rel"
+        },
+        {
+          "token_id": 72,
+          "token": "i"
+        },
+        {
+          "token_id": 357,
+          "token": " ("
+        }
+      ],
+      "first_step": {
+        "candidate_count": 2901,
+        "highest_probability": 0.01104157625001264,
+        "highest_probability_token": " John"
+      },
+      "continuation": " Sacha Rodrigues, brother of Lieutenant. I am Commander Zaha Hadid.\n\nBAUGHTARI [confused]\n\nYour thoughts...\n\nSo, Areli (",
+      "output": "Hello, my name is Sacha Rodrigues, brother of Lieutenant. I am Commander Zaha Hadid.\n\nBAUGHTARI [confused]\n\nYour thoughts...\n\nSo, Areli ("
+    },
+    {
+      "name": "top_p_0.9_temperature_2.0",
+      "label": "Top-p (p=0.9, T=2.0)",
+      "temperature": 2.0,
+      "top_p": 0.9,
+      "seed": 42,
+      "generated_token_count": 40,
+      "stop_reason": "max_new_tokens",
+      "generated_token_ids": [
+        32309,
+        11576,
+        37006,
+        20416,
+        584,
+        46937,
+        22352,
+        27671,
+        764,
+        10248,
+        5368,
+        38212,
+        13292,
+        29136,
+        7908,
+        2968,
+        14045,
+        693,
+        30812,
+        18611,
+        28669,
+        7090,
+        47338,
+        39064,
+        30427,
+        2898,
+        8551,
+        354,
+        1858,
+        17187,
+        27343,
+        46962,
+        7020,
+        8753,
+        11311,
+        3344,
+        1853,
+        13745,
+        4564,
+        22923
+      ],
+      "steps": [
+        {
+          "token_id": 32309,
+          "token": " Brass"
+        },
+        {
+          "token_id": 11576,
+          "token": "strong"
+        },
+        {
+          "token_id": 37006,
+          "token": " Buccaneers"
+        },
+        {
+          "token_id": 20416,
+          "token": " 121"
+        },
+        {
+          "token_id": 584,
+          "token": " other"
+        },
+        {
+          "token_id": 46937,
+          "token": " tantal"
+        },
+        {
+          "token_id": 22352,
+          "token": " 134"
+        },
+        {
+          "token_id": 27671,
+          "token": " invites"
+        },
+        {
+          "token_id": 764,
+          "token": " ."
+        },
+        {
+          "token_id": 10248,
+          "token": "Good"
+        },
+        {
+          "token_id": 5368,
+          "token": " afford"
+        },
+        {
+          "token_id": 38212,
+          "token": " inquire"
+        },
+        {
+          "token_id": 13292,
+          "token": "ername"
+        },
+        {
+          "token_id": 29136,
+          "token": " inspectors"
+        },
+        {
+          "token_id": 7908,
+          "token": "2018"
+        },
+        {
+          "token_id": 2968,
+          "token": " popular"
+        },
+        {
+          "token_id": 14045,
+          "token": " Queens"
+        },
+        {
+          "token_id": 693,
+          "token": " spe"
+        },
+        {
+          "token_id": 30812,
+          "token": " printf"
+        },
+        {
+          "token_id": 18611,
+          "token": " obscure"
+        },
+        {
+          "token_id": 28669,
+          "token": "050"
+        },
+        {
+          "token_id": 7090,
+          "token": " medium"
+        },
+        {
+          "token_id": 47338,
+          "token": "825"
+        },
+        {
+          "token_id": 39064,
+          "token": " 6000"
+        },
+        {
+          "token_id": 30427,
+          "token": " rumours"
+        },
+        {
+          "token_id": 2898,
+          "token": "Tr"
+        },
+        {
+          "token_id": 8551,
+          "token": " recover"
+        },
+        {
+          "token_id": 354,
+          "token": "ch"
+        },
+        {
+          "token_id": 1858,
+          "token": "There"
+        },
+        {
+          "token_id": 17187,
+          "token": "nik"
+        },
+        {
+          "token_id": 27343,
+          "token": "beck"
+        },
+        {
+          "token_id": 46962,
+          "token": " ENTER"
+        },
+        {
+          "token_id": 7020,
+          "token": " Linux"
+        },
+        {
+          "token_id": 8753,
+          "token": " 07"
+        },
+        {
+          "token_id": 11311,
+          "token": " chocolate"
+        },
+        {
+          "token_id": 3344,
+          "token": " battle"
+        },
+        {
+          "token_id": 1853,
+          "token": " 2015"
+        },
+        {
+          "token_id": 13745,
+          "token": " Original"
+        },
+        {
+          "token_id": 4564,
+          "token": " Church"
+        },
+        {
+          "token_id": 22923,
+          "token": "CBS"
+        }
+      ],
+      "first_step": {
+        "candidate_count": 19633,
+        "highest_probability": 0.0013245979527171609,
+        "highest_probability_token": " John"
+      },
+      "continuation": " Brassstrong Buccaneers 121 other tantal 134 invites .Good afford inquireername inspectors2018 popular Queens spe printf obscure050 medium825 6000 rumoursTr recoverchTherenikbeck ENTER Linux 07 chocolate battle 2015 Original ChurchCBS",
+      "output": "Hello, my name is Brassstrong Buccaneers 121 other tantal 134 invites .Good afford inquireername inspectors2018 popular Queens spe printf obscure050 medium825 6000 rumoursTr recoverchTherenikbeck ENTER Linux 07 chocolate battle 2015 Original ChurchCBS"
+    }
+  ]
+}

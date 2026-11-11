@@ -1,0 +1,95 @@
+.post-content .markdown .bpe-comparison-table {
+  margin: 24px 0;
+  overflow-x: auto;
+
+  table {
+    display: table;
+    min-width: 540px;
+    margin: 0;
+  }
+
+  th,
+  td {
+    white-space: nowrap;
+  }
+}
+
+.post-content .markdown .bpe-token-comparison {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+  margin: 28px 0;
+
+  figure {
+    min-width: 0;
+    margin: 0;
+    padding: 20px;
+    border: 1px solid var(--markdown-table-border-color);
+    border-radius: 8px;
+  }
+
+  figcaption {
+    margin-bottom: 24px;
+    font-size: 16px;
+    font-weight: 600;
+
+    > span {
+      display: block;
+      margin-top: 4px;
+      font-size: 12px;
+      font-weight: 400;
+    }
+  }
+
+  .bpe-bar-row {
+    display: grid;
+    grid-template-columns: 4.5em minmax(0, 1fr) 3em;
+    gap: 8px;
+    align-items: center;
+    margin: 16px 0;
+    font-size: 14px;
+
+    > strong {
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+    }
+  }
+
+  .bpe-bar-label {
+    white-space: nowrap;
+  }
+
+  .bpe-bar-track {
+    height: 16px;
+    overflow: hidden;
+    background: var(--markdown-table-even-cell-background-color);
+    border-radius: 2px;
+  }
+
+  .bpe-bar-fill {
+    display: block;
+    height: 100%;
+    background: var(--content-text-color);
+    border-radius: inherit;
+  }
+
+  .bpe-bar-axis {
+    display: flex;
+    justify-content: space-between;
+    margin-right: 50px;
+    margin-left: 71px;
+    font-size: 12px;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .bpe-chart-note {
+    margin: 20px 0 0;
+    font-size: 13px;
+    line-height: 1.7;
+  }
+
+  @media (max-width: 680px) {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+}

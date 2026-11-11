@@ -1,0 +1,378 @@
+{
+  "prompt": "Hello! My Name Is",
+  "token_ids": [
+    15496,
+    0,
+    2011,
+    6530,
+    1148
+  ],
+  "tokens": [
+    "Hello",
+    "!",
+    " My",
+    " Name",
+    " Is"
+  ],
+  "created_at": "2026-11-11T00:00:46.258731+00:00",
+  "checkpoint": {
+    "repo_id": "openai-community/gpt2",
+    "revision": "607a30d783dfa663caf39e06633721c8d4cfcd7e",
+    "checkpoint": "model.safetensors",
+    "checkpoint_sha256": "248dfc3911869ec493c76e65bf2fcf7f615828b0254c12b473182f0f81d3a707",
+    "local_arrays": 196,
+    "source_parameter_tensors": 148,
+    "parameter_count": 124439808,
+    "source_url": "https://huggingface.co/openai-community/gpt2/blob/607a30d783dfa663caf39e06633721c8d4cfcd7e/model.safetensors"
+  },
+  "environment": {
+    "python": "3.14.4",
+    "numpy": "2.5.4",
+    "torch": "2.15.0"
+  },
+  "settings": {
+    "dtype": "float64 (checkpoint float32 values converted without retraining)",
+    "layers": 12,
+    "heads": 12,
+    "d_head": 64,
+    "vocabulary_size": 50257,
+    "kv_cache": false,
+    "dropout": false,
+    "logits_scope": "last input position; full vocabulary",
+    "softmax_temperature": 1.0,
+    "residual_ablation": "both additions in every block"
+  },
+  "source_sha256": {
+    "notebook_model.py": "3cdbfec59bc7d607b0c9224b29aefa56f402addee5a2793a10af8fed12af7692",
+    "SelfAttention/multi_head_self_attention.py": "770315f32b327766f9f48639d0dce0c36dfeec305cc6730c430c9d8a00afbf40"
+  },
+  "baseline_vs_hf_max_absolute_difference": 3.694822225952521e-13,
+  "variants": {
+    "baseline": {
+      "top5": [
+        {
+          "token_id": 11,
+          "token": ",",
+          "logit": -64.2661067863823,
+          "probability": 0.013656579567800328
+        },
+        {
+          "token_id": 509,
+          "token": " K",
+          "logit": -64.360743368355,
+          "probability": 0.012423437917370706
+        },
+        {
+          "token_id": 1757,
+          "token": " John",
+          "logit": -64.70373244976368,
+          "probability": 0.008816242525535877
+        },
+        {
+          "token_id": 0,
+          "token": "!",
+          "logit": -64.75544256581867,
+          "probability": 0.008371940065868357
+        },
+        {
+          "token_id": 406,
+          "token": " L",
+          "logit": -64.97960447525668,
+          "probability": 0.006690735017832801
+        }
+      ],
+      "last_position_max_absolute_difference": 0.0,
+      "last_position_mean_absolute_difference": 0.0,
+      "last_position_centered_mean_absolute_difference": 0.0,
+      "last_position_probability_total_variation": 0.0,
+      "block_last_hidden_max_difference": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "candidate_logits": {
+        "0": -64.75544256581867,
+        "11": -64.2661067863823,
+        "12": -67.30377169058099,
+        "13": -65.43080012199555,
+        "14": -68.42701438218236,
+        "198": -65.69751751870304,
+        "262": -67.60062266008092,
+        "383": -66.17035067913206,
+        "406": -64.97960447525668,
+        "509": -64.360743368355,
+        "632": -66.93742421604522,
+        "770": -66.86724511645608,
+        "1220": -68.00787904678066,
+        "1320": -67.52112267967472,
+        "1757": -64.70373244976368,
+        "2011": -65.29625664212973,
+        "3406": -66.53618840586326
+      }
+    },
+    "no_scaling": {
+      "top5": [
+        {
+          "token_id": 2011,
+          "token": " My",
+          "logit": -69.7217298563743,
+          "probability": 0.1247873880927337
+        },
+        {
+          "token_id": 3406,
+          "token": " Your",
+          "logit": -69.87780756529376,
+          "probability": 0.1067547006103638
+        },
+        {
+          "token_id": 262,
+          "token": " the",
+          "logit": -70.97426340081387,
+          "probability": 0.0356617201730829
+        },
+        {
+          "token_id": 383,
+          "token": " The",
+          "logit": -71.36885929457503,
+          "probability": 0.02403429949409775
+        },
+        {
+          "token_id": 632,
+          "token": " It",
+          "logit": -71.43447194217613,
+          "probability": 0.022507966384475938
+        }
+      ],
+      "last_position_max_absolute_difference": 12.651091761012609,
+      "last_position_mean_absolute_difference": 7.477441950403555,
+      "last_position_centered_mean_absolute_difference": 1.0408923045581608,
+      "last_position_probability_total_variation": 0.6321265179838624,
+      "block_last_hidden_max_difference": [
+        5.373114675015554,
+        5.143720298282783,
+        3.2710639413307234,
+        3.596574439555311,
+        5.805423457153076,
+        8.025605046345401,
+        8.60946120986086,
+        10.346193865407706,
+        8.966595357323094,
+        13.507932799339997,
+        22.58844562422854,
+        127.18018493038973
+      ],
+      "candidate_logits": {
+        "0": -74.01523326208861,
+        "11": -72.11449839606018,
+        "12": -76.34902406847388,
+        "13": -73.5169134298065,
+        "14": -76.58322521680016,
+        "198": -73.56434816008453,
+        "262": -70.97426340081387,
+        "383": -71.36885929457503,
+        "406": -73.7503514517347,
+        "509": -74.38422935322674,
+        "632": -71.43447194217613,
+        "770": -72.70580476655117,
+        "1220": -76.1526238768784,
+        "1320": -72.69686790247817,
+        "1757": -73.00390191686064,
+        "2011": -69.7217298563743,
+        "3406": -69.87780756529376
+      }
+    },
+    "no_mask": {
+      "top5": [
+        {
+          "token_id": 2011,
+          "token": " My",
+          "logit": -73.35383277153578,
+          "probability": 0.5186045439671638
+        },
+        {
+          "token_id": 3406,
+          "token": " Your",
+          "logit": -75.04067207952751,
+          "probability": 0.09599559711808565
+        },
+        {
+          "token_id": 632,
+          "token": " It",
+          "logit": -75.42491943394819,
+          "probability": 0.06536944664643526
+        },
+        {
+          "token_id": 770,
+          "token": " This",
+          "logit": -76.02344067463181,
+          "probability": 0.03592860345797377
+        },
+        {
+          "token_id": 1320,
+          "token": " That",
+          "logit": -76.55153829666432,
+          "probability": 0.021188023862865328
+        }
+      ],
+      "last_position_max_absolute_difference": 19.811152894760085,
+      "last_position_mean_absolute_difference": 14.021594629104307,
+      "last_position_centered_mean_absolute_difference": 1.0926245272714186,
+      "last_position_probability_total_variation": 0.86649094555602,
+      "block_last_hidden_max_difference": [
+        0.0,
+        1.2549004742875134,
+        1.4606921055861726,
+        1.5431516807028849,
+        2.9843292216968713,
+        4.68297749427677,
+        6.18639662936681,
+        7.530288618145748,
+        9.645545346941562,
+        13.946714216049697,
+        32.654535089669565,
+        61.92075171197868
+      ],
+      "candidate_logits": {
+        "0": -77.2900917637771,
+        "11": -78.7855894352232,
+        "12": -80.90577400378697,
+        "13": -80.33143112787518,
+        "14": -82.3865000244297,
+        "198": -78.8799909501082,
+        "262": -78.19054518039655,
+        "383": -77.72510869338424,
+        "406": -80.17444049745889,
+        "509": -81.36807861873041,
+        "632": -75.42491943394819,
+        "770": -76.02344067463181,
+        "1220": -82.16161215725094,
+        "1320": -76.55153829666432,
+        "1757": -80.90905092623946,
+        "2011": -73.35383277153578,
+        "3406": -75.04067207952751
+      }
+    },
+    "no_residual": {
+      "top5": [
+        {
+          "token_id": 198,
+          "token": "\n",
+          "logit": -106.71364950669229,
+          "probability": 0.2629820338542917
+        },
+        {
+          "token_id": 14,
+          "token": "/",
+          "logit": -107.18854037065562,
+          "probability": 0.16356244655589403
+        },
+        {
+          "token_id": 12,
+          "token": "-",
+          "logit": -107.3025948369419,
+          "probability": 0.14593194563549464
+        },
+        {
+          "token_id": 1220,
+          "token": " /",
+          "logit": -107.43051572563928,
+          "probability": 0.128408873683989
+        },
+        {
+          "token_id": 13,
+          "token": ".",
+          "logit": -108.47707431319361,
+          "probability": 0.04509001887327844
+        }
+      ],
+      "last_position_max_absolute_difference": 84.3593921640837,
+      "last_position_mean_absolute_difference": 54.062744229517605,
+      "last_position_centered_mean_absolute_difference": 4.7130918311774845,
+      "last_position_probability_total_variation": 0.9463789753130724,
+      "block_last_hidden_max_difference": [
+        27.635315324341796,
+        23.98021635569538,
+        433.5399580579181,
+        115.86523339455164,
+        25.858602859901048,
+        25.663408884321008,
+        29.148070255878253,
+        32.90354867679642,
+        31.519736632648133,
+        52.275085310886595,
+        72.06389441585716,
+        254.4723995020351
+      ],
+      "candidate_logits": {
+        "0": -114.17977408323743,
+        "11": -108.60958307971056,
+        "12": -107.3025948369419,
+        "13": -108.47707431319361,
+        "14": -107.18854037065562,
+        "198": -106.71364950669229,
+        "262": -113.18458904523578,
+        "383": -112.53039146219322,
+        "406": -121.68302601246992,
+        "509": -121.11598918833332,
+        "632": -112.98344357456378,
+        "770": -114.01341197681646,
+        "1220": -107.43051572563928,
+        "1320": -117.18816560364048,
+        "1757": -126.40918821880862,
+        "2011": -116.13840352875013,
+        "3406": -115.85894971353916
+      }
+    }
+  },
+  "first_block_attention": {
+    "baseline": {
+      "mean_entropy_nats": 0.6521663380125031,
+      "mean_row_max_probability": 0.7155175083463748,
+      "mean_future_probability_mass": 0.0,
+      "first_head_first_row": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    "no_scaling": {
+      "mean_entropy_nats": 0.12028924021206987,
+      "mean_row_max_probability": 0.951433343903262,
+      "mean_future_probability_mass": 0.0,
+      "first_head_first_row": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    "no_mask": {
+      "mean_entropy_nats": 1.0908166159340593,
+      "mean_row_max_probability": 0.573058240095209,
+      "mean_future_probability_mass": 0.19298682536891898,
+      "first_head_first_row": [
+        0.5986914822085097,
+        0.1074816795567642,
+        0.1409238689710749,
+        0.07791319235940818,
+        0.07498977690424308
+      ]
+    }
+  },
+  "prefix_invariance": {
+    "baseline_first_position_max_difference": 1.4921397450962104e-13,
+    "no_mask_first_position_max_difference": 23.28842311124837
+  }
+}

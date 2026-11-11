@@ -1,6 +1,6 @@
 ---
-title: 'Numpy2GPT-2 | 1_understand_LLM: LLM 전체 구조 이해'
-date: '2026-11-07'
+title: 'NumPy로 GPT-2 구현 | 1. 토큰화부터 문장 생성까지, LLM의 전체 흐름'
+date: '2026-11-07 20:33:44'
 author: 지티오
 tags: Numpy2GPT LLM Transformer Tokenizer Embedding
 categories: 개발

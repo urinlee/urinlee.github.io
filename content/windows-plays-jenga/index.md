@@ -65,7 +65,21 @@ url: https://doi.org/10.1145/3719027.3765217
 
 이는 불안정한 기반 위에 젠가를 쌓는 것과 비슷하다. 이 연구는 개별 패치만으로는 비슷한 문제가 반복될 수 있으므로 ==yellow:윈도우 파일 시스템의 근본적인 변화가 필요하다고 본다.==
 
-저자들은 기존 연구도 주로 개별 취약점을 발견하는 데 집중해, 왜 비슷한 문제가 반복되는지 설명하는 데는 한계가 있었다고 본다. 이 논문은 그 원인과 대응의 어려움을 함께 살펴보려 한다.
+비슷한 시기의 관련 연구와 비교하면 이 논문의 분석 범위가 더 분명해진다. 아래에는 윈도우의 파일 조작 취약점뿐 아니라, 안드로이드의 파일 접근 통제를 다룬 연구도 함께 정리했다.
+
+<div class="review-table" role="region" aria-label="2024~2025년 파일 보안 관련 연구 비교" tabindex="0">
+
+| 연구 | 발표 | 대상 | 중심적으로 살펴보는 부분 |
+| --- | --- | --- | --- |
+| ++Windows plays Jenga++ | ACM CCS 2025 | 윈도우·리눅스 비교 | 링크·잠금·권한의 설계 차이를 실제 취약점, 호환 계층, 개발자, 대응책의 문제와 연결해 분석 |
+| [Pig in a Poke](https://www.usenix.org/conference/usenixsecurity25/presentation/xiang-bocheng) | USENIX Security 2025 | 윈도우 | 링크 추적 취약점의 원인 분석과 LinkZard를 통한 탐지·악용 자동화 |
+| [File Hijacking Vulnerability: The Elephant in the Room (JERRY)](https://www.ndss-symposium.org/ndss-paper/file-hijacking-vulnerability-the-elephant-in-the-room/) | NDSS 2024 | 윈도우 소프트웨어 | 파일 내용이나 경로를 조작해 보안 경계를 넘는 파일 하이재킹 취약점을 분석하고, JERRY로 실행 중 하이재킹을 시도해 탐지 |
+| [Static Detection of Filesystem Vulnerabilities in Android Systems (PathSentinel)](https://arxiv.org/abs/2407.11279) | arXiv 2024 · 공개 논문 | 안드로이드 | 프로그램 정적 분석과 접근 통제 정책 분석을 결합해 경로 탐색, 하이재킹, 유인(luring) 유형의 파일 시스템 취약점을 탐지 |
+| [ScopeVerif](https://www.ndss-symposium.org/ndss-paper/scopeverif-analyzing-the-security-of-androids-scoped-storage-via-differential-analysis/) | NDSS 2025 | 안드로이드 | Scoped Storage의 파일 접근 통제가 문서의 보안 속성을 지키는지 검사하고, 버전·제조사별 구현 차이와 취약점을 차등 분석 |
+
+</div>
+
+이들 연구도 특정 취약점 유형이나 파일 접근 통제의 원인과 구현 문제를 분석한다. Windows plays Jenga는 윈도우와 리눅스의 파일 처리 차이에서 출발해, 실제 취약점뿐 아니라 호환 계층과 개발자의 대응, 기존 방어책의 한계까지 연결해 살펴본다는 점에 초점을 맞췄다.
 
 ### 핵심 아이디어
 
@@ -98,6 +112,8 @@ url: https://doi.org/10.1145/3719027.3765217
 <p class="review-caption">옵션의 효과는 경로 전체에 대한 추적 차단을 뜻하지 않는다.</p>
 
 > 여기서 JDSymlink는 ==blue:정션과 DosDevice를 결합한 링크==다. 정션은 디렉터리로 연결하고, DosDevice는 윈도우 내부의 객체 이름 공간에서 다른 장치나 파일 경로로 연결한다. 두 기능을 이어 붙이면 일반 파일 경로에서도 원하는 파일까지 연결할 수 있다. 논문은 이 조합을 일반 사용자 권한으로도 만들 수 있다는 점에 주목했다.
+>
+> 이 조합 자체는 James Forshaw 등의 기존 연구에서 이미 공개된 기법이다. 이 논문에서는 이를 JDSymlink라고 부르며, 파일 작업에서 어떤 동작 차이가 생기고 다른 설계 특성과 결합할 때 어떤 문제가 발생하는지 분석한다.
 
 비교 결과, JDSymlink에서는 ==orange:링크 추적 방지 옵션을 지정하고 파일을 열어도 대상 파일을 따라갔다.== 삭제와 이름 변경에서도 링크 자체가 아니라 링크가 가리키는 대상 파일에 작업이 적용됐다. 반면 비교한 리눅스 심볼릭 링크와 NTFS 심볼릭 링크에서는 해당 옵션으로 추적을 막거나, 삭제·이름 변경을 링크 자체에 적용할 수 있었다.
 
@@ -148,7 +164,9 @@ Firefox 업데이트 프로그램은 일반 권한과 SYSTEM 권한의 프로세
 
 문제는 해당 경로가 부모 디렉터리의 권한을 상속받아 일반 사용자도 링크를 조작할 여지가 있었다는 점이다. 공격은 다음 순서로 진행됐다.
 
-<div class="case-flow">
+<div class="case-flow llm-example" role="group" aria-label="Case 1 공격 흐름">
+
+**공격 흐름**
 
 1. 공격자가 작업용 경로를 더미 파일에 연결한다.
 
@@ -178,7 +196,9 @@ Firefox 업데이트 프로그램은 일반 권한과 SYSTEM 권한의 프로세
 
 두 번째 사례는 공격자가 이미 Firefox의 샌드박스 프로세스 안에서 코드를 실행할 수 있다는 가정에서 출발한다. 샌드박스는 일부 프로세스의 권한을 제한하는 장치인데, 조사한 환경에서는 권한 상속 때문에 일부 샌드박스 프로세스도 업데이트 상태 파일인 `update.status`를 읽을 수 있었다.
 
-<div class="case-flow">
+<div class="case-flow llm-example" role="group" aria-label="Case 2 공격 흐름">
+
+**공격 흐름**
 
 1. 공격자가 상태 파일을 먼저 열고 공유 모드를 제한한다.
 
@@ -204,7 +224,9 @@ Firefox 업데이트 프로그램은 일반 권한과 SYSTEM 권한의 프로세
 
 Chrome 업데이트 프로그램도 파일 작업의 위험을 고려해 사용자 권한으로 작업을 수행하는 impersonation을 적용하고 있었다. ==red:하지만 파일 이동이 실패하면 SYSTEM 권한으로 다시 시도하는 대체 처리가 있었다.==
 
-<div class="case-flow">
+<div class="case-flow llm-example" role="group" aria-label="Case 3 공격 흐름">
+
+**공격 흐름**
 
 1. 업데이트 프로그램이 Code Red 파일을 내려받는다.
 
@@ -234,7 +256,10 @@ Chrome 업데이트 프로그램도 파일 작업의 위험을 고려해 사용�
 
 360 Total Security 백신 사례에서는 권한 역전이 사용됐다. 공격자는 자신의 파일에 대해 접근 권한 목록을 수정할 수 있는 `WRITE_DAC` 권한을 가지고 있었다.
 
-<div class="case-flow">
+
+<div class="case-flow llm-example" role="group" aria-label="Case 4 공격 흐름">
+
+**공격 흐름**
 
 1. 공격자가 SYSTEM의 파일 접근을 거부하도록 설정한다.
 
@@ -253,6 +278,7 @@ Chrome 업데이트 프로그램도 파일 작업의 위험을 고려해 사용�
    `ERROR_ACCESS_DENIED`가 발생하고, 조사한 백신은 해당 파일을 읽어 검사하지 못한다.
 
 </div>
+
 
 저자들은 이 권한 설정으로 백신의 파일 검사를 방해할 수 있음을 확인했다.
 
@@ -517,8 +543,6 @@ RQ4의 개발자 조사 결과를 ==orange:모든 개발자의 인식 수준으�
 ### 이어서 읽어볼 논문
 
 #### [Pig in a Poke: Automatically Detecting and Exploiting Link Following Vulnerabilities in Windows File Operations](https://www.usenix.org/conference/usenixsecurity25/presentation/xiang-bocheng)
-
-심볼릭 링크를 중심적으로 다루는 연구이다. 이 연구에서는 LinkZard를 만들어 실제 취약점을 찾고 악용하는 과정을 자동화했다.
 
 이번 논문을 읽으며 링크 추적이 일어나는 시점을 분석해 취약점을 자동으로 찾을 수 있을지 궁금해졌다. LinkZard가 이를 어떤 방식으로 수행하는지 더 알아보고 싶다.
 

@@ -190,6 +190,9 @@
       />
     </span></p>
 <p><em>이미지 출처: <a href="https://tech.kakaopay.com/post/how-llm-works/">카카오페이 기술 블로그</a>에 실린 원본을 그대로 사용했다. 원출처: Vaswani et al., <a href="https://arxiv.org/html/1706.03762v7#S3.F1">Attention Is All You Need, Figure 1</a>.</em></p>
+<blockquote>
+<p>GPT-2는 이 그림의 오른쪽에서 Cross-Attention을 뺀 블록만 사용한다</p>
+</blockquote>
 <h4 id="141-인코딩--인코더-레이어" style="position:relative;"><a href="#141-%EC%9D%B8%EC%BD%94%EB%94%A9--%EC%9D%B8%EC%BD%94%EB%8D%94-%EB%A0%88%EC%9D%B4%EC%96%B4" aria-label="141 인코딩  인코더 레이어 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>1.4.1. 인코딩 — 인코더 레이어</h4>
 <p>입력 문장의 토큰들이 서로를 참고하도록 해서, 문맥이 반영된 벡터를 만든다.</p>
 <h5 id="1411-self-attention" style="position:relative;"><a href="#1411-self-attention" aria-label="1411 self attention permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>1.4.1.1. Self-Attention</h5>
@@ -420,39 +423,15 @@
 <h2 id="2-bpe-토크나이저와-입력-임베딩-구현" style="position:relative;"><a href="#2-bpe-%ED%86%A0%ED%81%AC%EB%82%98%EC%9D%B4%EC%A0%80%EC%99%80-%EC%9E%85%EB%A0%A5-%EC%9E%84%EB%B2%A0%EB%94%A9-%EA%B5%AC%ED%98%84" aria-label="2 bpe 토크나이저와 입력 임베딩 구현 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>2. BPE 토크나이저와 입력 임베딩 구현</h2>
 <p>전체 흐름을 살펴본 뒤, 문장을 토큰으로 나누고 입력 벡터를 만드는 과정을 직접 따라가 봤다. 먼저 한국어와 영어의 토큰 수를 비교하고, BPE의 병합 과정을 구현했다. 이어서 GPT-2의 토큰·위치 임베딩을 더해 다음 연산에 넣을 입력을 만들었다.</p>
 <h3 id="21-tiktoken으로-한국어영어-문장-토큰-수-비교" style="position:relative;"><a href="#21-tiktoken%EC%9C%BC%EB%A1%9C-%ED%95%9C%EA%B5%AD%EC%96%B4%EC%98%81%EC%96%B4-%EB%AC%B8%EC%9E%A5-%ED%86%A0%ED%81%B0-%EC%88%98-%EB%B9%84%EA%B5%90" aria-label="21 tiktoken으로 한국어영어 문장 토큰 수 비교 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>2.1. tiktoken으로 한국어·영어 문장 토큰 수 비교</h3>
-<p><a href="https://developers.openai.com/api/docs/guides/conversation-state#managing-context-for-text-generation">이 문서</a>에 따라 OpenAI의 tiktoken 라이브러리를 사용할 수 있는 <a href="https://platform.openai.com/tokenizer">tokenizer tool</a>에서 확인을 진행한다.</p>
-<p><a href="https://platform.openai.com/tokenizer">https://platform.openai.com/tokenizer</a></p>
+<p>뒤에서 사용할 GPT-2 토크나이저와 기준을 맞추기 위해, <strong>tiktoken의 <code class="language-text">gpt2</code> 인코딩</strong>으로 한국어와 영어의 토큰 수를 비교했다. 같은 문장도 인코딩에 따라 토큰 수가 달라지므로, 세 입력 모두 <code class="language-text">tiktoken.get_encoding("gpt2")</code>를 사용했다.</p>
+<p><code class="language-text">tiktoken</code>은 <code class="language-text">pip install tiktoken</code>으로 설치할 수 있다. 아래 결과는 tiktoken 0.14.0에서 확인했다. 각 문자열은 문장 사이의 빈 줄을 유지하고, 맨 앞뒤에는 추가 줄바꿈이나 공백을 넣지 않았다. 아래 세 문자열 정의와 2.1.4의 코드를 순서대로 실행하면 결과를 확인할 수 있다.</p>
 <h4 id="211-영어-토큰화" style="position:relative;"><a href="#211-%EC%98%81%EC%96%B4-%ED%86%A0%ED%81%B0%ED%99%94" aria-label="211 영어 토큰화 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>2.1.1. 영어 토큰화</h4>
-<p>입력어는 example에 명시되어있는 문장을 사용하였다.</p>
-<div class="gatsby-highlight" data-language="text"><pre class="language-text"><code class="language-text">Many words map to one token, but some don't: indivisible.
+<p>영어 입력은 <a href="https://platform.openai.com/tokenizer">OpenAI 웹 토크나이저</a>의 예시 문장을 그대로 사용했다.</p>
+<div class="gatsby-highlight" data-language="python"><pre class="language-python"><code class="language-python">english <span class="token operator">=</span> <span class="token triple-quoted-string string">"""Many words map to one token, but some don't: indivisible.
 
 Unicode characters like emojis may be split into many tokens containing the underlying bytes: 🤚🏾
 
-Sequences of characters commonly found next to each other may be grouped together: 1234567890</code></pre></div>
-<p><span
-      class="gatsby-resp-image-wrapper"
-      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; "
-    >
-      <span
-    class="gatsby-resp-image-background-image"
-    style="padding-bottom: 45.55555555555556%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAJCAYAAAAywQxIAAAACXBIWXMAABYlAAAWJQFJUiTwAAABwUlEQVQoz5WS227TQBRF8wnUdoNwnJnx/R57fGuIEwejqq2EimiFBBL//x0L2ZR3eFgazT6afba0Z3M8HhnHEakk0zQxzzN5niOlwnXd/2bT9z1lWeLs9pzPE7ppEHsHpQRSSsQbUix3gRQSIeQ6WwzUX5Ra2fgqpCga6rnichcylQlxeyEJT9S6YtYhl7wgPn0ibjvK84HrKWcoAyzTYmsZbE2D99stjuOwcYOI5O5CWg/UqeYQN8R9S9sUTF3KfEjQ1UCSn0i7hn46MPcJc55QJjlePRDqAUe62LbNxvdzhodvnJ8fGZ8eefg88/w08P3HVx6mhkJKVFrhOSl+FlIcfHSoaJRHGqeoqsPTHbaQ7BZD5QbE9UDc9cRVgR5Tqj6jaUsGnVCGEu0q/KJEeTl+FpMVPnWiyIMAL8iIZIYS/p+EQZky/nrl8vKFy/WR68sr9z/vabTPSYd8LAKOYbQu9ZOGtM3puoix8GnTjLDoyaIOV0XY9ocloaIdapS3W1uzbcnesTHNW94ZFjfmLTeWhWUY3FoGlmFivOnGopsG1qJbJrvdjs1SdRTG67cRQqxbluhLY3vHWc9/YTFb3v8GUlgGQlL0UGsAAAAASUVORK5CYII='); background-size: cover; display: block;"
-  ></span>
-  <img
-        class="gatsby-resp-image-image"
-        alt="결과"
-        title="결과"
-        src="/static/7eff9e2357fd8a8c66b4888f82a179ae/37523/chapter-2-image.png"
-        srcset="/static/7eff9e2357fd8a8c66b4888f82a179ae/e9ff0/chapter-2-image.png 180w,
-/static/7eff9e2357fd8a8c66b4888f82a179ae/f21e7/chapter-2-image.png 360w,
-/static/7eff9e2357fd8a8c66b4888f82a179ae/37523/chapter-2-image.png 720w,
-/static/7eff9e2357fd8a8c66b4888f82a179ae/302a4/chapter-2-image.png 1080w,
-/static/7eff9e2357fd8a8c66b4888f82a179ae/c65fa/chapter-2-image.png 1434w"
-        sizes="(max-width: 720px) 100vw, 720px"
-        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
-        loading="lazy"
-        decoding="async"
-      />
-    </span></p>
+Sequences of characters commonly found next to each other may be grouped together: 1234567890"""</span></code></pre></div>
 <table>
 <thead>
 <tr>
@@ -470,44 +449,17 @@ Sequences of characters commonly found next to each other may be grouped togethe
 <td align="right">252자</td>
 </tr>
 <tr>
-<td>토큰 수</td>
-<td align="right">53개</td>
+<td>토큰 수 (GPT-2)</td>
+<td align="right">64개</td>
 </tr>
 </tbody>
 </table>
 <h4 id="212-한글-토큰화-예시1" style="position:relative;"><a href="#212-%ED%95%9C%EA%B8%80-%ED%86%A0%ED%81%B0%ED%99%94-%EC%98%88%EC%8B%9C1" aria-label="212 한글 토큰화 예시1 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>2.1.2. 한글 토큰화 (예시1)</h4>
-<div class="gatsby-highlight" data-language="text"><pre class="language-text"><code class="language-text">보통 하나의 토큰으로 표현되는 단어들도 많지만, 분리불가능이라는 단어처럼 예외적으로 여러 토큰으로 나누어지는 경우들도 존재합니다.
+<div class="gatsby-highlight" data-language="python"><pre class="language-python"><code class="language-python">korean_1 <span class="token operator">=</span> <span class="token triple-quoted-string string">"""보통 하나의 토큰으로 표현되는 단어들도 많지만, 분리불가능이라는 단어처럼 예외적으로 여러 토큰으로 나누어지는 경우들도 존재합니다.
 
 이모지처럼 유니코드로 표현되는 문자들은 내부에서 바이트들의 조합으로 저장됩니다. 따라서 바이트들을 포함하는 여러 토큰으로 분리되기도 합니다: 🤚🏾
 
-서로 이웃해서 자주 등장하는 문자열들은 토큰화하는 과정에서 하나의 토큰으로 묶이기도 합니다. 대표적으로는 1234567890처럼 연속해서 나열되는 숫자들이 해당됩니다.</code></pre></div>
-<p><span
-      class="gatsby-resp-image-wrapper"
-      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; "
-    >
-      <span
-    class="gatsby-resp-image-background-image"
-    style="padding-bottom: 57.22222222222223%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAALCAYAAAB/Ca1DAAAACXBIWXMAABYlAAAWJQFJUiTwAAACdklEQVQoz5WOvU8TcRyHb1JoAY1Cueu9UAb6Ati36/Xu2v7urlew5VWixMHBgcXEydVJIE4Cg8bFmBhxMnFxUCHGjWhUnHwZ/AscVGR1egwtRh0dnnw+z/e7fCTP86hUKgwPD1MPQ4LAJ5NJk0gk2rf/RbKsEul0BiUex3Vs0qkMg3IcTdcxDAPdMP7JocP+2//+HYyQRlI5zs9XOTMRYk+dY2GhwsWWQAQtvNMOs3aBYslnWlhUayGj9iTNoETTsSkWJzFDm+mgQM4WqLqBpBtJrMI45VyWUdNn1Crii3GKIwlO9seIxWIMDAwQV2RkWWFQVtpdkTsuK3LbB2UZVVWRUmNZ5qbrzHkVHL/JosjTEE0sb46ZeY8LLYdWY4qCO0FQzxOIKqfyDcphlbozRiNbIG9PYAkXI2EgZVIJmuVx8kWXdEFQL6dxcyXGHIuwkkRYJnZVIMuxDoMHq1SUuIIal1EPlioqsqJ0FibTWaqhx5TvUPHqeFMBM77JolvG9Obxgyozwsasn8UJGzRbJdycg1Pz8P0amWwdq1hG2CkMXUcqJJNMOjUs32U6MAkdgSOqzNZMLHeCSujQEiYFu0m55uMEORKajqZpGLqGqg2hazqGHkfXNCRF0xkeSdHTd5xjJ/o5EolyNNLDkWgv3dEoXZFejh727mhP2yO9fUR7jx1mh65IlJP9/UhXLy/x8OZ17t24xv215Tab6ytsbqx2cr3jnfsymxsr3D/0dq6vcm9tmUd3b3Hl0hLS4zsb/Hz/gq9vnrK3u8X310/Ye7vF3u52h7fP2Hv3/M9vd5sfH3bY//iS/U8HvOLb+x348pkHt9f5BYbRhg8SMqzLAAAAAElFTkSuQmCC'); background-size: cover; display: block;"
-  ></span>
-  <img
-        class="gatsby-resp-image-image"
-        alt="결과"
-        title="결과"
-        src="/static/3f1f01490c5ead2e2975d1fdcbdf30f9/37523/chapter-2-image-2.png"
-        srcset="/static/3f1f01490c5ead2e2975d1fdcbdf30f9/e9ff0/chapter-2-image-2.png 180w,
-/static/3f1f01490c5ead2e2975d1fdcbdf30f9/f21e7/chapter-2-image-2.png 360w,
-/static/3f1f01490c5ead2e2975d1fdcbdf30f9/37523/chapter-2-image-2.png 720w,
-/static/3f1f01490c5ead2e2975d1fdcbdf30f9/302a4/chapter-2-image-2.png 1080w,
-/static/3f1f01490c5ead2e2975d1fdcbdf30f9/2a08f/chapter-2-image-2.png 1422w"
-        sizes="(max-width: 720px) 100vw, 720px"
-        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
-        loading="lazy"
-        decoding="async"
-      />
-    </span></p>
-<blockquote>
-<p>한국어는 글자 하나가 여러 토큰으로 나뉠 수 있다. ‘묶’이 ��로 표시된 이유다.</p>
-</blockquote>
+서로 이웃해서 자주 등장하는 문자열들은 토큰화하는 과정에서 하나의 토큰으로 묶이기도 합니다. 대표적으로는 1234567890처럼 연속해서 나열되는 숫자들이 해당됩니다."""</span></code></pre></div>
 <table>
 <thead>
 <tr>
@@ -529,41 +481,17 @@ Sequences of characters commonly found next to each other may be grouped togethe
 <td align="right">499자</td>
 </tr>
 <tr>
-<td>토큰 수</td>
-<td align="right">133개</td>
+<td>토큰 수 (GPT-2)</td>
+<td align="right">550개</td>
 </tr>
 </tbody>
 </table>
 <h4 id="213-한글-토큰화-예시2" style="position:relative;"><a href="#213-%ED%95%9C%EA%B8%80-%ED%86%A0%ED%81%B0%ED%99%94-%EC%98%88%EC%8B%9C2" aria-label="213 한글 토큰화 예시2 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>2.1.3. 한글 토큰화 (예시2)</h4>
-<div class="gatsby-highlight" data-language="text"><pre class="language-text"><code class="language-text">많은 단어는 한 토큰이 되나, 늘 그런 건 아니다. 한 예가 바로 분리불가능이다.
+<div class="gatsby-highlight" data-language="python"><pre class="language-python"><code class="language-python">korean_2 <span class="token operator">=</span> <span class="token triple-quoted-string string">"""많은 단어는 한 토큰이 되나, 늘 그런 건 아니다. 한 예가 바로 분리불가능이다.
 
 이모지 등 유니코드 글자는 그 속 바이트가 여러 토큰에 나뉘어 담길 수 있다: 🤚🏾
 
-또 자주 함께 오는 글자의 묶음은 한 토큰이 될 수 있다: 1234567890</code></pre></div>
-<p><span
-      class="gatsby-resp-image-wrapper"
-      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; "
-    >
-      <span
-    class="gatsby-resp-image-background-image"
-    style="padding-bottom: 48.888888888888886%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAABYlAAAWJQFJUiTwAAACLElEQVQoz12RS2sTURiG8xNqbpO5X9ImJjOTuWUymUzaBq8Igit3Llz6exq16M7U2p17QRusN6grLaWKiJc/4NK0m0cyDYW6eHifc76PFw6nkGUZlmkSxzGj0YggDDFNM78zTSvnnFsmpmXlO4ZpYBgmhmGcUQijLkKtRr/XI00zVEVGVnVkVUVTZTRVQVI0VE3JXZYVVEVC09S89H8K/cQl8QJaQUzac2gHKQO/ycB1uehm2HaXtbBBYPew/S6rWYQfr9FsOVSFCpIoIUkSoiiiaRqFyLfpuB4dv4PveTiBT99Zxrd92k5IaNvEbhvfC3H8iCRqY3d6rDgejZU6glBDEIQcVVUpxG5IK4oZdNu0nAFx2iJtN2j668Rdmythg46X0B/1SLIh/aCJ73VxsiFXL69TE6XzhcNoGT9ZZaU1pJu6XO95JMMRl8I6XX+An3a45jZwnYhk1eVGElG3likuLVEslqjVajnzwvzJdquBYVrouommq1i6mv+WqSnomo6uK1iqki8bhkZd11BkJS+RRPGscE5e6HgBoiQjyTLlisCFUoVSuUKxUqVUmXt14dVTL1dyL1cFyvNcUCqVkRWFwt5kg5dPxryajNmdbDDdGjPd3mT69AHTrfsLxqc5Wcy2H57Odx4xfbbJ7s5jPr54zu1bNynwfZ+/h284/vKe2eFrZkdvOT56d3qe+9cPZz473OP42z4nvw84+fV5kQfMfnyCPz+5d/cO/wDZhmZ0Zc3pdAAAAABJRU5ErkJggg=='); background-size: cover; display: block;"
-  ></span>
-  <img
-        class="gatsby-resp-image-image"
-        alt="결과"
-        title="결과"
-        src="/static/3af1216a825ed0985da0b0bd79bbe5cb/37523/chapter-2-image-1.png"
-        srcset="/static/3af1216a825ed0985da0b0bd79bbe5cb/e9ff0/chapter-2-image-1.png 180w,
-/static/3af1216a825ed0985da0b0bd79bbe5cb/f21e7/chapter-2-image-1.png 360w,
-/static/3af1216a825ed0985da0b0bd79bbe5cb/37523/chapter-2-image-1.png 720w,
-/static/3af1216a825ed0985da0b0bd79bbe5cb/302a4/chapter-2-image-1.png 1080w,
-/static/3af1216a825ed0985da0b0bd79bbe5cb/0c3d0/chapter-2-image-1.png 1414w"
-        sizes="(max-width: 720px) 100vw, 720px"
-        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
-        loading="lazy"
-        decoding="async"
-      />
-    </span></p>
+또 자주 함께 오는 글자의 묶음은 한 토큰이 될 수 있다: 1234567890"""</span></code></pre></div>
 <table>
 <thead>
 <tr>
@@ -585,12 +513,29 @@ Sequences of characters commonly found next to each other may be grouped togethe
 <td align="right">252자</td>
 </tr>
 <tr>
-<td>토큰 수</td>
-<td align="right">85개</td>
+<td>토큰 수 (GPT-2)</td>
+<td align="right">255개</td>
 </tr>
 </tbody>
 </table>
 <h4 id="214-세-예시의-결과-비교" style="position:relative;"><a href="#214-%EC%84%B8-%EC%98%88%EC%8B%9C%EC%9D%98-%EA%B2%B0%EA%B3%BC-%EB%B9%84%EA%B5%90" aria-label="214 세 예시의 결과 비교 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>2.1.4. 세 예시의 결과 비교</h4>
+<p>앞에서 정의한 세 문자열을 같은 인코딩으로 토큰화했다. <code class="language-text">encode()</code>가 반환하는 토큰 ID 목록의 길이가 토큰 수다.</p>
+<div class="gatsby-highlight" data-language="python"><pre class="language-python"><code class="language-python"><span class="token keyword">import</span> tiktoken
+
+encoding <span class="token operator">=</span> tiktoken<span class="token punctuation">.</span>get_encoding<span class="token punctuation">(</span><span class="token string">"gpt2"</span><span class="token punctuation">)</span>
+texts <span class="token operator">=</span> <span class="token punctuation">{</span>
+    <span class="token string">"영어"</span><span class="token punctuation">:</span> english<span class="token punctuation">,</span>
+    <span class="token string">"한국어 예시 1"</span><span class="token punctuation">:</span> korean_1<span class="token punctuation">,</span>
+    <span class="token string">"한국어 예시 2"</span><span class="token punctuation">:</span> korean_2<span class="token punctuation">,</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">for</span> name<span class="token punctuation">,</span> text <span class="token keyword">in</span> texts<span class="token punctuation">.</span>items<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    token_ids <span class="token operator">=</span> encoding<span class="token punctuation">.</span>encode<span class="token punctuation">(</span>text<span class="token punctuation">)</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"</span><span class="token interpolation"><span class="token punctuation">{</span>name<span class="token punctuation">}</span></span><span class="token string">: </span><span class="token interpolation"><span class="token punctuation">{</span><span class="token builtin">len</span><span class="token punctuation">(</span>token_ids<span class="token punctuation">)</span><span class="token punctuation">}</span></span><span class="token string">개"</span></span><span class="token punctuation">)</span></code></pre></div>
+<p>실행 결과는 다음과 같다.</p>
+<div class="gatsby-highlight" data-language="text"><pre class="language-text"><code class="language-text">영어: 64개
+한국어 예시 1: 550개
+한국어 예시 2: 255개</code></pre></div>
 <p>앞의 세 예시를 한 표로 모아 비교하였다. 단어 수는 공백을 기준으로 세었으며, 한국어에서는 어절 수에 해당한다.</p>
 <div class="bpe-comparison-table" role="region" aria-label="영어와 한국어 두 예시의 토큰화 결과 비교" tabindex="0">
 <table>
@@ -628,45 +573,46 @@ Sequences of characters commonly found next to each other may be grouped togethe
 <td align="right">306</td>
 </tr>
 <tr>
-<td><strong>토큰 수</strong></td>
-<td align="right"><strong>53개</strong></td>
-<td align="right"><strong>133개</strong></td>
-<td align="right"><strong>85개</strong></td>
+<td><strong>토큰 수 (GPT-2)</strong></td>
+<td align="right"><strong>64개</strong></td>
+<td align="right"><strong>550개</strong></td>
+<td align="right"><strong>255개</strong></td>
 </tr>
 <tr>
 <td>원문 100자당 토큰 수</td>
-<td align="right">21.0개</td>
-<td align="right">52.8개</td>
-<td align="right">60.7개</td>
+<td align="right">25.4개</td>
+<td align="right">218.3개</td>
+<td align="right">182.1개</td>
 </tr>
 <tr>
 <td>영어 대비 전체 토큰 수</td>
 <td align="right">1.00배</td>
-<td align="right">2.51배</td>
-<td align="right">1.60배</td>
+<td align="right">8.59배</td>
+<td align="right">3.98배</td>
 </tr>
 </tbody>
 </table>
 </div>
-<p>글자 수는 사이트와 같은 UTF-16 단위로 계산하였다. 공백과 줄바꿈을 포함하고, 이모지 <code class="language-text">🤚🏾</code>는 4자로 센다. 비율은 소수점 둘째 자리, 100자당 토큰 수는 소수점 첫째 자리까지 반올림하였다.</p>
+<p>글자 수는 UTF-16 단위로 계산하였다. Python에서는 <code class="language-text">len(text.encode("utf-16-le")) // 2</code>로 센 값이다. 공백과 줄바꿈을 포함하고, 이모지 <code class="language-text">🤚🏾</code>는 4자로 센다. 비율은 소수점 둘째 자리, 100자당 토큰 수는 소수점 첫째 자리까지 반올림하였다.</p>
 <div class="bpe-token-comparison">
 <figure aria-labelledby="bpe-total-title">
-<figcaption id="bpe-total-title">전체 토큰 수 <span>단위: 개</span></figcaption>
-<div class="bpe-bar-row"><span class="bpe-bar-label">영어</span><span class="bpe-bar-track"><span class="bpe-bar-fill" style="width:35.3333%"></span></span><strong>53</strong></div>
-<div class="bpe-bar-row"><span class="bpe-bar-label">한국어 1</span><span class="bpe-bar-track"><span class="bpe-bar-fill" style="width:88.6667%"></span></span><strong>133</strong></div>
-<div class="bpe-bar-row"><span class="bpe-bar-label">한국어 2</span><span class="bpe-bar-track"><span class="bpe-bar-fill" style="width:56.6667%"></span></span><strong>85</strong></div>
-<div class="bpe-bar-axis" aria-hidden="true"><span>0</span><span>50</span><span>100</span><span>150</span></div>
+<figcaption id="bpe-total-title">전체 토큰 수 (GPT-2) <span>단위: 개</span></figcaption>
+<div class="bpe-bar-row"><span class="bpe-bar-label">영어</span><span class="bpe-bar-track"><span class="bpe-bar-fill" style="width:10.6667%"></span></span><strong>64</strong></div>
+<div class="bpe-bar-row"><span class="bpe-bar-label">한국어 1</span><span class="bpe-bar-track"><span class="bpe-bar-fill" style="width:91.6667%"></span></span><strong>550</strong></div>
+<div class="bpe-bar-row"><span class="bpe-bar-label">한국어 2</span><span class="bpe-bar-track"><span class="bpe-bar-fill" style="width:42.5%"></span></span><strong>255</strong></div>
+<div class="bpe-bar-axis" aria-hidden="true"><span>0</span><span>200</span><span>400</span><span>600</span></div>
 <p class="bpe-chart-note">각 문장 전체를 입력했을 때의 결과다. 원문 길이는 각각 252자, 252자, 140자로 다르다.</p>
 </figure>
 <figure aria-labelledby="bpe-density-title">
 <figcaption id="bpe-density-title">원문 100자당 토큰 수 <span>단위: 개</span></figcaption>
-<div class="bpe-bar-row"><span class="bpe-bar-label">영어</span><span class="bpe-bar-track"><span class="bpe-bar-fill" style="width:30.0454%"></span></span><strong>21.0</strong></div>
-<div class="bpe-bar-row"><span class="bpe-bar-label">한국어 1</span><span class="bpe-bar-track"><span class="bpe-bar-fill" style="width:75.3968%"></span></span><strong>52.8</strong></div>
-<div class="bpe-bar-row"><span class="bpe-bar-label">한국어 2</span><span class="bpe-bar-track"><span class="bpe-bar-fill" style="width:86.7347%"></span></span><strong>60.7</strong></div>
-<div class="bpe-bar-axis" aria-hidden="true"><span>0</span><span>35</span><span>70</span></div>
+<div class="bpe-bar-row"><span class="bpe-bar-label">영어</span><span class="bpe-bar-track"><span class="bpe-bar-fill" style="width:10.1587%"></span></span><strong>25.4</strong></div>
+<div class="bpe-bar-row"><span class="bpe-bar-label">한국어 1</span><span class="bpe-bar-track"><span class="bpe-bar-fill" style="width:87.3016%"></span></span><strong>218.3</strong></div>
+<div class="bpe-bar-row"><span class="bpe-bar-label">한국어 2</span><span class="bpe-bar-track"><span class="bpe-bar-fill" style="width:72.8571%"></span></span><strong>182.1</strong></div>
+<div class="bpe-bar-axis" aria-hidden="true"><span>0</span><span>125</span><span>250</span></div>
 <p class="bpe-chart-note">토큰 수 ÷ 원문 글자 수 × 100으로 계산했다. 자모 분리 후 길이는 분모로 사용하지 않았다.</p>
 </figure>
 </div>
+<p>이번 GPT-2 인코딩에서는 한국어 예시 1과 2가 영어보다 각각 약 8.59배, 3.98배 많은 토큰으로 나뉘었다. 토큰은 글자 단위와 일치하지 않으므로, 한국어 예시처럼 글자 수보다 토큰 수가 많아질 수도 있다. 다만 세 입력은 길이와 표현이 서로 다르므로, 전체 토큰 수 차이를 언어의 차이만으로 설명할 수는 없다.</p>
 <h3 id="22-bpe-구현" style="position:relative;"><a href="#22-bpe-%EA%B5%AC%ED%98%84" aria-label="22 bpe 구현 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>2.2. BPE 구현</h3>
 <p>앞에서는 기존 토크나이저가 문장을 어떻게 나누는지 확인했다. 이번에는 <a href="https://huggingface.co/learn/llm-course/chapter6/5">Hugging Face의 BPE 설명</a>을 참고해, 자주 등장하는 토큰 쌍을 찾아 합치는 과정을 직접 구현했다.</p>
 <p>구현의 흐름은 다음과 같다.</p>
@@ -677,7 +623,6 @@ Sequences of characters commonly found next to each other may be grouped togethe
 <p>여기서는 <strong>문자 기반 BPE</strong>를 구현한다. 앞에서 사용한 <code class="language-text">tiktoken</code>의 byte-level BPE처럼 바이트에서 시작하는 구현과는 시작 단위가 다르다.</p>
 <h4 id="221-학습할-텍스트-가져오기" style="position:relative;"><a href="#221-%ED%95%99%EC%8A%B5%ED%95%A0-%ED%85%8D%EC%8A%A4%ED%8A%B8-%EA%B0%80%EC%A0%B8%EC%98%A4%EA%B8%B0" aria-label="221 학습할 텍스트 가져오기 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>2.2.1. 학습할 텍스트 가져오기</h4>
 <p>처음에는 같은 문장이 반복되는 짧은 예시를 사용했다. 서로 다른 단어가 91개뿐이어서, 학습에 사용한 문장을 다시 넣으면 단어 전체가 토큰이 되는 경우가 많았다. 더 다양한 문장을 사용하기 위해 <a href="https://www.gutenberg.org/ebooks/48320">Project Gutenberg의 『셜록 홈스의 모험』</a> 텍스트로 바꿨다.</p>
-<p><a href="/61a03719a8e1350b60b87df7d1fdd217/chapter-2-sherlock_holmes.txt">학습에 사용한 텍스트 파일 내려받기</a></p>
 <p>구텐베르크의 배포 안내문은 제외하고 책 텍스트를 파일로 저장했다. 표지·목차·삽화 설명은 포함되어 있다. 다음 코드는 파일을 읽은 뒤 줄바꿈과 연속 공백을 공백 하나로 정리한다.</p>
 <div class="gatsby-highlight" data-language="python"><pre class="language-python"><code class="language-python"><span class="token keyword">from</span> pathlib <span class="token keyword">import</span> Path
 
@@ -760,26 +705,12 @@ pre_tokenizer_word_frequency</code></pre></div>
 </tbody>
 </table>
 </div>
-<h4 id="223-초기-어휘와-병합-후보-만들기" style="position:relative;"><a href="#223-%EC%B4%88%EA%B8%B0-%EC%96%B4%ED%9C%98%EC%99%80-%EB%B3%91%ED%95%A9-%ED%9B%84%EB%B3%B4-%EB%A7%8C%EB%93%A4%EA%B8%B0" aria-label="223 초기 어휘와 병합 후보 만들기 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>2.2.3. 초기 어휘와 병합 후보 만들기</h4>
+<h4 id="223-초기-어휘-만들기" style="position:relative;"><a href="#223-%EC%B4%88%EA%B8%B0-%EC%96%B4%ED%9C%98-%EB%A7%8C%EB%93%A4%EA%B8%B0" aria-label="223 초기 어휘 만들기 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>2.2.3. 초기 어휘 만들기</h4>
 <p>초기 어휘는 텍스트에 등장한 서로 다른 문자로 구성했다. <code class="language-text">set</code>은 중복을 제거하지만 순서를 보장하지 않으므로, 이 목록에 표시되는 문자 순서는 학습 순서와 관계없다.</p>
 <p>현재 코드의 초기 어휘에는 공백도 포함되지만, 단어를 공백으로 먼저 분리하므로 단어 사이를 합치는 데 사용하지는 않는다.</p>
-<div class="gatsby-highlight" data-language="python"><pre class="language-python"><code class="language-python"><span class="token comment">#base_vocabulary 초기화</span>
+<div class="gatsby-highlight" data-language="python"><pre class="language-python"><code class="language-python"><span class="token comment"># 초기 어휘 만들기</span>
 base_vocabulary <span class="token operator">=</span> <span class="token builtin">list</span><span class="token punctuation">(</span><span class="token builtin">set</span><span class="token punctuation">(</span>text<span class="token punctuation">)</span><span class="token punctuation">)</span>
-base_vocabulary
-
-<span class="token comment">#symbol 만들기 함수</span>
-
-<span class="token keyword">def</span> <span class="token function">make_symbol</span><span class="token punctuation">(</span>base_vocabulary<span class="token punctuation">:</span><span class="token builtin">list</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token builtin">dict</span><span class="token punctuation">[</span><span class="token builtin">str</span><span class="token punctuation">,</span> <span class="token builtin">tuple</span><span class="token punctuation">]</span><span class="token punctuation">:</span>
-    symbols <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
-    <span class="token keyword">for</span> first_text <span class="token keyword">in</span> base_vocabulary<span class="token punctuation">:</span>
-        <span class="token keyword">for</span> second_text <span class="token keyword">in</span> base_vocabulary<span class="token punctuation">:</span>
-            symbols<span class="token punctuation">[</span>first_text<span class="token operator">+</span>second_text<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">(</span>first_text<span class="token punctuation">,</span> second_text<span class="token punctuation">)</span>
-    <span class="token keyword">return</span> symbols
-
-symbols <span class="token operator">=</span> make_symbol<span class="token punctuation">(</span>base_vocabulary<span class="token punctuation">)</span>
-symbols</code></pre></div>
-<p><code class="language-text">make_symbol()</code>은 현재 어휘의 토큰 두 개를 이어 붙여 후보 문자열을 만든다. 이 딕셔너리는 후보 문자열이 존재하는지 확인할 때 사용한다. <strong>실제로 어떤 두 토큰을 병합할지는 현재 단어의 인접 쌍을 튜플로 따로 저장해 결정한다.</strong></p>
-<p>어휘가 커지면 모든 조합을 만드는 비용도 커진다. 현재는 동작을 확인하기 위한 구현으로 두었고, 실제 학습에 등장한 인접 쌍만 후보로 모으는 최적화는 적용하지 않았다.</p>
+base_vocabulary</code></pre></div>
 <h4 id="224-선택한-토큰-쌍-하나만-병합하기" style="position:relative;"><a href="#224-%EC%84%A0%ED%83%9D%ED%95%9C-%ED%86%A0%ED%81%B0-%EC%8C%8D-%ED%95%98%EB%82%98%EB%A7%8C-%EB%B3%91%ED%95%A9%ED%95%98%EA%B8%B0" aria-label="224 선택한 토큰 쌍 하나만 병합하기 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>2.2.4. 선택한 토큰 쌍 하나만 병합하기</h4>
 <p>병합 함수는 현재 단어 빈도와 <code class="language-text">selected_pair</code>를 받는다. 어휘에 있는 토큰을 전부 찾아 합치는 대신, 전달받은 쌍과 정확히 일치하는 위치만 합친다.</p>
 <div class="gatsby-highlight" data-language="python"><pre class="language-python"><code class="language-python"><span class="token comment">#word_frequency 재구성</span>
@@ -816,20 +747,18 @@ word_frequency</code></pre></div>
 </div>
 <p>여기서 <code class="language-text">score</code>는 해당 단어의 등장 횟수다. 토큰을 합쳐도 단어가 등장한 횟수는 바뀌지 않으므로 결과 딕셔너리에 그대로 옮긴다. 학습을 시작할 때는 원본 빈도 딕셔너리를 복사해 <code class="language-text">word_frequency</code>로 사용한다.</p>
 <h4 id="225-인접한-쌍의-빈도-계산하기" style="position:relative;"><a href="#225-%EC%9D%B8%EC%A0%91%ED%95%9C-%EC%8C%8D%EC%9D%98-%EB%B9%88%EB%8F%84-%EA%B3%84%EC%82%B0%ED%95%98%EA%B8%B0" aria-label="225 인접한 쌍의 빈도 계산하기 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>2.2.5. 인접한 쌍의 빈도 계산하기</h4>
-<p>병합할 쌍을 고르기 위해 현재 토큰 튜플을 순회한다. 단어가 여러 번 등장했다면 그 횟수만큼 쌍의 빈도를 더한다.</p>
-<div class="gatsby-highlight" data-language="python"><pre class="language-python"><code class="language-python"><span class="token keyword">def</span> <span class="token function">score_symbol</span><span class="token punctuation">(</span>word_frequency<span class="token punctuation">:</span><span class="token builtin">dict</span><span class="token punctuation">[</span><span class="token builtin">tuple</span><span class="token punctuation">,</span> <span class="token builtin">int</span><span class="token punctuation">]</span><span class="token punctuation">,</span> symbols<span class="token punctuation">:</span><span class="token builtin">dict</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+<p>현재 단어에 실제로 등장하는 인접 쌍만 세어 병합 후보로 삼는다. 단어가 여러 번 등장했다면 그 횟수만큼 쌍의 빈도를 더한다.</p>
+<div class="gatsby-highlight" data-language="python"><pre class="language-python"><code class="language-python"><span class="token keyword">def</span> <span class="token function">score_symbol</span><span class="token punctuation">(</span>word_frequency<span class="token punctuation">:</span> <span class="token builtin">dict</span><span class="token punctuation">[</span><span class="token builtin">tuple</span><span class="token punctuation">,</span> <span class="token builtin">int</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
     scores <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
-    <span class="token keyword">for</span> words<span class="token punctuation">,</span> score <span class="token keyword">in</span> word_frequency<span class="token punctuation">.</span>items<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
-        <span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token builtin">len</span><span class="token punctuation">(</span>words<span class="token punctuation">)</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
-            pair <span class="token operator">=</span> <span class="token punctuation">(</span>words<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">,</span> words<span class="token punctuation">[</span>i<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
-            sum_text <span class="token operator">=</span> words<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">+</span> words<span class="token punctuation">[</span>i<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">]</span>
-            <span class="token keyword">if</span> sum_text <span class="token keyword">in</span> symbols<span class="token punctuation">.</span>keys<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
-                scores<span class="token punctuation">[</span>pair<span class="token punctuation">]</span> <span class="token operator">=</span> scores<span class="token punctuation">.</span>get<span class="token punctuation">(</span>pair<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token operator">+</span> score
+    <span class="token keyword">for</span> words<span class="token punctuation">,</span> frequency <span class="token keyword">in</span> word_frequency<span class="token punctuation">.</span>items<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token builtin">len</span><span class="token punctuation">(</span>words<span class="token punctuation">)</span> <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+            pair <span class="token operator">=</span> <span class="token punctuation">(</span>words<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">,</span> words<span class="token punctuation">[</span>i <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+            scores<span class="token punctuation">[</span>pair<span class="token punctuation">]</span> <span class="token operator">=</span> scores<span class="token punctuation">.</span>get<span class="token punctuation">(</span>pair<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token operator">+</span> frequency
     <span class="token keyword">return</span> scores
 
-scores <span class="token operator">=</span> score_symbol<span class="token punctuation">(</span>word_frequency<span class="token punctuation">,</span> symbols<span class="token punctuation">)</span>
+scores <span class="token operator">=</span> score_symbol<span class="token punctuation">(</span>word_frequency<span class="token punctuation">)</span>
 <span class="token builtin">sorted</span><span class="token punctuation">(</span>scores<span class="token punctuation">.</span>items<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> key<span class="token operator">=</span><span class="token keyword">lambda</span> x<span class="token punctuation">:</span> x<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">,</span> reverse<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">)</span></code></pre></div>
-<p><code class="language-text">pair</code>는 실제로 이웃한 두 토큰이고, <code class="language-text">sum_text</code>는 둘을 합친 문자열이다. 점수 딕셔너리의 키에는 문자열 대신 <code class="language-text">pair</code>를 사용했다. <code class="language-text">("ab", "c")</code>와 <code class="language-text">("a", "bc")</code>는 합친 문자열이 모두 <code class="language-text">"abc"</code>이지만 서로 다른 병합 규칙이기 때문이다.</p>
+<p><code class="language-text">pair</code>는 실제로 이웃한 두 토큰이다. 점수 딕셔너리의 키에는 합친 문자열 대신 <code class="language-text">pair</code>를 사용했다. <code class="language-text">("ab", "c")</code>와 <code class="language-text">("a", "bc")</code>는 합친 문자열이 모두 <code class="language-text">"abc"</code>이지만 서로 다른 병합 규칙이기 때문이다.</p>
 <p>빈도를 셀 때는 겹치는 인접 위치도 모두 확인한다. 예를 들어 <code class="language-text">("a", "a", "a", "a")</code>가 2번 등장했다면 <code class="language-text">("a", "a")</code>의 빈도는 <code class="language-text">3 × 2 = 6</code>이다. 앞의 병합 함수에서 두 번 합치는 것과는 세는 기준이 다르다.</p>
 <p>이번 문서의 초기 쌍 빈도 상위 항목은 다음과 같았다.</p>
 <table>
@@ -879,8 +808,7 @@ update_base_vocab<span class="token punctuation">(</span>new<span class="token p
 <div class="gatsby-highlight" data-language="python"><pre class="language-python"><code class="language-python">merges <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
 
 <span class="token keyword">while</span> <span class="token boolean">True</span><span class="token punctuation">:</span>
-    symbols <span class="token operator">=</span> make_symbol<span class="token punctuation">(</span>base_vocabulary<span class="token punctuation">)</span>
-    scores <span class="token operator">=</span> score_symbol<span class="token punctuation">(</span>word_frequency<span class="token punctuation">,</span> symbols<span class="token punctuation">)</span>
+    scores <span class="token operator">=</span> score_symbol<span class="token punctuation">(</span>word_frequency<span class="token punctuation">)</span>
     <span class="token keyword">if</span> <span class="token keyword">not</span> scores<span class="token punctuation">:</span>
         <span class="token keyword">break</span>
     selected_pair <span class="token operator">=</span> <span class="token builtin">sorted</span><span class="token punctuation">(</span>scores<span class="token punctuation">.</span>items<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> key<span class="token operator">=</span><span class="token keyword">lambda</span> x<span class="token punctuation">:</span> x<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">,</span> reverse<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span>
@@ -1014,7 +942,6 @@ tokens <span class="token operator">=</span> tokenize<span class="token punctuat
 <h4 id="231-gpt-2의-토크나이저를-사용하는-이유" style="position:relative;"><a href="#231-gpt-2%EC%9D%98-%ED%86%A0%ED%81%AC%EB%82%98%EC%9D%B4%EC%A0%80%EB%A5%BC-%EC%82%AC%EC%9A%A9%ED%95%98%EB%8A%94-%EC%9D%B4%EC%9C%A0" aria-label="231 gpt 2의 토크나이저를 사용하는 이유 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>2.3.1. GPT-2의 토크나이저를 사용하는 이유</h4>
 <p>앞에서는 BPE의 병합 과정을 이해하기 위해 토크나이저를 직접 구현했다. 임베딩 과정에서는 <strong>GPT-2의 토크나이저와 임베딩 테이블을 함께 사용</strong>하기로 했다.</p>
 <p>GPT-2의 토큰 임베딩 테이블은 <strong>50,257개 토큰</strong>을 다루지만, 내가 만든 BPE의 어휘는 <strong>800개</strong>다. 또한 내 구현은 문자를 시작 단위로 삼아 문자열을 합치는 문자 기반 BPE다. <a href="https://huggingface.co/docs/transformers/en/model_doc/gpt2#transformers.GPT2Tokenizer">GPT-2의 토크나이저</a>는 UTF-8 바이트를 시작 단위로 사용하는 byte-level BPE이므로, 토큰을 구성하는 기준도 다르다.</p>
-<p>현재 구현으로 어휘를 50,257개까지 늘리려면 많은 시간이 필요하다. 병합할 때마다 현재 어휘의 모든 토큰 쌍으로 후보를 만들고, 단어들을 순회하며 빈도를 다시 계산하기 때문이다. 어휘가 커질수록 후보를 구성하는 비용도 커진다.</p>
 <p>어휘 수를 같게 늘리더라도 같은 ID가 같은 토큰을 가리키는 것은 아니다. 임베딩 테이블의 각 행은 GPT-2의 토큰 ID에 맞춰 학습되어 있으므로, 이번에는 <strong>그 테이블과 대응하는 GPT-2 토큰 ID를 그대로 사용</strong>한다.</p>
 <h4 id="232-gpt-2의-두-임베딩-표-가져오기" style="position:relative;"><a href="#232-gpt-2%EC%9D%98-%EB%91%90-%EC%9E%84%EB%B2%A0%EB%94%A9-%ED%91%9C-%EA%B0%80%EC%A0%B8%EC%98%A4%EA%B8%B0" aria-label="232 gpt 2의 두 임베딩 표 가져오기 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>2.3.2. GPT-2의 두 임베딩 표 가져오기</h4>
 <p>임베딩 표는 토큰마다 벡터 하나를 행으로 저장한 배열이다. <mark class="text-highlight" data-highlight-color="blue" style="--highlight-light: #d5e8fa; --highlight-dark: #2e4b65;">토큰 ID는 이 배열에서 어느 행을 꺼낼지 알려주는 번호</mark>이다.</p>
@@ -1132,6 +1059,7 @@ x <span class="token operator">=</span> token_vectors <span class="token operato
 </table>
 <p>문장 전체가 벡터 하나로 합쳐지는 것은 아니다. <strong>토큰마다 벡터 하나가 남아 있는 <code class="language-text">(10, 768)</code> 행렬</strong>이 다음 계산의 입력이 된다.</p>
 <h4 id="236-토큰-임베딩을-2차원으로-표시하기" style="position:relative;"><a href="#236-%ED%86%A0%ED%81%B0-%EC%9E%84%EB%B2%A0%EB%94%A9%EC%9D%84-2%EC%B0%A8%EC%9B%90%EC%9C%BC%EB%A1%9C-%ED%91%9C%EC%8B%9C%ED%95%98%EA%B8%B0" aria-label="236 토큰 임베딩을 2차원으로 표시하기 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>2.3.6. 토큰 임베딩을 2차원으로 표시하기</h4>
+<p>앞에서 사용한 <code class="language-text">The European languages are members of the same family.</code>의 10개 토큰 임베딩을 <mark class="text-highlight" data-highlight-color="blue" style="--highlight-light: #d5e8fa; --highlight-dark: #2e4b65;">PCA(주성분 분석)로 768차원에서 2차원으로 줄였다.</mark> PCA는 벡터들이 넓게 퍼져 있는 방향을 찾아 축으로 삼는 방법이며, 이 그림은 위치 임베딩을 더하기 전의 벡터를 표시한다.</p>
 <p><span
       class="gatsby-resp-image-wrapper"
       style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; "
@@ -1157,6 +1085,7 @@ x <span class="token operator">=</span> token_vectors <span class="token operato
         decoding="async"
       />
     </span></p>
+<p>그림에서는 <code class="language-text">Ġthe</code>와 <code class="language-text">Ġof</code>가 가까이 놓이고, <code class="language-text">Ġlanguages</code>는 다른 토큰들과 떨어져 있는 모습을 볼 수 있다. GPT-2는 다음 토큰을 예측하도록 학습하면서 토큰의 쓰임에 따라 임베딩을 조정하기 때문에, 문법적 역할을 하는 <code class="language-text">the</code>와 <code class="language-text">of</code>는 가까이, 대상을 가리키는 <code class="language-text">languages</code>는 떨어져 나타났을 수 있다. 이렇게 학습된 벡터가 모델의 입력이 되기 때문에, 모델은 토큰마다 다른 정보를 바탕으로 문맥을 처리하고 다음 토큰을 예측할 수 있다. 다만 <mark class="text-highlight" data-highlight-color="yellow" style="--highlight-light: #ffec9e; --highlight-dark: #67531d;">두 축이 담는 분산은 이 10개 벡터 전체의 약 38.3%</mark>이므로, <mark class="text-highlight" data-highlight-color="orange" style="--highlight-light: #ffe6b8; --highlight-dark: #58421d;">이 그림만으로 배치의 원인을 단정하거나 가까운 토큰이 곧바로 의미도 비슷하다고 해석할 수는 없다.</mark></p>
 <hr>
 <h2 id="3-self-attention과-multi-head-attention-구현" style="position:relative;"><a href="#3-self-attention%EA%B3%BC-multi-head-attention-%EA%B5%AC%ED%98%84" aria-label="3 self attention과 multi head attention 구현 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>3. Self-Attention과 Multi-Head Attention 구현</h2>
 <p><a href="#23-%EC%9E%84%EB%B2%A0%EB%94%A9-%EA%B2%B0%ED%95%A9-%EA%B5%AC%ED%98%84">2.3절</a>에서는 토큰 임베딩과 위치 임베딩을 더해 입력 벡터를 만들었다. 이번에는 <strong>각 토큰이 다른 위치를 얼마나 참고할지 정하고, 그 비율로 정보를 섞어 새 벡터를 만드는 과정</strong>을 구현했다.</p>
@@ -1648,6 +1577,7 @@ output <span class="token operator">=</span> merged_context @ W_O
 <p>Head별 참고 비율의 행 합은 약 1이고 미래 위치의 비율은 0이었다. 최종 출력에는 NaN이나 무한대가 없었다. 입력과 출력의 크기는 같지만, 출력은 다른 토큰의 정보를 반영한 새 표현이다.</p>
 <p>이 단계에서는 Attention까지 구현했다. Transformer 블록을 구성할 LayerNorm·잔차 연결·FFN과 다음 토큰 점수를 만드는 어휘 출력층은 4장에서 이어서 연결한다.</p>
 <h3 id="33-어텐션-맵으로-single-head와-multi-head-비교" style="position:relative;"><a href="#33-%EC%96%B4%ED%85%90%EC%85%98-%EB%A7%B5%EC%9C%BC%EB%A1%9C-single-head%EC%99%80-multi-head-%EB%B9%84%EA%B5%90" aria-label="33 어텐션 맵으로 single head와 multi head 비교 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>3.3. 어텐션 맵으로 Single-head와 Multi-head 비교</h3>
+<h4 id="331-무작위-가중치로-head-분할-비교" style="position:relative;"><a href="#331-%EB%AC%B4%EC%9E%91%EC%9C%84-%EA%B0%80%EC%A4%91%EC%B9%98%EB%A1%9C-head-%EB%B6%84%ED%95%A0-%EB%B9%84%EA%B5%90" aria-label="331 무작위 가중치로 head 분할 비교 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>3.3.1. 무작위 가중치로 head 분할 비교</h4>
 <p><code class="language-text">AttentionMapComparison.ipynb</code>에서 같은 <code class="language-text">x</code>, <code class="language-text">W_Q</code>, <code class="language-text">W_K</code>, <code class="language-text">W_V</code>로 계산한 참고 비율을 비교했다. 비교 코드와 시각화는 AI의 도움을 받아 작성했다.</p>
 <p><span
       class="gatsby-resp-image-wrapper"
@@ -1676,7 +1606,68 @@ output <span class="token operator">=</span> merged_context @ W_O
     </span></p>
 <p><em>왼쪽은 Single-head, 가운데와 오른쪽은 Multi-head의 Head 1·2다. 행은 현재 토큰, 열은 참고할 토큰이며, 진한 파란색일수록 참고 비율이 높다. 회색은 차단된 미래 위치다.</em></p>
 <p>Single-head는 768차원 전체로 하나의 참고 비율 맵을 만든다. Multi-head는 64차원씩 나눠 head마다 따로 계산하므로, <strong>같은 입력과 가중치라도 참고 비율이 달라진다.</strong></p>
-<p>현재 가중치는 랜덤값이라, 이 차이를 학습된 의미 관계로 해석할 수는 없다. <code class="language-text">family</code>가 <code class="language-text">members</code>를 많이 참고해야 하는 것도 아니다. <strong>추후에는 GPT-2의 학습된 가중치를 적용해 어텐션 맵을 비교해볼 계획이다.</strong></p>
+<p>이 비교의 가중치는 랜덤값이라, 이 차이를 학습된 의미 관계로 해석할 수는 없다. <code class="language-text">family</code>가 <code class="language-text">members</code>를 많이 참고해야 하는 것도 아니다.</p>
+<h4 id="332-gpt-2-공개-가중치로-참고-관계-비교" style="position:relative;"><a href="#332-gpt-2-%EA%B3%B5%EA%B0%9C-%EA%B0%80%EC%A4%91%EC%B9%98%EB%A1%9C-%EC%B0%B8%EA%B3%A0-%EA%B4%80%EA%B3%84-%EB%B9%84%EA%B5%90" aria-label="332 gpt 2 공개 가중치로 참고 관계 비교 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>3.3.2. GPT-2 공개 가중치로 참고 관계 비교</h4>
+<p><a href="#5-%EA%B3%B5%EA%B0%9C-%EA%B0%80%EC%A4%91%EC%B9%98-%EC%A0%81%EC%9A%A9%EA%B3%BC-hugging-face-%EB%B9%84%EA%B5%90-%EC%83%98%ED%94%8C%EB%A7%81">5장</a>에서 사용한 GPT-2 공개 가중치를 같은 문장 <code class="language-text">The European languages are members of the same family.</code>에 적용했다. GPT-2로 나눈 10개 토큰을 직접 구현한 순전파에 넣고, 모든 블록·헤드의 Softmax 뒤 참고 비율을 확인한 뒤 단어 사이의 참고 관계가 뚜렷한 두 맵을 골랐다.</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; "
+    >
+      <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 53.333333333333336%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAALCAYAAAB/Ca1DAAAACXBIWXMAABuvAAAbrwFeGpEcAAAB90lEQVQoz22TzW7UMBSF55F5BlhWYg8CtqwRC1TKCiFAqFURdNGp2k6bZpJJnDiJHdv5/1A806GIRjqx7Ht8bN977oJHPuccQRBwfX3txzAMWa1WBMEtQoj/+NM07bGYf33fM44jSmu01vTDwDCMdF3nMfj5QNs0nqd17XlzbJr+FV9UqubZy0NuopwwFtzFgiiVbESJa7o9saw0T18dcRtL4jT/y8tKVG3JC+UPW6Qi58nrr1xEClko1on0CDc5xjXbJ40jcSI4eHfGycXGx6K08LyNKAiSkqPjy+0NRZbz4tOSoGg5uSnY7IgzbNP6vBhjyHJJ048cvP3C6XJNUdXcbXIvGOWabxcxXeNYzHlYF5ZuhDefVxz+XFNVmiDO/JPHcfD5atqWsm55/nHJ77DCtoO/ZZRIMmVZRjnOGhZlWXInaoYJvl9mfPgVc5sbkqzEunZfxWLHOzzPOA0qUtWhXU+cFpTakshqW2Vd19xkNSNwvIz5cR5TNRAXDqndXlDpmquk5v1ZyqWwKDdiOqhM5w+2zt3bBsJUkssSY6zfmMsKqQyuG2a5vcdmzlWUIWSFrg2yrNDGMj3wo/dh46z3mFLKo2vbx/xO0ziGvkPvePe+vBfzVX64YQ7OBu77AWMdtbFY1+zg/FrbbZtgNv/DTmHXKX8A3nNHMZhCb9EAAAAASUVORK5CYII='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="GPT-2 블록 3·Head 5와 블록 5·Head 4의 어텐션 맵. family가 members를 참고하는 관계와 여러 토큰이 languages를 참고하는 관계를 주황색 테두리로 표시했다."
+        title="GPT-2 블록 3·Head 5와 블록 5·Head 4의 어텐션 맵. family가 members를 참고하는 관계와 여러 토큰이 languages를 참고하는 관계를 주황색 테두리로 표시했다."
+        src="/static/984bef443b5deb5286e759986fb5ad08/37523/chapter-3-pretrained-selected-heads.png"
+        srcset="/static/984bef443b5deb5286e759986fb5ad08/e9ff0/chapter-3-pretrained-selected-heads.png 180w,
+/static/984bef443b5deb5286e759986fb5ad08/f21e7/chapter-3-pretrained-selected-heads.png 360w,
+/static/984bef443b5deb5286e759986fb5ad08/37523/chapter-3-pretrained-selected-heads.png 720w,
+/static/984bef443b5deb5286e759986fb5ad08/302a4/chapter-3-pretrained-selected-heads.png 1080w,
+/static/984bef443b5deb5286e759986fb5ad08/07a9c/chapter-3-pretrained-selected-heads.png 1440w,
+/static/984bef443b5deb5286e759986fb5ad08/e80ec/chapter-3-pretrained-selected-heads.png 2582w"
+        sizes="(max-width: 720px) 100vw, 720px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+        decoding="async"
+      />
+    </span></p>
+<p><em>두 맵 모두 색 범위는 0~100%다. 행은 현재 토큰, 열은 참고할 토큰이며, 회색은 차단한 미래 위치다. 주황 테두리는 아래에서 설명하는 참고 관계를 표시한다. Ġ는 앞쪽 공백을 나타낸다.</em></p>
+<ul>
+<li><strong>블록 3 · Head 5:</strong> <code class="language-text">Ġfamily</code>가 <code class="language-text">Ġmembers</code>를 87.47%로 참고했다. <code class="language-text">members of the same family</code>에서 떨어져 있는 두 단어 사이의 참고 관계가 뚜렷하게 나타났다.</li>
+<li><strong>블록 5 · Head 4:</strong> <code class="language-text">Ġare</code>는 <code class="language-text">Ġlanguages</code>를 94.92%, <code class="language-text">Ġmembers</code>는 <code class="language-text">Ġlanguages</code>를 85.82%로 참고했다. 이번 문장에서는 주어인 <code class="language-text">languages</code>를 뒤쪽의 여러 위치에서도 반복해서 참고하는 모습이다.</li>
+</ul>
+<details>
+<summary>전체 12개 블록 × 12개 헤드의 어텐션 맵 보기</summary>
+<p>한 행이 하나의 블록이고, 각 행에 Head 1~12를 순서대로 배치했다. 전체 144개 맵의 색 범위와 토큰 순서는 확대 그림과 같다. 주황 테두리는 위에서 골라 본 두 맵이다.</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; "
+    >
+      <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 93.88888888888887%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAATCAYAAACQjC21AAAACXBIWXMAABuvAAAbrwFeGpEcAAAC0klEQVQ4y01U25KcIBT0/z8sj3lIpfKU3Z3xgoiAgDLurCad6gNudqoo1OE0fTnQnOcfHMeJ4zhwnmU+zhP7vmMyBkqNsNbKbIyB9wtKzfFlnFLDXzPYFTZk9NrjdVxglozeBLQmYfQZ2m24m4QpPDAtGcpt6OYkY7AJyq3o5oIhgCY8ZJFZNrQmgu8E6u2KwRWAu4kya59BAnzu5wQbHxjcBuWzbCaA/Mjd9FI+sqidV2i/QhkvACy6ZoJxbucEnx7o7SZ1/F8A57jjNiVZOBPcrjK0i2gHBTUHkTzUTYUdWfosUqnmNkWEdQfwF83kktDnQpd22b2jVBsxjEY8Giorrhl9AeRMllTUk0zI+PW7R9NpD+03jG4TT8Q743EfnXyjJC5WFfBiyA3ITGyqzL/9bBlKxpuOsmM3RVifcFcGarKfhfSUM5N+GReoKvnGrvAbfNhwUw7fXyY0ao7oTYR2SRZxt1Y7jDYUwDmWQCiTiU8RyhZPaUdJnwpX/LhbNOy5gYD2f9JkxPYhYKsXKRSf/QW4ihpTrRjcKoH+6mY0DOJlDLL7MK+YllJEgDIKmDRyZcMNu9EXIq7Ip883s6AhKwKQ8jhHzEspkHSr1N5UcDb+kgWc74MJYhWB2ZOTT2jI6KaDAKoK2H0BlKNmonjWmSKTVsioDLspSB/6uKGhF8MVihzBXM/xlwY2JQiquZIf+N2Wxub6Je2I60bJG+46YKqJyeVgNyiGQGnSl7GkXQ+AWGGK76JAL4jbjufziWaUEAogZZuLBYtt9eoa4mmqvha5BG11EMByfbHzrz9twlzb5tNDW1IeLvlTkBYTqTwpfpMWK7cNz3LIeFGLsOlMkvuPlwXbRdKcgvQcfWQ38Hi+6oi3wUkL0Ud6WO7Dv2g+jj9I+wcezxP5/cD+ccrzsu5wMcPFDT5mLOkBGzPy4x3rfiDmJ1grdc8T7x+nAP4DYu6cstMeyYAAAAAASUVORK5CYII='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="12개 블록과 각 블록의 12개 헤드, 총 144개 어텐션 맵. 한 행이 한 블록이며 주황색 테두리는 확대해 본 블록 3·Head 5와 블록 5·Head 4다."
+        title="12개 블록과 각 블록의 12개 헤드, 총 144개 어텐션 맵. 한 행이 한 블록이며 주황색 테두리는 확대해 본 블록 3·Head 5와 블록 5·Head 4다."
+        src="/static/96378458818a211d79e1e73f31537d06/37523/chapter-3-pretrained-all-blocks-heads.png"
+        srcset="/static/96378458818a211d79e1e73f31537d06/e9ff0/chapter-3-pretrained-all-blocks-heads.png 180w,
+/static/96378458818a211d79e1e73f31537d06/f21e7/chapter-3-pretrained-all-blocks-heads.png 360w,
+/static/96378458818a211d79e1e73f31537d06/37523/chapter-3-pretrained-all-blocks-heads.png 720w,
+/static/96378458818a211d79e1e73f31537d06/302a4/chapter-3-pretrained-all-blocks-heads.png 1080w,
+/static/96378458818a211d79e1e73f31537d06/07a9c/chapter-3-pretrained-all-blocks-heads.png 1440w,
+/static/96378458818a211d79e1e73f31537d06/a30c9/chapter-3-pretrained-all-blocks-heads.png 2614w"
+        sizes="(max-width: 720px) 100vw, 720px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+        decoding="async"
+      />
+    </span></p>
+</details>
 <h3 id="34-참고-자료" style="position:relative;"><a href="#34-%EC%B0%B8%EA%B3%A0-%EC%9E%90%EB%A3%8C" aria-label="34 참고 자료 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>3.4. 참고 자료</h3>
 <ul>
 <li><a href="https://codingopera.tistory.com/43">코딩 오페라 — 4-1. Transformer(Self Attention)</a>: Q·K·V와 점수 행렬을 이해할 때 참고한 글과 그림 출처.</li>
@@ -2374,65 +2365,213 @@ logits: (seq_len, 50257)
 Softmax → 다음 토큰의 확률</code></pre></div>
 <p>출력층은 입력에 사용한 토큰 임베딩 표를 공유한다. 각 위치의 logits은 <strong>그 위치 다음에 올 토큰</strong>의 점수다. 전체 흐름은 원본 구현의 <a href="https://github.com/openai/gpt-2/blob/master/src/model.py#L133-L157"><code class="language-text">model()</code></a>에서도 확인할 수 있다.</p>
 <h4 id="445-순전파를-구성하는-핵심-함수" style="position:relative;"><a href="#445-%EC%88%9C%EC%A0%84%ED%8C%8C%EB%A5%BC-%EA%B5%AC%EC%84%B1%ED%95%98%EB%8A%94-%ED%95%B5%EC%8B%AC-%ED%95%A8%EC%88%98" aria-label="445 순전파를 구성하는 핵심 함수 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>4.4.5. 순전파를 구성하는 핵심 함수</h4>
-<p>조립한 코드의 핵심 함수는 다음과 같다. 여기서는 함수의 역할과 입출력만 정리하고, 내부 계산은 앞에서 설명한 부분으로 연결한다. 아래 타입 표기는 함수의 입출력을 보여주기 위해 덧붙였다.</p>
-<p>공통으로 <code class="language-text">x</code>는 NumPy 배열, <code class="language-text">weights</code>는 가중치 딕셔너리, <code class="language-text">config</code>는 모델 설정이다. <code class="language-text">prefix</code>와 <code class="language-text">layer_index</code>는 사용할 가중치의 위치를 지정한다. <code class="language-text">return_trace</code> 인자가 있는 함수는 이를 <code class="language-text">True</code>로 설정하면 중간 계산값도 함께 반환한다. 기본값에서는 중간값 대신 <code class="language-text">None</code>을 반환한다.</p>
-<h5 id="4451-code-classlanguage-textlayer_normcode--토큰별-정규화" style="position:relative;"><a href="#4451-code-classlanguage-textlayer_normcode--%ED%86%A0%ED%81%B0%EB%B3%84-%EC%A0%95%EA%B7%9C%ED%99%94" aria-label="4451 code classlanguage textlayer_normcode  토큰별 정규화 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>4.4.5.1. <code class="language-text">layer_norm()</code> — 토큰별 정규화</h5>
-<div class="gatsby-highlight" data-language="python"><pre class="language-python"><code class="language-python"><span class="token keyword">def</span> <span class="token function">layer_norm</span><span class="token punctuation">(</span>
-    x<span class="token punctuation">:</span> np<span class="token punctuation">.</span>ndarray<span class="token punctuation">,</span>
-    gamma<span class="token punctuation">:</span> np<span class="token punctuation">.</span>ndarray<span class="token punctuation">,</span>
-    beta<span class="token punctuation">:</span> np<span class="token punctuation">.</span>ndarray<span class="token punctuation">,</span>
-    eps<span class="token punctuation">:</span> <span class="token builtin">float</span> <span class="token operator">=</span> <span class="token number">1e-5</span><span class="token punctuation">,</span>
-<span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> np<span class="token punctuation">.</span>ndarray<span class="token punctuation">:</span>
-    <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span></code></pre></div>
-<p>각 토큰 벡터를 정규화하고 <code class="language-text">gamma</code>, <code class="language-text">beta</code>를 적용한 배열을 반환한다. 입력과 출력의 크기는 같다. 원리와 코드는 <a href="#41-layernorm">4.1절의 LayerNorm</a>에 정리했다.</p>
-<h5 id="4452-code-classlanguage-textsoftmaxcode--점수를-확률로-변환" style="position:relative;"><a href="#4452-code-classlanguage-textsoftmaxcode--%EC%A0%90%EC%88%98%EB%A5%BC-%ED%99%95%EB%A5%A0%EB%A1%9C-%EB%B3%80%ED%99%98" aria-label="4452 code classlanguage textsoftmaxcode  점수를 확률로 변환 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>4.4.5.2. <code class="language-text">softmax()</code> — 점수를 확률로 변환</h5>
-<div class="gatsby-highlight" data-language="python"><pre class="language-python"><code class="language-python"><span class="token keyword">def</span> <span class="token function">softmax</span><span class="token punctuation">(</span>x<span class="token punctuation">:</span> np<span class="token punctuation">.</span>ndarray<span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> np<span class="token punctuation">.</span>ndarray<span class="token punctuation">:</span>
-    <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span></code></pre></div>
-<p>마지막 차원의 점수를 합이 1인 확률로 바꿔 반환한다. Attention의 참고 비율과 마지막 어휘별 확률을 구할 때 사용한다. 계산은 <a href="#314-softmax%EB%A1%9C-%EC%B0%B8%EA%B3%A0-%EB%B9%84%EC%9C%A8-%EA%B5%AC%ED%95%98%EA%B8%B0">3.1.4절의 Softmax로 참고 비율 구하기</a>, 출력층에서의 역할은 <a href="#16-%ED%99%95%EB%A5%A0%EB%A1%9C-%EB%A7%8C%EB%93%A4%EA%B8%B0softmax">1.6절의 확률로 만들기</a>에 설명했다.</p>
-<h5 id="4453-code-classlanguage-textmasked_self_attentioncode--앞의-토큰-정보를-모으기" style="position:relative;"><a href="#4453-code-classlanguage-textmasked_self_attentioncode--%EC%95%9E%EC%9D%98-%ED%86%A0%ED%81%B0-%EC%A0%95%EB%B3%B4%EB%A5%BC-%EB%AA%A8%EC%9C%BC%EA%B8%B0" aria-label="4453 code classlanguage textmasked_self_attentioncode  앞의 토큰 정보를 모으기 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>4.4.5.3. <code class="language-text">masked_self_attention()</code> — 앞의 토큰 정보를 모으기</h5>
-<div class="gatsby-highlight" data-language="python"><pre class="language-python"><code class="language-python"><span class="token keyword">def</span> <span class="token function">masked_self_attention</span><span class="token punctuation">(</span>
-    x<span class="token punctuation">:</span> np<span class="token punctuation">.</span>ndarray<span class="token punctuation">,</span>
-    weights<span class="token punctuation">:</span> <span class="token builtin">dict</span><span class="token punctuation">,</span>
-    prefix<span class="token punctuation">:</span> <span class="token builtin">str</span><span class="token punctuation">,</span>
-    num_heads<span class="token punctuation">:</span> <span class="token builtin">int</span><span class="token punctuation">,</span>
-    return_trace<span class="token punctuation">:</span> <span class="token builtin">bool</span> <span class="token operator">=</span> <span class="token boolean">False</span><span class="token punctuation">,</span>
-<span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token builtin">tuple</span><span class="token punctuation">[</span>np<span class="token punctuation">.</span>ndarray<span class="token punctuation">,</span> <span class="token builtin">dict</span> <span class="token operator">|</span> <span class="token boolean">None</span><span class="token punctuation">]</span><span class="token punctuation">:</span>
-    <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span></code></pre></div>
-<p>Q·K·V 계산부터 미래 토큰 마스킹, 헤드 결합과 출력 투영까지 수행한다. <code class="language-text">(어텐션 출력, 중간 계산값)</code>을 반환하며, 출력 크기는 입력과 같다. 세부 연산은 <a href="#32-multi-head-self-attention-%EA%B5%AC%ED%98%84">3.2절의 Multi-head self-attention 구현</a>에 있다.</p>
-<h5 id="4454-code-classlanguage-textgelucode--비선형-변환" style="position:relative;"><a href="#4454-code-classlanguage-textgelucode--%EB%B9%84%EC%84%A0%ED%98%95-%EB%B3%80%ED%99%98" aria-label="4454 code classlanguage textgelucode  비선형 변환 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>4.4.5.4. <code class="language-text">gelu()</code> — 비선형 변환</h5>
-<div class="gatsby-highlight" data-language="python"><pre class="language-python"><code class="language-python"><span class="token keyword">def</span> <span class="token function">gelu</span><span class="token punctuation">(</span>x<span class="token punctuation">:</span> np<span class="token punctuation">.</span>ndarray<span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> np<span class="token punctuation">.</span>ndarray<span class="token punctuation">:</span>
-    <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span></code></pre></div>
-<p>배열의 각 성분에 GPT-2의 GELU 근사식을 적용한 결과를 반환한다. 배열의 크기는 유지된다. 수식과 그래프는 <a href="#43-ffn">4.3절의 FFN</a>에 정리했다.</p>
-<h5 id="4455-code-classlanguage-textfeed_forwardcode--토큰-안의-특징-가공" style="position:relative;"><a href="#4455-code-classlanguage-textfeed_forwardcode--%ED%86%A0%ED%81%B0-%EC%95%88%EC%9D%98-%ED%8A%B9%EC%A7%95-%EA%B0%80%EA%B3%B5" aria-label="4455 code classlanguage textfeed_forwardcode  토큰 안의 특징 가공 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>4.4.5.5. <code class="language-text">feed_forward()</code> — 토큰 안의 특징 가공</h5>
-<div class="gatsby-highlight" data-language="python"><pre class="language-python"><code class="language-python"><span class="token keyword">def</span> <span class="token function">feed_forward</span><span class="token punctuation">(</span>
-    x<span class="token punctuation">:</span> np<span class="token punctuation">.</span>ndarray<span class="token punctuation">,</span>
-    weights<span class="token punctuation">:</span> <span class="token builtin">dict</span><span class="token punctuation">,</span>
-    prefix<span class="token punctuation">:</span> <span class="token builtin">str</span><span class="token punctuation">,</span>
-    return_trace<span class="token punctuation">:</span> <span class="token builtin">bool</span> <span class="token operator">=</span> <span class="token boolean">False</span><span class="token punctuation">,</span>
-<span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token builtin">tuple</span><span class="token punctuation">[</span>np<span class="token punctuation">.</span>ndarray<span class="token punctuation">,</span> <span class="token builtin">dict</span> <span class="token operator">|</span> <span class="token boolean">None</span><span class="token punctuation">]</span><span class="token punctuation">:</span>
-    <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span></code></pre></div>
-<p>차원 확장, GELU, 차원 축소를 연결해 <code class="language-text">(FFN 출력, 중간 계산값)</code>을 반환한다. 각 토큰에 같은 연산을 적용하며 출력은 다시 768차원이다. 계산 순서는 <a href="#43-ffn">4.3절의 FFN</a>에 있다.</p>
-<h5 id="4456-code-classlanguage-texttransformer_blockcode--블록-하나-조립" style="position:relative;"><a href="#4456-code-classlanguage-texttransformer_blockcode--%EB%B8%94%EB%A1%9D-%ED%95%98%EB%82%98-%EC%A1%B0%EB%A6%BD" aria-label="4456 code classlanguage texttransformer_blockcode  블록 하나 조립 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>4.4.5.6. <code class="language-text">transformer_block()</code> — 블록 하나 조립</h5>
+<p>앞에서 만든 임베딩·LayerNorm·Attention·FFN 함수를 <code class="language-text">notebook_model.py</code>에서 불러와 전체 순전파로 연결했다. 아래는 실제 사용하는 함수의 본문이다. 각 연산 함수는 필요한 가중치 배열을 인자로 받고, <code class="language-text">forward()</code>는 호출하는 쪽에서 정리한 가중치 딕셔너리를 받는다.</p>
+<div class="gatsby-highlight" data-language="python"><pre class="language-python"><code class="language-python"><span class="token keyword">import</span> numpy <span class="token keyword">as</span> np</code></pre></div>
+<h5 id="4451-code-classlanguage-textembeddingcode--토큰위치-임베딩-결합" style="position:relative;"><a href="#4451-code-classlanguage-textembeddingcode--%ED%86%A0%ED%81%B0%EC%9C%84%EC%B9%98-%EC%9E%84%EB%B2%A0%EB%94%A9-%EA%B2%B0%ED%95%A9" aria-label="4451 code classlanguage textembeddingcode  토큰위치 임베딩 결합 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>4.4.5.1. <code class="language-text">embedding()</code> — 토큰·위치 임베딩 결합</h5>
+<p>토큰 ID로 두 임베딩 표를 조회하고 더한다. <a href="#23-%EC%9E%84%EB%B2%A0%EB%94%A9-%EA%B2%B0%ED%95%A9-%EA%B5%AC%ED%98%84">2.3절</a>에서 만든 입력과 같은 계산이다.</p>
+<div class="gatsby-highlight" data-language="python"><pre class="language-python"><code class="language-python"><span class="token keyword">def</span> <span class="token function">embedding</span><span class="token punctuation">(</span>token_ids<span class="token punctuation">,</span> token_embedding_table<span class="token punctuation">,</span> position_embedding_table<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    seq_len <span class="token operator">=</span> <span class="token builtin">len</span><span class="token punctuation">(</span>token_ids<span class="token punctuation">)</span>
+    <span class="token keyword">if</span> seq_len <span class="token operator">></span> <span class="token builtin">len</span><span class="token punctuation">(</span>position_embedding_table<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">raise</span> ValueError<span class="token punctuation">(</span><span class="token string">"입력 토큰 수가 위치 임베딩의 최대 길이를 초과했습니다."</span><span class="token punctuation">)</span>
+    position_ids <span class="token operator">=</span> np<span class="token punctuation">.</span>arange<span class="token punctuation">(</span>seq_len<span class="token punctuation">)</span>
+    token_vectors <span class="token operator">=</span> token_embedding_table<span class="token punctuation">[</span>token_ids<span class="token punctuation">]</span>
+    position_vectors <span class="token operator">=</span> position_embedding_table<span class="token punctuation">[</span>position_ids<span class="token punctuation">]</span>
+    x <span class="token operator">=</span> token_vectors <span class="token operator">+</span> position_vectors
+    <span class="token keyword">return</span> x</code></pre></div>
+<h5 id="4452-code-classlanguage-textlayer_normcode--토큰별-정규화" style="position:relative;"><a href="#4452-code-classlanguage-textlayer_normcode--%ED%86%A0%ED%81%B0%EB%B3%84-%EC%A0%95%EA%B7%9C%ED%99%94" aria-label="4452 code classlanguage textlayer_normcode  토큰별 정규화 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>4.4.5.2. <code class="language-text">layer_norm()</code> — 토큰별 정규화</h5>
+<p>각 토큰 벡터를 정규화하고 전달받은 <code class="language-text">gamma</code>, <code class="language-text">beta</code>를 적용한다. <a href="#41-layernorm">4.1절</a>의 연산 순서를 유지했다.</p>
+<div class="gatsby-highlight" data-language="python"><pre class="language-python"><code class="language-python"><span class="token keyword">def</span> <span class="token function">layer_norm</span><span class="token punctuation">(</span>x<span class="token punctuation">,</span> gamma<span class="token punctuation">,</span> beta<span class="token punctuation">,</span> eps<span class="token operator">=</span><span class="token number">1e-5</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    mean <span class="token operator">=</span> np<span class="token punctuation">.</span>mean<span class="token punctuation">(</span>x<span class="token punctuation">,</span> axis<span class="token operator">=</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">,</span> keepdims<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">)</span>
+    var <span class="token operator">=</span> np<span class="token punctuation">.</span>var<span class="token punctuation">(</span>x<span class="token punctuation">,</span> axis<span class="token operator">=</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">,</span> keepdims<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">)</span>
+    normalized <span class="token operator">=</span> <span class="token punctuation">(</span>x <span class="token operator">-</span> mean<span class="token punctuation">)</span> <span class="token operator">/</span> np<span class="token punctuation">.</span>sqrt<span class="token punctuation">(</span>var <span class="token operator">+</span> eps<span class="token punctuation">)</span>
+    <span class="token keyword">return</span> gamma <span class="token operator">*</span> normalized <span class="token operator">+</span> beta</code></pre></div>
+<h5 id="4453-code-classlanguage-textsoftmaxcode--점수를-확률로-변환" style="position:relative;"><a href="#4453-code-classlanguage-textsoftmaxcode--%EC%A0%90%EC%88%98%EB%A5%BC-%ED%99%95%EB%A5%A0%EB%A1%9C-%EB%B3%80%ED%99%98" aria-label="4453 code classlanguage textsoftmaxcode  점수를 확률로 변환 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>4.4.5.3. <code class="language-text">softmax()</code> — 점수를 확률로 변환</h5>
+<p>마지막 차원의 점수를 합이 1인 확률로 바꾼다. Attention의 참고 비율과 마지막 어휘별 확률을 구할 때 사용한다.</p>
+<div class="gatsby-highlight" data-language="python"><pre class="language-python"><code class="language-python"><span class="token keyword">def</span> <span class="token function">softmax</span><span class="token punctuation">(</span>x<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    shifted_scores <span class="token operator">=</span> x <span class="token operator">-</span> np<span class="token punctuation">.</span><span class="token builtin">max</span><span class="token punctuation">(</span>x<span class="token punctuation">,</span> axis<span class="token operator">=</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">,</span> keepdims<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">)</span>
+    exp_scores <span class="token operator">=</span> np<span class="token punctuation">.</span>exp<span class="token punctuation">(</span>shifted_scores<span class="token punctuation">)</span>
+    <span class="token keyword">return</span> exp_scores <span class="token operator">/</span> np<span class="token punctuation">.</span><span class="token builtin">sum</span><span class="token punctuation">(</span>exp_scores<span class="token punctuation">,</span> axis<span class="token operator">=</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">,</span> keepdims<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">)</span></code></pre></div>
+<h5 id="4454-code-classlanguage-textmulti_head_self_attentioncode--앞의-토큰-정보를-모으기" style="position:relative;"><a href="#4454-code-classlanguage-textmulti_head_self_attentioncode--%EC%95%9E%EC%9D%98-%ED%86%A0%ED%81%B0-%EC%A0%95%EB%B3%B4%EB%A5%BC-%EB%AA%A8%EC%9C%BC%EA%B8%B0" aria-label="4454 code classlanguage textmulti_head_self_attentioncode  앞의 토큰 정보를 모으기 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>4.4.5.4. <code class="language-text">multi_head_self_attention()</code> — 앞의 토큰 정보를 모으기</h5>
+<p><a href="#32-multi-head-self-attention-%EA%B5%AC%ED%98%84">3.2절</a>의 계산을 함수로 묶고, 무작위 초기화 대신 전달받은 <code class="language-text">W_Q</code>, <code class="language-text">W_K</code>, <code class="language-text">W_V</code>, <code class="language-text">W_O</code>를 사용한다. 공개 가중치를 적용할 수 있도록 각 투영의 편향 <code class="language-text">b_Q</code>, <code class="language-text">b_K</code>, <code class="language-text">b_V</code>, <code class="language-text">b_O</code>도 받는다. 출력 크기는 입력과 같다.</p>
+<div class="gatsby-highlight" data-language="python"><pre class="language-python"><code class="language-python"><span class="token keyword">def</span> <span class="token function">multi_head_self_attention</span><span class="token punctuation">(</span>x<span class="token punctuation">,</span> W_Q<span class="token punctuation">,</span> W_K<span class="token punctuation">,</span> W_V<span class="token punctuation">,</span> W_O<span class="token punctuation">,</span> num_heads<span class="token operator">=</span><span class="token number">12</span><span class="token punctuation">,</span>
+                              b_Q<span class="token operator">=</span><span class="token boolean">None</span><span class="token punctuation">,</span> b_K<span class="token operator">=</span><span class="token boolean">None</span><span class="token punctuation">,</span> b_V<span class="token operator">=</span><span class="token boolean">None</span><span class="token punctuation">,</span> b_O<span class="token operator">=</span><span class="token boolean">None</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    seq_len<span class="token punctuation">,</span> d_model <span class="token operator">=</span> x<span class="token punctuation">.</span>shape
+    <span class="token keyword">assert</span> d_model <span class="token operator">%</span> num_heads <span class="token operator">==</span> <span class="token number">0</span>
+    d_head <span class="token operator">=</span> d_model <span class="token operator">//</span> num_heads
+    Q <span class="token operator">=</span> x @ W_Q
+    K <span class="token operator">=</span> x @ W_K
+    V <span class="token operator">=</span> x @ W_V
+    <span class="token keyword">if</span> b_Q <span class="token keyword">is</span> <span class="token keyword">not</span> <span class="token boolean">None</span><span class="token punctuation">:</span>
+        Q <span class="token operator">=</span> Q <span class="token operator">+</span> b_Q
+    <span class="token keyword">if</span> b_K <span class="token keyword">is</span> <span class="token keyword">not</span> <span class="token boolean">None</span><span class="token punctuation">:</span>
+        K <span class="token operator">=</span> K <span class="token operator">+</span> b_K
+    <span class="token keyword">if</span> b_V <span class="token keyword">is</span> <span class="token keyword">not</span> <span class="token boolean">None</span><span class="token punctuation">:</span>
+        V <span class="token operator">=</span> V <span class="token operator">+</span> b_V
+    Q_heads <span class="token operator">=</span> Q<span class="token punctuation">.</span>reshape<span class="token punctuation">(</span>seq_len<span class="token punctuation">,</span> num_heads<span class="token punctuation">,</span> d_head<span class="token punctuation">)</span>
+    Q_heads <span class="token operator">=</span> Q_heads<span class="token punctuation">.</span>transpose<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">)</span>
+    K_heads <span class="token operator">=</span> K<span class="token punctuation">.</span>reshape<span class="token punctuation">(</span>seq_len<span class="token punctuation">,</span> num_heads<span class="token punctuation">,</span> d_head<span class="token punctuation">)</span><span class="token punctuation">.</span>transpose<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">)</span>
+    V_heads <span class="token operator">=</span> V<span class="token punctuation">.</span>reshape<span class="token punctuation">(</span>seq_len<span class="token punctuation">,</span> num_heads<span class="token punctuation">,</span> d_head<span class="token punctuation">)</span><span class="token punctuation">.</span>transpose<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">)</span>
+    head_scores <span class="token operator">=</span> Q_heads @ K_heads<span class="token punctuation">.</span>swapaxes<span class="token punctuation">(</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">2</span><span class="token punctuation">)</span>
+    head_scores <span class="token operator">=</span> head_scores <span class="token operator">/</span> np<span class="token punctuation">.</span>sqrt<span class="token punctuation">(</span>d_head<span class="token punctuation">)</span>
+    future_mask <span class="token operator">=</span> np<span class="token punctuation">.</span>triu<span class="token punctuation">(</span>np<span class="token punctuation">.</span>ones<span class="token punctuation">(</span><span class="token punctuation">(</span>seq_len<span class="token punctuation">,</span> seq_len<span class="token punctuation">)</span><span class="token punctuation">,</span> dtype<span class="token operator">=</span><span class="token builtin">bool</span><span class="token punctuation">)</span><span class="token punctuation">,</span> k<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">)</span>
+    head_masked_scores <span class="token operator">=</span> np<span class="token punctuation">.</span>where<span class="token punctuation">(</span>future_mask<span class="token punctuation">,</span> <span class="token operator">-</span>np<span class="token punctuation">.</span>inf<span class="token punctuation">,</span> head_scores<span class="token punctuation">)</span>
+    head_weights <span class="token operator">=</span> softmax<span class="token punctuation">(</span>head_masked_scores<span class="token punctuation">)</span>
+    head_context <span class="token operator">=</span> head_weights @ V_heads
+    merged_context <span class="token operator">=</span> head_context<span class="token punctuation">.</span>transpose<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">)</span>
+    merged_context <span class="token operator">=</span> merged_context<span class="token punctuation">.</span>reshape<span class="token punctuation">(</span>seq_len<span class="token punctuation">,</span> d_model<span class="token punctuation">)</span>
+    output <span class="token operator">=</span> merged_context @ W_O
+    <span class="token keyword">if</span> b_O <span class="token keyword">is</span> <span class="token keyword">not</span> <span class="token boolean">None</span><span class="token punctuation">:</span>
+        output <span class="token operator">=</span> output <span class="token operator">+</span> b_O
+    <span class="token keyword">return</span> output</code></pre></div>
+<h5 id="4455-code-classlanguage-textgelucode--비선형-변환" style="position:relative;"><a href="#4455-code-classlanguage-textgelucode--%EB%B9%84%EC%84%A0%ED%98%95-%EB%B3%80%ED%99%98" aria-label="4455 code classlanguage textgelucode  비선형 변환 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>4.4.5.5. <code class="language-text">gelu()</code> — 비선형 변환</h5>
+<p><a href="#43-ffn">4.3절</a>의 GPT-2 GELU 근사식을 각 성분에 적용한다.</p>
+<div class="gatsby-highlight" data-language="python"><pre class="language-python"><code class="language-python"><span class="token keyword">def</span> <span class="token function">gelu</span><span class="token punctuation">(</span>x<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">return</span> <span class="token number">0.5</span> <span class="token operator">*</span> x <span class="token operator">*</span> <span class="token punctuation">(</span>
+        <span class="token number">1</span> <span class="token operator">+</span> np<span class="token punctuation">.</span>tanh<span class="token punctuation">(</span>
+            np<span class="token punctuation">.</span>sqrt<span class="token punctuation">(</span><span class="token number">2</span> <span class="token operator">/</span> np<span class="token punctuation">.</span>pi<span class="token punctuation">)</span> <span class="token operator">*</span> <span class="token punctuation">(</span>x <span class="token operator">+</span> <span class="token number">0.044715</span> <span class="token operator">*</span> x<span class="token operator">**</span><span class="token number">3</span><span class="token punctuation">)</span>
+        <span class="token punctuation">)</span>
+    <span class="token punctuation">)</span></code></pre></div>
+<h5 id="4456-code-classlanguage-textfeed_forwardcode--토큰-안의-특징-가공" style="position:relative;"><a href="#4456-code-classlanguage-textfeed_forwardcode--%ED%86%A0%ED%81%B0-%EC%95%88%EC%9D%98-%ED%8A%B9%EC%A7%95-%EA%B0%80%EA%B3%B5" aria-label="4456 code classlanguage textfeed_forwardcode  토큰 안의 특징 가공 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>4.4.5.6. <code class="language-text">feed_forward()</code> — 토큰 안의 특징 가공</h5>
+<p>전달받은 두 가중치 행렬과 편향으로 차원 확장, GELU, 차원 축소를 연결한다.</p>
+<div class="gatsby-highlight" data-language="python"><pre class="language-python"><code class="language-python"><span class="token keyword">def</span> <span class="token function">feed_forward</span><span class="token punctuation">(</span>h_norm<span class="token punctuation">,</span> W_1<span class="token punctuation">,</span> b_1<span class="token punctuation">,</span> W_2<span class="token punctuation">,</span> b_2<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    ffn_hidden <span class="token operator">=</span> h_norm @ W_1 <span class="token operator">+</span> b_1
+    ffn_activated <span class="token operator">=</span> gelu<span class="token punctuation">(</span>ffn_hidden<span class="token punctuation">)</span>
+    ffn_output <span class="token operator">=</span> ffn_activated @ W_2 <span class="token operator">+</span> b_2
+    <span class="token keyword">return</span> ffn_output</code></pre></div>
+<h5 id="4457-code-classlanguage-texttransformer_blockcode--블록-하나-조립" style="position:relative;"><a href="#4457-code-classlanguage-texttransformer_blockcode--%EB%B8%94%EB%A1%9D-%ED%95%98%EB%82%98-%EC%A1%B0%EB%A6%BD" aria-label="4457 code classlanguage texttransformer_blockcode  블록 하나 조립 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>4.4.5.7. <code class="language-text">transformer_block()</code> — 블록 하나 조립</h5>
+<p>가중치 배열을 개별 인자로 받아 두 번의 LayerNorm, Attention, FFN과 두 잔차 연결을 계산한다. 딕셔너리에서 가중치를 꺼내는 작업은 <code class="language-text">forward()</code>에서 처리한다. 변수명은 <code class="language-text">사용 위치_가중치 이름</code>으로 맞췄다. 예를 들어 <code class="language-text">attention_layer_norm_gamma</code>는 어텐션 전 정규화 계수이고, <code class="language-text">ffn_W_1</code>은 FFN의 차원 확장 행렬이다.</p>
 <div class="gatsby-highlight" data-language="python"><pre class="language-python"><code class="language-python"><span class="token keyword">def</span> <span class="token function">transformer_block</span><span class="token punctuation">(</span>
-    x<span class="token punctuation">:</span> np<span class="token punctuation">.</span>ndarray<span class="token punctuation">,</span>
-    weights<span class="token punctuation">:</span> <span class="token builtin">dict</span><span class="token punctuation">,</span>
-    config<span class="token punctuation">:</span> GPT2Config<span class="token punctuation">,</span>
-    layer_index<span class="token punctuation">:</span> <span class="token builtin">int</span><span class="token punctuation">,</span>
-    return_trace<span class="token punctuation">:</span> <span class="token builtin">bool</span> <span class="token operator">=</span> <span class="token boolean">False</span><span class="token punctuation">,</span>
-<span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token builtin">tuple</span><span class="token punctuation">[</span>np<span class="token punctuation">.</span>ndarray<span class="token punctuation">,</span> <span class="token builtin">dict</span> <span class="token operator">|</span> <span class="token boolean">None</span><span class="token punctuation">]</span><span class="token punctuation">:</span>
-    <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span></code></pre></div>
-<p>두 번의 LayerNorm, Attention, FFN과 두 잔차 연결을 묶어 <code class="language-text">(블록 출력, 중간 계산값)</code>을 반환한다. 잔차 연결은 <a href="#42-%EC%9E%94%EC%B0%A8%EC%97%B0%EA%B2%B0">4.2절의 잔차 연결</a>, 조립 순서는 <a href="#442-gpt-2%EC%9D%98-%EB%B8%94%EB%A1%9D-%EA%B5%AC%EC%A1%B0">4.4.2절의 블록 구조</a>를 따른다.</p>
-<h5 id="4457-code-classlanguage-textforwardcode--전체-순전파-연결" style="position:relative;"><a href="#4457-code-classlanguage-textforwardcode--%EC%A0%84%EC%B2%B4-%EC%88%9C%EC%A0%84%ED%8C%8C-%EC%97%B0%EA%B2%B0" aria-label="4457 code classlanguage textforwardcode  전체 순전파 연결 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>4.4.5.7. <code class="language-text">forward()</code> — 전체 순전파 연결</h5>
-<div class="gatsby-highlight" data-language="python"><pre class="language-python"><code class="language-python"><span class="token keyword">def</span> <span class="token function">forward</span><span class="token punctuation">(</span>
-    token_ids<span class="token punctuation">:</span> np<span class="token punctuation">.</span>ndarray<span class="token punctuation">,</span>
-    weights<span class="token punctuation">:</span> <span class="token builtin">dict</span><span class="token punctuation">,</span>
-    config<span class="token punctuation">:</span> GPT2Config<span class="token punctuation">,</span>
-    return_trace<span class="token punctuation">:</span> <span class="token builtin">bool</span> <span class="token operator">=</span> <span class="token boolean">False</span><span class="token punctuation">,</span>
-<span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token builtin">dict</span><span class="token punctuation">:</span>
-    <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span></code></pre></div>
-<p>토큰 ID에서 시작해 임베딩, 12개 블록, 마지막 LayerNorm, 출력층과 Softmax를 연결한다. <code class="language-text">logits</code>, <code class="language-text">probabilities</code>, 마지막 LayerNorm의 출력인 <code class="language-text">hidden_state</code>, 중간 계산값인 <code class="language-text">trace</code>를 담은 딕셔너리를 반환한다. <code class="language-text">trace</code>는 기본값에서 <code class="language-text">None</code>이다.</p>
-<p>입력 구성은 <a href="#23-%EC%9E%84%EB%B2%A0%EB%94%A9-%EA%B2%B0%ED%95%A9-%EA%B5%AC%ED%98%84">2.3절의 임베딩 결합 구현</a>, 출력 점수와 확률은 <a href="#15-logits-%EC%B6%9C%EB%A0%A5">1.5절의 logits 출력</a>과 <a href="#16-%ED%99%95%EB%A5%A0%EB%A1%9C-%EB%A7%8C%EB%93%A4%EA%B8%B0softmax">Softmax</a>를 연결한 것이다.</p>
-<p><small>수식과 연산 순서는 <a href="https://github.com/openai/gpt-2/blob/master/src/model.py">GPT-2 원본 구현</a>의 <code class="language-text">norm</code>, <code class="language-text">block</code>, <code class="language-text">mlp</code>, <code class="language-text">gelu</code>를 참고했다.</small></p>
+    x<span class="token punctuation">,</span>
+    <span class="token operator">*</span><span class="token punctuation">,</span>
+    attention_layer_norm_gamma<span class="token punctuation">,</span> attention_layer_norm_beta<span class="token punctuation">,</span>
+    attention_W_Q<span class="token punctuation">,</span> attention_W_K<span class="token punctuation">,</span> attention_W_V<span class="token punctuation">,</span> attention_W_O<span class="token punctuation">,</span>
+    ffn_layer_norm_gamma<span class="token punctuation">,</span> ffn_layer_norm_beta<span class="token punctuation">,</span>
+    ffn_W_1<span class="token punctuation">,</span> ffn_b_1<span class="token punctuation">,</span> ffn_W_2<span class="token punctuation">,</span> ffn_b_2<span class="token punctuation">,</span>
+    attention_b_Q<span class="token operator">=</span><span class="token boolean">None</span><span class="token punctuation">,</span> attention_b_K<span class="token operator">=</span><span class="token boolean">None</span><span class="token punctuation">,</span> attention_b_V<span class="token operator">=</span><span class="token boolean">None</span><span class="token punctuation">,</span> attention_b_O<span class="token operator">=</span><span class="token boolean">None</span><span class="token punctuation">,</span>
+    num_heads<span class="token operator">=</span><span class="token number">12</span><span class="token punctuation">,</span> layer_norm_eps<span class="token operator">=</span><span class="token number">1e-5</span><span class="token punctuation">,</span>
+<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token triple-quoted-string string">"""전달받은 가중치 배열로 블록 하나를 계산한다."""</span>
+    <span class="token comment"># 정규화 → 어텐션 → 잔차 연결</span>
+    attention_input <span class="token operator">=</span> layer_norm<span class="token punctuation">(</span>
+        x<span class="token punctuation">,</span> attention_layer_norm_gamma<span class="token punctuation">,</span> attention_layer_norm_beta<span class="token punctuation">,</span> layer_norm_eps<span class="token punctuation">,</span>
+    <span class="token punctuation">)</span>
+    attention <span class="token operator">=</span> multi_head_self_attention<span class="token punctuation">(</span>
+        attention_input<span class="token punctuation">,</span> attention_W_Q<span class="token punctuation">,</span> attention_W_K<span class="token punctuation">,</span> attention_W_V<span class="token punctuation">,</span> attention_W_O<span class="token punctuation">,</span>
+        num_heads<span class="token operator">=</span>num_heads<span class="token punctuation">,</span>
+        b_Q<span class="token operator">=</span>attention_b_Q<span class="token punctuation">,</span> b_K<span class="token operator">=</span>attention_b_K<span class="token punctuation">,</span> b_V<span class="token operator">=</span>attention_b_V<span class="token punctuation">,</span> b_O<span class="token operator">=</span>attention_b_O<span class="token punctuation">,</span>
+    <span class="token punctuation">)</span>
+    h <span class="token operator">=</span> x <span class="token operator">+</span> attention
+
+    <span class="token comment"># 정규화 → FFN → 잔차 연결</span>
+    ffn_input <span class="token operator">=</span> layer_norm<span class="token punctuation">(</span>h<span class="token punctuation">,</span> ffn_layer_norm_gamma<span class="token punctuation">,</span> ffn_layer_norm_beta<span class="token punctuation">,</span> layer_norm_eps<span class="token punctuation">)</span>
+    ffn_output <span class="token operator">=</span> feed_forward<span class="token punctuation">(</span>ffn_input<span class="token punctuation">,</span> ffn_W_1<span class="token punctuation">,</span> ffn_b_1<span class="token punctuation">,</span> ffn_W_2<span class="token punctuation">,</span> ffn_b_2<span class="token punctuation">)</span>
+    x <span class="token operator">=</span> h <span class="token operator">+</span> ffn_output
+    <span class="token keyword">return</span> x</code></pre></div>
+<h5 id="4458-code-classlanguage-textforwardcode--전체-순전파-연결" style="position:relative;"><a href="#4458-code-classlanguage-textforwardcode--%EC%A0%84%EC%B2%B4-%EC%88%9C%EC%A0%84%ED%8C%8C-%EC%97%B0%EA%B2%B0" aria-label="4458 code classlanguage textforwardcode  전체 순전파 연결 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>4.4.5.8. <code class="language-text">forward()</code> — 전체 순전파 연결</h5>
+<p>임베딩, 블록 반복, 마지막 정규화와 출력 계산을 연결한다. 가중치는 함수 앞부분에서만 꺼내고, 반복문에서는 준비한 리스트의 i번째 배열을 <code class="language-text">transformer_block()</code>에 직접 전달한다. GPT-2 small의 설정에서는 블록을 12번 반복한다.</p>
+<details>
+<summary>weights 인자 구조 보기</summary>
+<p>GPT-2 small 기준의 구조다. <code class="language-text">...</code>는 실제 배열 값이 들어갈 자리를 나타낸다. 블록별 가중치는 각각 배열 12개를 레이어 순서대로 담은 리스트다. 리스트 항목의 주석은 배열 하나의 크기다.</p>
+<div class="gatsby-highlight" data-language="python"><pre class="language-python"><code class="language-python">weights <span class="token operator">=</span> <span class="token punctuation">{</span>
+    <span class="token comment"># 임베딩 배열</span>
+    <span class="token string">"embedding_token_weight"</span><span class="token punctuation">:</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">,</span>       <span class="token comment"># (50257, 768)</span>
+    <span class="token string">"embedding_position_weight"</span><span class="token punctuation">:</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">,</span>    <span class="token comment"># (1024, 768)</span>
+
+    <span class="token comment"># 레이어별 가중치 리스트: 각 리스트의 길이는 12</span>
+    <span class="token string">"attention_layer_norm_gamma"</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">]</span><span class="token punctuation">,</span>  <span class="token comment"># (768,)</span>
+    <span class="token string">"attention_layer_norm_beta"</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">]</span><span class="token punctuation">,</span>  <span class="token comment"># (768,)</span>
+    <span class="token string">"attention_W_Q"</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">]</span><span class="token punctuation">,</span>  <span class="token comment"># (768, 768)</span>
+    <span class="token string">"attention_W_K"</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">]</span><span class="token punctuation">,</span>  <span class="token comment"># (768, 768)</span>
+    <span class="token string">"attention_W_V"</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">]</span><span class="token punctuation">,</span>  <span class="token comment"># (768, 768)</span>
+    <span class="token string">"attention_W_O"</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">]</span><span class="token punctuation">,</span>  <span class="token comment"># (768, 768)</span>
+    <span class="token string">"attention_b_Q"</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">]</span><span class="token punctuation">,</span>  <span class="token comment"># (768,)</span>
+    <span class="token string">"attention_b_K"</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">]</span><span class="token punctuation">,</span>  <span class="token comment"># (768,)</span>
+    <span class="token string">"attention_b_V"</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">]</span><span class="token punctuation">,</span>  <span class="token comment"># (768,)</span>
+    <span class="token string">"attention_b_O"</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">]</span><span class="token punctuation">,</span>  <span class="token comment"># (768,)</span>
+    <span class="token string">"ffn_layer_norm_gamma"</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">]</span><span class="token punctuation">,</span>  <span class="token comment"># (768,)</span>
+    <span class="token string">"ffn_layer_norm_beta"</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">]</span><span class="token punctuation">,</span>  <span class="token comment"># (768,)</span>
+    <span class="token string">"ffn_W_1"</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">]</span><span class="token punctuation">,</span>  <span class="token comment"># (768, 3072)</span>
+    <span class="token string">"ffn_b_1"</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">]</span><span class="token punctuation">,</span>  <span class="token comment"># (3072,)</span>
+    <span class="token string">"ffn_W_2"</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">]</span><span class="token punctuation">,</span>  <span class="token comment"># (3072, 768)</span>
+    <span class="token string">"ffn_b_2"</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">]</span><span class="token punctuation">,</span>  <span class="token comment"># (768,)</span>
+
+    <span class="token comment"># 출력 정규화 배열</span>
+    <span class="token string">"output_layer_norm_gamma"</span><span class="token punctuation">:</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">,</span>      <span class="token comment"># (768,)</span>
+    <span class="token string">"output_layer_norm_beta"</span><span class="token punctuation">:</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">,</span>       <span class="token comment"># (768,)</span>
+<span class="token punctuation">}</span></code></pre></div>
+</details>
+<div class="gatsby-highlight" data-language="python"><pre class="language-python"><code class="language-python"><span class="token keyword">def</span> <span class="token function">forward</span><span class="token punctuation">(</span>token_ids<span class="token punctuation">,</span> weights<span class="token punctuation">,</span> config<span class="token punctuation">,</span> return_trace<span class="token operator">=</span><span class="token boolean">False</span><span class="token punctuation">,</span> attention_bias<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token triple-quoted-string string">"""임베딩 → 블록 반복 → 마지막 정규화 → 출력을 연결한다."""</span>
+    <span class="token comment"># 가중치 준비</span>
+    embedding_token_weight <span class="token operator">=</span> weights<span class="token punctuation">[</span><span class="token string">"embedding_token_weight"</span><span class="token punctuation">]</span>
+    embedding_position_weight <span class="token operator">=</span> weights<span class="token punctuation">[</span><span class="token string">"embedding_position_weight"</span><span class="token punctuation">]</span>
+    attention_layer_norm_gamma <span class="token operator">=</span> weights<span class="token punctuation">[</span><span class="token string">"attention_layer_norm_gamma"</span><span class="token punctuation">]</span>
+    attention_layer_norm_beta <span class="token operator">=</span> weights<span class="token punctuation">[</span><span class="token string">"attention_layer_norm_beta"</span><span class="token punctuation">]</span>
+    attention_W_Q <span class="token operator">=</span> weights<span class="token punctuation">[</span><span class="token string">"attention_W_Q"</span><span class="token punctuation">]</span>
+    attention_W_K <span class="token operator">=</span> weights<span class="token punctuation">[</span><span class="token string">"attention_W_K"</span><span class="token punctuation">]</span>
+    attention_W_V <span class="token operator">=</span> weights<span class="token punctuation">[</span><span class="token string">"attention_W_V"</span><span class="token punctuation">]</span>
+    attention_W_O <span class="token operator">=</span> weights<span class="token punctuation">[</span><span class="token string">"attention_W_O"</span><span class="token punctuation">]</span>
+    attention_b_Q <span class="token operator">=</span> weights<span class="token punctuation">[</span><span class="token string">"attention_b_Q"</span><span class="token punctuation">]</span> <span class="token keyword">if</span> attention_bias <span class="token keyword">else</span> <span class="token punctuation">[</span><span class="token boolean">None</span><span class="token punctuation">]</span> <span class="token operator">*</span> config<span class="token punctuation">.</span>num_layers
+    attention_b_K <span class="token operator">=</span> weights<span class="token punctuation">[</span><span class="token string">"attention_b_K"</span><span class="token punctuation">]</span> <span class="token keyword">if</span> attention_bias <span class="token keyword">else</span> <span class="token punctuation">[</span><span class="token boolean">None</span><span class="token punctuation">]</span> <span class="token operator">*</span> config<span class="token punctuation">.</span>num_layers
+    attention_b_V <span class="token operator">=</span> weights<span class="token punctuation">[</span><span class="token string">"attention_b_V"</span><span class="token punctuation">]</span> <span class="token keyword">if</span> attention_bias <span class="token keyword">else</span> <span class="token punctuation">[</span><span class="token boolean">None</span><span class="token punctuation">]</span> <span class="token operator">*</span> config<span class="token punctuation">.</span>num_layers
+    attention_b_O <span class="token operator">=</span> weights<span class="token punctuation">[</span><span class="token string">"attention_b_O"</span><span class="token punctuation">]</span> <span class="token keyword">if</span> attention_bias <span class="token keyword">else</span> <span class="token punctuation">[</span><span class="token boolean">None</span><span class="token punctuation">]</span> <span class="token operator">*</span> config<span class="token punctuation">.</span>num_layers
+    ffn_layer_norm_gamma <span class="token operator">=</span> weights<span class="token punctuation">[</span><span class="token string">"ffn_layer_norm_gamma"</span><span class="token punctuation">]</span>
+    ffn_layer_norm_beta <span class="token operator">=</span> weights<span class="token punctuation">[</span><span class="token string">"ffn_layer_norm_beta"</span><span class="token punctuation">]</span>
+    ffn_W_1 <span class="token operator">=</span> weights<span class="token punctuation">[</span><span class="token string">"ffn_W_1"</span><span class="token punctuation">]</span>
+    ffn_b_1 <span class="token operator">=</span> weights<span class="token punctuation">[</span><span class="token string">"ffn_b_1"</span><span class="token punctuation">]</span>
+    ffn_W_2 <span class="token operator">=</span> weights<span class="token punctuation">[</span><span class="token string">"ffn_W_2"</span><span class="token punctuation">]</span>
+    ffn_b_2 <span class="token operator">=</span> weights<span class="token punctuation">[</span><span class="token string">"ffn_b_2"</span><span class="token punctuation">]</span>
+    output_layer_norm_gamma <span class="token operator">=</span> weights<span class="token punctuation">[</span><span class="token string">"output_layer_norm_gamma"</span><span class="token punctuation">]</span>
+    output_layer_norm_beta <span class="token operator">=</span> weights<span class="token punctuation">[</span><span class="token string">"output_layer_norm_beta"</span><span class="token punctuation">]</span>
+
+    <span class="token comment"># 입력 확인</span>
+    ids <span class="token operator">=</span> np<span class="token punctuation">.</span>asarray<span class="token punctuation">(</span>token_ids<span class="token punctuation">)</span>
+    <span class="token keyword">if</span> ids<span class="token punctuation">.</span>ndim <span class="token operator">!=</span> <span class="token number">1</span> <span class="token keyword">or</span> ids<span class="token punctuation">.</span>size <span class="token operator">==</span> <span class="token number">0</span> <span class="token keyword">or</span> ids<span class="token punctuation">.</span>dtype<span class="token punctuation">.</span>kind <span class="token keyword">not</span> <span class="token keyword">in</span> <span class="token string">"iu"</span><span class="token punctuation">:</span>
+        <span class="token keyword">raise</span> ValueError<span class="token punctuation">(</span><span class="token string">"토큰 ID는 비어 있지 않은 1차원 정수 배열이어야 합니다."</span><span class="token punctuation">)</span>
+    <span class="token keyword">if</span> np<span class="token punctuation">.</span><span class="token builtin">any</span><span class="token punctuation">(</span>ids <span class="token operator">&lt;</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token keyword">or</span> np<span class="token punctuation">.</span><span class="token builtin">any</span><span class="token punctuation">(</span>ids <span class="token operator">>=</span> config<span class="token punctuation">.</span>vocab_size<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">raise</span> ValueError<span class="token punctuation">(</span><span class="token string">"토큰 ID가 어휘 범위를 벗어났습니다."</span><span class="token punctuation">)</span>
+
+    <span class="token comment"># 토큰·위치 임베딩 결합</span>
+    x <span class="token operator">=</span> embedding<span class="token punctuation">(</span>ids<span class="token punctuation">,</span> embedding_token_weight<span class="token punctuation">,</span> embedding_position_weight<span class="token punctuation">)</span>
+
+    <span class="token comment"># 중간값 기록 준비</span>
+    trace <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token string">"embedding"</span><span class="token punctuation">:</span> x<span class="token punctuation">,</span> <span class="token string">"blocks"</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">}</span> <span class="token keyword">if</span> return_trace <span class="token keyword">else</span> <span class="token boolean">None</span>
+    <span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span>config<span class="token punctuation">.</span>num_layers<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token comment"># 블록 계산</span>
+        block_input <span class="token operator">=</span> x
+        x <span class="token operator">=</span> transformer_block<span class="token punctuation">(</span>
+            x<span class="token punctuation">,</span>
+            attention_layer_norm_gamma<span class="token operator">=</span>attention_layer_norm_gamma<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">,</span>
+            attention_layer_norm_beta<span class="token operator">=</span>attention_layer_norm_beta<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">,</span>
+            attention_W_Q<span class="token operator">=</span>attention_W_Q<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">,</span> attention_W_K<span class="token operator">=</span>attention_W_K<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">,</span>
+            attention_W_V<span class="token operator">=</span>attention_W_V<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">,</span> attention_W_O<span class="token operator">=</span>attention_W_O<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">,</span>
+            attention_b_Q<span class="token operator">=</span>attention_b_Q<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">,</span> attention_b_K<span class="token operator">=</span>attention_b_K<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">,</span>
+            attention_b_V<span class="token operator">=</span>attention_b_V<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">,</span> attention_b_O<span class="token operator">=</span>attention_b_O<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">,</span>
+            ffn_layer_norm_gamma<span class="token operator">=</span>ffn_layer_norm_gamma<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">,</span>
+            ffn_layer_norm_beta<span class="token operator">=</span>ffn_layer_norm_beta<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">,</span>
+            ffn_W_1<span class="token operator">=</span>ffn_W_1<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">,</span> ffn_b_1<span class="token operator">=</span>ffn_b_1<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">,</span>
+            ffn_W_2<span class="token operator">=</span>ffn_W_2<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">,</span> ffn_b_2<span class="token operator">=</span>ffn_b_2<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">,</span>
+            num_heads<span class="token operator">=</span>config<span class="token punctuation">.</span>num_heads<span class="token punctuation">,</span> layer_norm_eps<span class="token operator">=</span>config<span class="token punctuation">.</span>layer_norm_eps<span class="token punctuation">,</span>
+        <span class="token punctuation">)</span>
+        <span class="token keyword">if</span> return_trace<span class="token punctuation">:</span>
+            trace<span class="token punctuation">[</span><span class="token string">"blocks"</span><span class="token punctuation">]</span><span class="token punctuation">.</span>append<span class="token punctuation">(</span><span class="token punctuation">{</span><span class="token string">"input"</span><span class="token punctuation">:</span> block_input<span class="token punctuation">,</span> <span class="token string">"output"</span><span class="token punctuation">:</span> x<span class="token punctuation">}</span><span class="token punctuation">)</span>
+
+    <span class="token comment"># 마지막 정규화</span>
+    hidden_state <span class="token operator">=</span> layer_norm<span class="token punctuation">(</span>
+        x<span class="token punctuation">,</span> output_layer_norm_gamma<span class="token punctuation">,</span> output_layer_norm_beta<span class="token punctuation">,</span> config<span class="token punctuation">.</span>layer_norm_eps<span class="token punctuation">,</span>
+    <span class="token punctuation">)</span>
+
+    <span class="token comment"># 공유 임베딩 표로 출력 점수 계산</span>
+    logits <span class="token operator">=</span> hidden_state @ embedding_token_weight<span class="token punctuation">.</span>T
+
+    <span class="token comment"># 점수·확률·중간값 반환</span>
+    <span class="token keyword">return</span> <span class="token punctuation">{</span>
+        <span class="token string">"logits"</span><span class="token punctuation">:</span> logits<span class="token punctuation">,</span>
+        <span class="token string">"probabilities"</span><span class="token punctuation">:</span> softmax<span class="token punctuation">(</span>logits<span class="token punctuation">)</span><span class="token punctuation">,</span>
+        <span class="token string">"hidden_state"</span><span class="token punctuation">:</span> hidden_state<span class="token punctuation">,</span>
+        <span class="token string">"trace"</span><span class="token punctuation">:</span> trace<span class="token punctuation">,</span>
+    <span class="token punctuation">}</span></code></pre></div>
+<p>마지막 LayerNorm을 거친 뒤 토큰 임베딩 표의 전치 행렬을 곱해 logits를 만든다. 입력 임베딩과 출력층이 같은 표를 공유하는 구조다. 반환값은 <code class="language-text">logits</code>, <code class="language-text">probabilities</code>, <code class="language-text">hidden_state</code>, <code class="language-text">trace</code>를 담은 딕셔너리다. <code class="language-text">return_trace=True</code>일 때는 임베딩과 각 블록의 입력·출력도 기록한다.</p>
 <hr>
 <h2 id="5-공개-가중치-적용과-hugging-face-비교-샘플링" style="position:relative;"><a href="#5-%EA%B3%B5%EA%B0%9C-%EA%B0%80%EC%A4%91%EC%B9%98-%EC%A0%81%EC%9A%A9%EA%B3%BC-hugging-face-%EB%B9%84%EA%B5%90-%EC%83%98%ED%94%8C%EB%A7%81" aria-label="5 공개 가중치 적용과 hugging face 비교 샘플링 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>5. 공개 가중치 적용과 Hugging Face 비교, 샘플링</h2>
 <p><a href="#4-transformer-%EB%B8%94%EB%A1%9D%EA%B3%BC-%EC%A0%84%EC%B2%B4-%EC%88%9C%EC%A0%84%ED%8C%8C-%EA%B5%AC%ED%98%84">4장</a>에서 GPT-2의 계산 과정을 연결했다. 이번에는 공개 GPT-2 가중치를 적용하고, Hugging Face(HF) 모델과 출력이 얼마나 같은지 비교했다.</p>
@@ -2591,12 +2730,45 @@ logits = 마지막 벡터 @ wte.T
 <p><strong>Q·K·V는 원본에서 하나로 붙어 있다.</strong> 그래서 <code class="language-text">c_attn.weight</code>의 열을 앞 768개는 Q, 다음 768개는 K, 마지막 768개는 V로 나눈다. 편향도 같은 순서로 나눈다. <code class="language-text">0:768</code>은 인덱스 <code class="language-text">0~767</code>을 뜻한다.</p>
 <p>예를 들어 첫 블록의 <code class="language-text">W_Q</code>는 <code class="language-text">h.0.attn.c_attn.weight</code>의 앞 768개 열을 꺼내 <code class="language-text">weights["blocks.0.attn.W_Q"]</code>에 넣으면 된다.</p>
 <h3 id="53-기존-구현에-가중치를-넣고-비교하기" style="position:relative;"><a href="#53-%EA%B8%B0%EC%A1%B4-%EA%B5%AC%ED%98%84%EC%97%90-%EA%B0%80%EC%A4%91%EC%B9%98%EB%A5%BC-%EB%84%A3%EA%B3%A0-%EB%B9%84%EA%B5%90%ED%95%98%EA%B8%B0" aria-label="53 기존 구현에 가중치를 넣고 비교하기 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>5.3. 기존 구현에 가중치를 넣고 비교하기</h3>
-<p>기존 NumPy 구현에 위 가중치를 넣고 HF의 <code class="language-text">GPT2LMHeadModel</code>과 비교했다.</p>
+<p>기존 NumPy 구현에 위 가중치를 넣고 HF의 <code class="language-text">GPT2LMHeadModel</code>과 비교했다. 순전파는 <a href="#445-%EC%88%9C%EC%A0%84%ED%8C%8C%EB%A5%BC-%EA%B5%AC%EC%84%B1%ED%95%98%EB%8A%94-%ED%95%B5%EC%8B%AC-%ED%95%A8%EC%88%98">4.4.5절</a>에서 정리한 <code class="language-text">notebook_model.forward()</code>를 사용한다.</p>
 <p>원래 Attention에 빠져 있던 <code class="language-text">b_Q</code>, <code class="language-text">b_K</code>, <code class="language-text">b_V</code>, <code class="language-text">b_O</code>를 반영했다. 예를 들어 Q는 <code class="language-text">Q = x @ W_Q + b_Q</code>로 계산한다.</p>
-<p>두 모델에 같은 가중치와 토큰 ID를 넣고 logits의 절대오차를 구했다. <code class="language-text">hf_model</code>은 HF 모델이다.</p>
-<div class="gatsby-highlight" data-language="python"><pre class="language-python"><code class="language-python"><span class="token keyword">from</span> notebook_model <span class="token keyword">import</span> forward
+<p>가져온 <code class="language-text">weights</code>는 <code class="language-text">blocks.0.attn.W_Q</code>처럼 블록 번호가 들어간 키를 사용한다. 이를 <code class="language-text">forward()</code>에 넘기기 전에 <code class="language-text">prepare_forward_weights()</code>로 정리했다. 임베딩과 출력 정규화에는 배열을, 블록별 계수에는 레이어 순서대로 담은 배열 리스트를 전달한다. 예를 들어 <code class="language-text">forward_weights["attention_W_Q"][0]</code>에는 원본의 <code class="language-text">weights["blocks.0.attn.W_Q"]</code> 배열이 그대로 들어간다. 배열의 값이나 정밀도는 바꾸지 않는다.</p>
+<details>
+<summary>가져온 가중치를 forward()의 입력 딕셔너리로 정리하는 코드</summary>
+<div class="gatsby-highlight" data-language="python"><pre class="language-python"><code class="language-python"><span class="token keyword">def</span> <span class="token function">prepare_forward_weights</span><span class="token punctuation">(</span>weights<span class="token punctuation">,</span> config<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token triple-quoted-string string">"""공통 계수는 배열로, 블록별 계수는 레이어 순서의 리스트로 묶는다."""</span>
+    <span class="token keyword">def</span> <span class="token function">per_layer</span><span class="token punctuation">(</span>name<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">return</span> <span class="token punctuation">[</span>weights<span class="token punctuation">[</span><span class="token string-interpolation"><span class="token string">f"blocks.</span><span class="token interpolation"><span class="token punctuation">{</span>i<span class="token punctuation">}</span></span><span class="token string">.</span><span class="token interpolation"><span class="token punctuation">{</span>name<span class="token punctuation">}</span></span><span class="token string">"</span></span><span class="token punctuation">]</span> <span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span>config<span class="token punctuation">.</span>num_layers<span class="token punctuation">)</span><span class="token punctuation">]</span>
 
-numpy_logits <span class="token operator">=</span> forward<span class="token punctuation">(</span>token_ids<span class="token punctuation">,</span> weights<span class="token punctuation">,</span> config<span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token string">"logits"</span><span class="token punctuation">]</span>
+    <span class="token keyword">return</span> <span class="token punctuation">{</span>
+        <span class="token string">"embedding_token_weight"</span><span class="token punctuation">:</span> weights<span class="token punctuation">[</span><span class="token string">"wte"</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+        <span class="token string">"embedding_position_weight"</span><span class="token punctuation">:</span> weights<span class="token punctuation">[</span><span class="token string">"wpe"</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+        <span class="token string">"attention_layer_norm_gamma"</span><span class="token punctuation">:</span> per_layer<span class="token punctuation">(</span><span class="token string">"ln_1.gamma"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+        <span class="token string">"attention_layer_norm_beta"</span><span class="token punctuation">:</span> per_layer<span class="token punctuation">(</span><span class="token string">"ln_1.beta"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+        <span class="token string">"attention_W_Q"</span><span class="token punctuation">:</span> per_layer<span class="token punctuation">(</span><span class="token string">"attn.W_Q"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+        <span class="token string">"attention_W_K"</span><span class="token punctuation">:</span> per_layer<span class="token punctuation">(</span><span class="token string">"attn.W_K"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+        <span class="token string">"attention_W_V"</span><span class="token punctuation">:</span> per_layer<span class="token punctuation">(</span><span class="token string">"attn.W_V"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+        <span class="token string">"attention_W_O"</span><span class="token punctuation">:</span> per_layer<span class="token punctuation">(</span><span class="token string">"attn.W_O"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+        <span class="token string">"attention_b_Q"</span><span class="token punctuation">:</span> per_layer<span class="token punctuation">(</span><span class="token string">"attn.b_Q"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+        <span class="token string">"attention_b_K"</span><span class="token punctuation">:</span> per_layer<span class="token punctuation">(</span><span class="token string">"attn.b_K"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+        <span class="token string">"attention_b_V"</span><span class="token punctuation">:</span> per_layer<span class="token punctuation">(</span><span class="token string">"attn.b_V"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+        <span class="token string">"attention_b_O"</span><span class="token punctuation">:</span> per_layer<span class="token punctuation">(</span><span class="token string">"attn.b_O"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+        <span class="token string">"ffn_layer_norm_gamma"</span><span class="token punctuation">:</span> per_layer<span class="token punctuation">(</span><span class="token string">"ln_2.gamma"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+        <span class="token string">"ffn_layer_norm_beta"</span><span class="token punctuation">:</span> per_layer<span class="token punctuation">(</span><span class="token string">"ln_2.beta"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+        <span class="token string">"ffn_W_1"</span><span class="token punctuation">:</span> per_layer<span class="token punctuation">(</span><span class="token string">"ffn.W_1"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+        <span class="token string">"ffn_b_1"</span><span class="token punctuation">:</span> per_layer<span class="token punctuation">(</span><span class="token string">"ffn.b_1"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+        <span class="token string">"ffn_W_2"</span><span class="token punctuation">:</span> per_layer<span class="token punctuation">(</span><span class="token string">"ffn.W_2"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+        <span class="token string">"ffn_b_2"</span><span class="token punctuation">:</span> per_layer<span class="token punctuation">(</span><span class="token string">"ffn.b_2"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+        <span class="token string">"output_layer_norm_gamma"</span><span class="token punctuation">:</span> weights<span class="token punctuation">[</span><span class="token string">"ln_f.gamma"</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+        <span class="token string">"output_layer_norm_beta"</span><span class="token punctuation">:</span> weights<span class="token punctuation">[</span><span class="token string">"ln_f.beta"</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+    <span class="token punctuation">}</span></code></pre></div>
+</details>
+<p>변환은 호출하는 쪽에서 처리하고, <code class="language-text">forward()</code>에서는 준비된 변수로 계산한다. 두 모델에 같은 가중치와 토큰 ID를 넣고 logits의 절대오차를 구했다. <code class="language-text">hf_model</code>은 HF 모델이다.</p>
+<div class="gatsby-highlight" data-language="python"><pre class="language-python"><code class="language-python"><span class="token keyword">from</span> notebook_model <span class="token keyword">import</span> forward
+<span class="token keyword">from</span> forward_weights <span class="token keyword">import</span> prepare_forward_weights
+
+forward_weights <span class="token operator">=</span> prepare_forward_weights<span class="token punctuation">(</span>weights<span class="token punctuation">,</span> config<span class="token punctuation">)</span>
+numpy_logits <span class="token operator">=</span> forward<span class="token punctuation">(</span>token_ids<span class="token punctuation">,</span> forward_weights<span class="token punctuation">,</span> config<span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token string">"logits"</span><span class="token punctuation">]</span>
 <span class="token keyword">with</span> torch<span class="token punctuation">.</span>inference_mode<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
     hf_logits <span class="token operator">=</span> hf_model<span class="token punctuation">(</span>
         torch<span class="token punctuation">.</span>tensor<span class="token punctuation">(</span>token_ids<span class="token punctuation">[</span><span class="token boolean">None</span><span class="token punctuation">,</span> <span class="token punctuation">:</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">,</span> use_cache<span class="token operator">=</span><span class="token boolean">False</span><span class="token punctuation">,</span>
@@ -2668,7 +2840,6 @@ error <span class="token operator">=</span> np<span class="token punctuation">.<
 <div class="gatsby-highlight" data-language="text"><pre class="language-text"><code class="language-text">On Monday, Mira opened the laboratory before sunrise and checked the instruments.</code></pre></div>
 <p><mark class="text-highlight" data-highlight-color="yellow" style="--highlight-light: #ffec9e; --highlight-dark: #67531d;">57개 입력의 토큰 수를 모두 더한 값이 5,361이다.</mark> 즉, 5,361곳에서 다음 토큰을 예측했다.</p>
 <p>한 위치마다 다음 토큰 후보 50,257개에 점수를 매기므로, 비교한 logits는 <code class="language-text">5,361 × 50,257 = 269,427,777개</code>다.</p>
-<p>실제 입력 전체와 토큰 ID, 입력별 오차는 <a href="/775ba330369c0cc6425f98c1f5e10e17/chapter-5-gpt2-logits-comparison.json">비교 결과 파일</a>에 함께 남겼다.</p>
 <h3 id="55-logits는-얼마나-달랐을까" style="position:relative;"><a href="#55-logits%EB%8A%94-%EC%96%BC%EB%A7%88%EB%82%98-%EB%8B%AC%EB%9E%90%EC%9D%84%EA%B9%8C" aria-label="55 logits는 얼마나 달랐을까 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>5.5. logits는 얼마나 달랐을까?</h3>
 <p><code class="language-text">Hello, my name is</code>를 입력하면 logits의 크기는 <code class="language-text">(5, 50257)</code>이다. 행 5개는 입력 토큰의 위치, 열 50,257개는 다음 토큰 후보를 나타낸다.</p>
 <p>아래는 <strong><code class="language-text">Hello, my name is</code>를 읽은 뒤 바로 다음에 올 토큰 후보</strong> 중 점수가 높은 다섯 개다. 토큰 앞의 공백도 실제 토큰에 포함된다.</p>
@@ -2768,30 +2939,53 @@ float64 결과: 1</code></pre></div>
 <p>float32는 이 크기에서 <code class="language-text">+1</code>의 차이를 저장하지 못해 중간값이 반올림된다.</p>
 </div>
 <p>모델에서도 작은 차이가 이후 층의 계산에 영향을 줄 수 있다. float32 가중치를 float64로 바꿔도 가중치 값 자체는 유지되고, <strong>이후 계산을 수행하는 정밀도</strong>가 달라진다.</p>
-<p>중간 출력을 보니 임베딩은 정확히 같았고, 첫 블록부터 차이가 생겼다. 차이가 컸던 두 입력을 <strong>양쪽 모두 float64로 다시 계산</strong>했다.</p>
+<p>중간 출력을 보니 임베딩은 정확히 같았고, 첫 블록부터 차이가 생겼다. 기존에 확인한 자연문 256토큰과 반복 입력에 자연문 512·1,024토큰을 추가해, 총 네 입력에서 <strong>양쪽 모두 float64로 계산한 결과를 비교</strong>했다.</p>
+<div class="bpe-comparison-table" role="region" aria-label="계산 정밀도별 최대·평균 logits 오차 비교" tabindex="0">
 <table>
 <thead>
 <tr>
 <th>다시 비교한 입력</th>
-<th align="right">기존 계산의 최대오차</th>
-<th align="right">양쪽 모두 float64일 때</th>
+<th align="right">기존 최대오차</th>
+<th align="right">기존 평균오차</th>
+<th align="right">양쪽 float64 최대오차</th>
+<th align="right">양쪽 float64 평균오차</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>자연문 256토큰</td>
 <td align="right">0.00792682</td>
-<td align="right">약 1.17 × 10⁻¹¹</td>
+<td align="right">0.00012642</td>
+<td align="right">1.17 × 10⁻¹¹</td>
+<td align="right">1.57 × 10⁻¹³</td>
+</tr>
+<tr>
+<td>자연문 512토큰</td>
+<td align="right">0.00792682</td>
+<td align="right">0.00013739</td>
+<td align="right">1.17 × 10⁻¹¹</td>
+<td align="right">1.60 × 10⁻¹³</td>
+</tr>
+<tr>
+<td>자연문 1,024토큰</td>
+<td align="right">0.00792682</td>
+<td align="right">0.00012234</td>
+<td align="right">1.17 × 10⁻¹¹</td>
+<td align="right">1.36 × 10⁻¹³</td>
 </tr>
 <tr>
 <td><code class="language-text">0 </code> 128회 반복</td>
 <td align="right">0.00264310</td>
-<td align="right">약 2.59 × 10⁻¹²</td>
+<td align="right">0.00021942</td>
+<td align="right">2.59 × 10⁻¹²</td>
+<td align="right">2.21 × 10⁻¹³</td>
 </tr>
 </tbody>
 </table>
-<p>두 입력 모두 차이가 크게 줄었다. HF 모델 자체도 같은 자연문 입력에서 float32와 float64 결과 사이에 최대 약 <code class="language-text">0.00749</code>의 차이가 있었다.</p>
-<p>이 재실험은 <strong>계산 정밀도가 오차의 주요 요인임을 뒷받침한다.</strong> 다만 float64 재실험은 두 입력만 확인한 결과다.</p>
+</div>
+<p>평균오차는 각 입력의 모든 위치와 50,257개 어휘에 대한 logits 절대오차를 평균낸 값이다. 세 자연문 입력은 같은 앞부분을 공유해 최대오차가 228번째 위치에서 유지됐지만, 전체 위치의 평균오차는 서로 달랐다.</p>
+<p>네 입력 모두 차이가 크게 줄었다. HF 모델 자체도 같은 자연문 입력에서 float32와 float64 결과 사이에 최대 약 <code class="language-text">0.00749</code>의 차이가 있었다.</p>
+<p>이 재실험은 <strong>계산 정밀도가 오차의 주요 요인임을 뒷받침한다.</strong> 기존 허용오차 검사에 실패했던 자연문 256·512·1,024토큰 입력 모두 정밀도를 맞추자 최대오차가 약 1.17 × 10⁻¹¹로 줄었고, 같은 허용오차 검사를 통과했다.</p>
 <h3 id="57-샘플링-방식에-따른-출력-비교" style="position:relative;"><a href="#57-%EC%83%98%ED%94%8C%EB%A7%81-%EB%B0%A9%EC%8B%9D%EC%97%90-%EB%94%B0%EB%A5%B8-%EC%B6%9C%EB%A0%A5-%EB%B9%84%EA%B5%90" aria-label="57 샘플링 방식에 따른 출력 비교 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>5.7. 샘플링 방식에 따른 출력 비교</h3>
 <p>앞에서는 두 구현의 logits를 비교했다. 이번에는 <strong>같은 NumPy 모델에서 다음 토큰을 고르는 방법만 바꿔</strong> 문장을 생성했다.</p>
 <p>공통 입력은 앞에서 사용한 문장이다.</p>
@@ -2869,7 +3063,15 @@ So, Areli (</p>
 <p><strong>Top-p (p=0.9, T=2.0)</strong></p>
 <p>Hello, my name is Brassstrong Buccaneers 121 other tantal 134 invites .Good afford inquireername inspectors2018 popular Queens spe printf obscure050 medium825 6000 rumoursTr recoverchTherenikbeck ENTER Linux 07 chocolate battle 2015 Original ChurchCBS</p>
 </div>
-<p>출력 원문·생성 토큰 ID·설정은 <a href="/d60e15d817e5ad959e14ca13a7445cbe/chapter-5-gpt2-sampling-comparison.json">샘플링 비교 결과 파일</a>에 남겼다.</p>
+<h4 id="574-비교-결과" style="position:relative;"><a href="#574-%EB%B9%84%EA%B5%90-%EA%B2%B0%EA%B3%BC" aria-label="574 비교 결과 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>5.7.4. 비교 결과</h4>
+<p>이번 출력에서 보인 차이를 정리하면 다음과 같다.</p>
+<ul>
+<li><strong>온도가 높을수록</strong> 표현이 다양해졌지만, 단어 연결과 문맥이 불안정해졌다.</li>
+<li><strong>온도가 낮을수록</strong> 같은 표현을 되풀이하는 경향이 나타났다.</li>
+<li><strong>Greedy를 사용했을 때는</strong> <code class="language-text">I'm a writer</code>라는 문장이 계속 반복됐다.</li>
+<li><strong>Top-k를 사용했을 때는</strong> 높은 온도에서도 후보 제한이 없을 때보다 문장 형태가 상대적으로 더 유지됐다.</li>
+<li><strong>Top-p를 사용했을 때는</strong> 낮은 온도에서 긴 구절이 반복됐고, 높은 온도에서는 단어들이 문맥 없이 이어지는 모습이 나타났다.</li>
+</ul>
 <hr>
 <h2 id="6-구성-요소-제거-실험과-학습-손실-계산" style="position:relative;"><a href="#6-%EA%B5%AC%EC%84%B1-%EC%9A%94%EC%86%8C-%EC%A0%9C%EA%B1%B0-%EC%8B%A4%ED%97%98%EA%B3%BC-%ED%95%99%EC%8A%B5-%EC%86%90%EC%8B%A4-%EA%B3%84%EC%82%B0" aria-label="6 구성 요소 제거 실험과 학습 손실 계산 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>6. 구성 요소 제거 실험과 학습 손실 계산</h2>
 <p><a href="#5-%EA%B3%B5%EA%B0%9C-%EA%B0%80%EC%A4%91%EC%B9%98-%EC%A0%81%EC%9A%A9%EA%B3%BC-hugging-face-%EB%B9%84%EA%B5%90-%EC%83%98%ED%94%8C%EB%A7%81">5장</a>에서 공개 가중치를 적용하고 HF와 logits를 비교했다. 이번에는 <strong>√dₖ 스케일링, causal mask, 잔차 연결을 하나씩 제거</strong>해 출력이 어떻게 달라지는지 확인했다.</p>
@@ -2987,6 +3189,7 @@ head_scores <span class="token operator">=</span> head_scores <span class="token
 <p>첫 블록에서는 각 어텐션 행의 최대 확률을 평균 낸 값이 <code class="language-text">71.55% → 95.14%</code>로 커졌다. 12개 헤드·5개 위치를 평균한 값으로, <strong>특정 입력 위치를 참고하는 비율</strong>이 더 커졌다는 뜻이다. 다음 토큰을 고르는 확률과는 다르다.</p>
 <h4 id="623-스케일링의-역할과-탐구-질문" style="position:relative;"><a href="#623-%EC%8A%A4%EC%BC%80%EC%9D%BC%EB%A7%81%EC%9D%98-%EC%97%AD%ED%95%A0%EA%B3%BC-%ED%83%90%EA%B5%AC-%EC%A7%88%EB%AC%B8" aria-label="623 스케일링의 역할과 탐구 질문 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>6.2.3. 스케일링의 역할과 탐구 질문</h4>
 <p><strong>질문: Q와 K의 내적을 왜 √dₖ로 나눌까?</strong></p>
+<p>성분들이 독립이고 평균이 0, 분산이 1이라면 내적의 분산은 dₖ에 비례해서 커진다. 표준편차인 √dₖ로 나누면 차원과 상관없이 점수 크기를 비슷하게 유지할 수 있다.</p>
 <p>나누지 않으면 점수가 한쪽에 몰려 softmax가 하나에 너무 높게 확률을 몰아준다. <mark class="text-highlight" data-highlight-color="blue" style="--highlight-light: #d5e8fa; --highlight-dark: #2e4b65;">√dₖ로 나누는 것은 어텐션이 한쪽에 지나치게 쏠리지 않도록 점수 크기를 조절하는 과정이다.</mark> 학습에서는 softmax 포화로 기울기가 작아지는 현상도 완화한다.</p>
 <h3 id="63-causal-mask-제거" style="position:relative;"><a href="#63-causal-mask-%EC%A0%9C%EA%B1%B0" aria-label="63 causal mask 제거 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>6.3. causal mask 제거</h3>
 <h4 id="631-바뀌는-코드" style="position:relative;"><a href="#631-%EB%B0%94%EB%80%8C%EB%8A%94-%EC%BD%94%EB%93%9C" aria-label="631 바뀌는 코드 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>6.3.1. 바뀌는 코드</h4>
@@ -3111,6 +3314,7 @@ x <span class="token operator">=</span> ffn_output</code></pre></div>
 </ul>
 </blockquote>
 <h3 id="65-다음-토큰-예측-손실" style="position:relative;"><a href="#65-%EB%8B%A4%EC%9D%8C-%ED%86%A0%ED%81%B0-%EC%98%88%EC%B8%A1-%EC%86%90%EC%8B%A4" aria-label="65 다음 토큰 예측 손실 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>6.5. 다음 토큰 예측 손실</h3>
+<p>GPT-2의 사전학습은 대량의 텍스트에서 다음 토큰을 예측하는 방식으로 진행된다. 정답 토큰에 더 높은 확률을 주도록 가중치를 조정하며, 그 기준이 다음 토큰 예측 손실이다.</p>
 <p>다음 토큰 예측 손실은 <strong>모델이 실제 정답 토큰에 얼마나 높은 확률을 줬는지 평가하는 값</strong>이다.</p>
 <div class="llm-equation" role="region" aria-label="다음 토큰 예측의 평균 손실" tabindex="0">
 <math xmlns="http://www.w3.org/1998/Math/MathML" display="block" aria-label="다음 토큰 예측의 평균 손실">
@@ -3475,6 +3679,43 @@ x <span class="token operator">=</span> ffn_output</code></pre></div>
 <p>선호 관계에 높은 확률을 줬으므로 손실은 약 0.223144다. 이 값을 더 낮추는 방향으로 모델을 학습한다.</p>
 </div>
 <p>여러 토큰의 답변은 응답 토큰의 <strong>로그 확률을 합산</strong>해 평가한다. 원래 DPO에서는 이 합을 토큰 평균으로 바꾸지 않는다. 기준 모델은 고정하며, 직접 학습하는 대상은 두 답변의 상대적인 관계다.</p>
+<p><strong>학습 방법 비교</strong></p>
+<table>
+<thead>
+<tr>
+<th>방법</th>
+<th>학습에 넣는 데이터</th>
+<th>줄이는 손실</th>
+<th>학습 후 달라지는 행동</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>사전학습</strong></td>
+<td>대량의 텍스트</td>
+<td>다음 토큰 예측의 교차 엔트로피</td>
+<td>문맥에 이어질 토큰을 예측하며 언어 패턴과 지식을 익힌다.</td>
+</tr>
+<tr>
+<td><strong>SFT</strong></td>
+<td>질문·지시문 + 모범 답변</td>
+<td>모범 답변 토큰의 교차 엔트로피</td>
+<td>질문에 맞는 형식과 내용으로 답하도록 학습한다.</td>
+</tr>
+<tr>
+<td><strong>RLHF</strong></td>
+<td>질문 + 여러 답변 + 사람이 매긴 선호 순위</td>
+<td>보상 모델의 선호 손실과 보상을 높이기 위한 정책 학습 손실</td>
+<td>사람이 선호하는 답변을 더 자주 생성하도록 학습한다.</td>
+</tr>
+<tr>
+<td><strong>DPO</strong></td>
+<td>질문 + 선호 답변 + 비선호 답변</td>
+<td>보상 모델 없이 선호 쌍을 직접 비교하는 DPO 손실</td>
+<td>보상 점수를 거치지 않고 선호 답변의 상대 확률을 높인다.</td>
+</tr>
+</tbody>
+</table>
 <h3 id="69-마치며" style="position:relative;"><a href="#69-%EB%A7%88%EC%B9%98%EB%A9%B0" aria-label="69 마치며 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>6.9. 마치며</h3>
 <p>최근 학교에서 인공지능 수학을 공부하고 있는데, 이번 활동은 그 수학을 왜 배우는지 한 번에 와닿게 해주는 활동이었다. 행렬 연산으로 모델의 출력을 만들고, 확률을 이용해 손실을 계산하는 과정을 따라가면서 <mark class="text-highlight" data-highlight-color="yellow" style="--highlight-light: #ffec9e; --highlight-dark: #67531d;">수업에서 배우는 내용이 어디에 쓰이는지 연결해 볼 수 있었다.</mark></p>
 <p>Transformer를 공부하면서는 Self-Attention에서 이해되지 않는 부분이 많았다. 특히 Q, K, V는 솔직히 제대로 이해하지 못한 채 넘어가려고 했다.</p>
